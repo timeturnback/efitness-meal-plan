@@ -57,7 +57,9 @@
         "unused-imports/no-unused-vars": [
           "error",
           { "argsIgnorePattern": "^_" }
-        ]
+        ],
+        "@typescript-eslint/naming-convention": "off",
+        "no-underscore-dangle": "off"
       }
     },
     // Configuration for testing
