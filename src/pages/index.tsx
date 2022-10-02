@@ -1,15 +1,16 @@
-// import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { Button } from '@/components/button';
 import { GenderSelect } from '@/components/input/simple-select-input';
 
 const Index = () => {
-  // const router = useRouter();
   const [gender, setGender] = useState('');
+  const [, setButton] = useState('');
 
   return (
     <div>
       <GenderSelect currentValue={gender} setCurrentValue={setGender} />
+      <Button setCurrentValue={setButton} />
     </div>
   );
 };

@@ -13,3 +13,10 @@ export const GENDER_OPTIONS: SelectOptionObject[] = [
     value: 'female',
   },
 ];
+
+export const BUTTON_OPTIONS: SelectOptionObject[] = [
+  {
+    label: 'Calulate',
+    value: 'calulate',
+  },
+];
