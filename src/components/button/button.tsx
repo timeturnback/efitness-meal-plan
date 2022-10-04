@@ -1,7 +1,7 @@
 import type { SelectOptionObject } from '../constants/select-options';
 import { BUTTON_OPTIONS } from '../constants/select-options';
 
-export function Buttons({
+export function SimpleSelectButton({
   label,
   options,
   setCurrentValue,
@@ -49,7 +49,7 @@ export const Button = ({
   setCurrentValue: (value: string) => void;
 }) => {
   return (
-    <Buttons
+    <SimpleSelectButton
       options={BUTTON_OPTIONS}
       label="Calculate"
       setCurrentValue={setCurrentValue}
