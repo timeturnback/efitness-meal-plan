@@ -1,13 +1,36 @@
 import { useState } from 'react';
 
-import { Button } from '@/components/button';
+import {
+  INPUT_OPTIONS_AGE,
+  INPUT_OPTIONS_HEIGHT,
+  INPUT_OPTIONS_TEXT,
+} from '@/components/constants/select-options';
+import { SimpleInput } from '@/components/input/simple-input';
 
 const Index = () => {
-  const [, setButton] = useState('');
-
+  const [height, setHeight] = useState('');
+  const [age, setAge] = useState('');
+  const [text, setText] = useState('');
   return (
     <div>
-      <Button setCurrentValue={setButton} />
+      <SimpleInput
+        label="Height"
+        currentValue={height}
+        setCurrentValue={setHeight}
+        options={INPUT_OPTIONS_HEIGHT}
+      />
+      <SimpleInput
+        label="Age"
+        currentValue={age}
+        setCurrentValue={setAge}
+        options={INPUT_OPTIONS_AGE}
+      />
+      <SimpleInput
+        label="Text"
+        currentValue={text}
+        setCurrentValue={setText}
+        options={INPUT_OPTIONS_TEXT}
+      />
     </div>
   );
 };
