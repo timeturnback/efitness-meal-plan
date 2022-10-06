@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -37,6 +38,11 @@ module.exports = {
           700: '#2b6cb0',
           800: '#2c5282',
           900: '#2a4365',
+        },
+        bl: {
+          222: '#222',
+          333: '#333',
+          ccc: '#ccc',
         },
       },
     },
