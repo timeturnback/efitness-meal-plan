@@ -59,7 +59,7 @@ const SelectOption = ({
   return (
     <button
       className={classNames(
-        'flex items-center p-3 bg-white rounded-md drop-shadow-md',
+        'flex items-center p-3 bg-white rounded-md drop-shadow-md min-w-[6.5rem] w-full',
         column && 'my-3'
       )}
       onClick={_onClick}

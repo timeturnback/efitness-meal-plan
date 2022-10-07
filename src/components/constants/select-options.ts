@@ -5,11 +5,11 @@ export interface SelectOptionObject {
 
 export const GENDER_OPTIONS: SelectOptionObject[] = [
   {
-    label: 'Male',
-    value: 'male',
+    label: 'Mifflin St Jeor',
+    value: 'mifflin St Jeor',
   },
   {
-    label: 'Female',
-    value: 'female',
+    label: 'Revised Harris-Benedict',
+    value: 'revised Harris-Benedict',
   },
 ];
