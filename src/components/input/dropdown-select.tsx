@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 
-import type { SelectOptionDropDown } from '../constants/select-options';
+import type { SelectOptionObject } from '../constants/select-options';
 
 export function DropDownSelect({
   setCurrentValue,
   options,
 }: {
   setCurrentValue: (value: string) => void;
-  options: SelectOptionDropDown[];
+  options: SelectOptionObject[];
 }) {
   const [rotate, setRotate] = useState(false);
   const [text, setText] = useState('');
@@ -61,7 +61,7 @@ const SelectOption = ({
   setCurrentRotate,
 }: {
   label: string;
-  data: SelectOptionDropDown;
+  data: SelectOptionObject;
   currentRotate: boolean;
   onClick: (value: string) => void;
   setCurrentText: (value: string) => void;

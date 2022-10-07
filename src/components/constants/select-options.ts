@@ -1,9 +1,9 @@
-
+export interface SelectOptionObject {
   label: string;
   value: string;
 }
 
-export const DROP_DOWN_OPTIONS: SelectOptionDropDown[] = [
+export const DROP_DOWN_OPTIONS: SelectOptionObject[] = [
   {
     label: 'Little or no exercise',
     value: 'little or no exercise',
@@ -23,5 +23,16 @@ export const DROP_DOWN_OPTIONS: SelectOptionDropDown[] = [
   {
     label: 'Heavy exercise: More than 7 times a week',
     value: 'heavy exercise: more than 7 times a week',
+  },
+];
+
+export const GENDER_OPTIONS: SelectOptionObject[] = [
+  {
+    label: 'Male',
+    value: 'male',
+  },
+  {
+    label: 'Female',
+    value: 'female',
   },
 ];
