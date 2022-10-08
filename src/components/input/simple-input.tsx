@@ -41,13 +41,13 @@ export const Input = ({
           )}
         />
         {unit !== '' && (
-          <span className="absolute right-1 h-3/5 select-none pr-1 leading-6 text-gray-600/70 outline-none before:absolute before:right-8 before:h-full before:border before:border-white before:bg-gray-800 before:content-['']">
+          <span className="absolute right-1 h-3/5 select-none pr-1 leading-7 text-gray-600/70 outline-none before:absolute before:right-8 before:h-full before:border before:border-white before:bg-gray-800 before:content-['']">
             {unit}
           </span>
         )}
       </div>
       {value.length > maxvalue && (
-        <div className="absolute mt-3 w-full max-w-[192px] select-none rounded-xl bg-red-500/90 px-2 text-xs before:absolute before:-top-2 before:left-4 before:h-0 before:w-0 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-red-500/90 before:content-['']">
+        <div className="absolute mt-3 w-full max-w-[192px] select-none rounded-xl bg-red-500/90 px-2 text-xs text-white before:absolute before:-top-2 before:left-4 before:h-0 before:w-0 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-red-500/90 before:content-['']">
           <p>{notify}</p>
         </div>
       )}

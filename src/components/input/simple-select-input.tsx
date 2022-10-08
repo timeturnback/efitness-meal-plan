@@ -21,7 +21,8 @@ export function SimpleSelectInput({
       <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
-          column ? 'gap-3 flex flex-col mt-3' : 'flex items-center gap-3 my-3'
+          column ? 'gap-3 flex flex-col mt-3' : 'flex items-center gap-3 my-3',
+          options.length >= 3 && 'gap-[calc(0.75rem+0.25rem*2)]'
         )}
       >
         {options.map((item) => (
