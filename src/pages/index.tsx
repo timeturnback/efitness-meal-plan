@@ -1,5 +1,1 @@
 
-    </div>
-  );
-};
-export default Index;
