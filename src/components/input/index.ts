@@ -1,1 +1,1 @@
-export * from './simple-input';
+export * from './';
