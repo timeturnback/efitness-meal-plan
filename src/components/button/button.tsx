@@ -18,7 +18,7 @@ export function Button({
     return () => clearTimeout(timer);
   });
   return (
-    <div className="p-2">
+    <>
       {loading ? (
         <button
           onClick={onClick}
@@ -31,6 +31,6 @@ export function Button({
           <Skeleton width="100%" height="100%" className="-top-1 rounded-md" />
         </button>
       )}
-    </div>
+    </>
   );
 }

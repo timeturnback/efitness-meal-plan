@@ -36,3 +36,14 @@ export const GENDER_OPTIONS: SelectOptionObject[] = [
     value: 'female',
   },
 ];
+
+export const FORMULA_OPTIONS: SelectOptionObject[] = [
+  {
+    label: 'Mifflin-St Jeor',
+    value: 'mifflin st jeor',
+  },
+  {
+    label: 'Revised Harris-Benedict',
+    value: 'revised harris benedict',
+  },
+];

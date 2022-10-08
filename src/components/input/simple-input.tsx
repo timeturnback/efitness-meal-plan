@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 
 export const Input = ({
+  label,
   type,
   unit,
   value,
@@ -9,6 +10,7 @@ export const Input = ({
   notify,
   onChange,
 }: {
+  label: string;
   type: string;
   unit: string;
   value: string;
@@ -18,11 +20,13 @@ export const Input = ({
   onChange: (value: string) => void;
 }) => {
   return (
-    <>
+    <div className="block pb-8">
+      <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
-          'relative mt-3 block max-w-[192px] h-11 w-48 items-center rounded-md border-2 border-gray-700 bg-white drop-shadow-md focus-within:border-blue-700/80',
-          unit !== '' && 'flex'
+          'relative mt-3 block w-[220px] h-12 items-center rounded-md border drop-shadow-md bg-white drop-shadow-md focus-within:border-blue-700/80',
+          unit !== '' && 'flex',
+          value.length > maxvalue && 'focus-within:border-red-500/90'
         )}
       >
         <input
@@ -37,7 +41,7 @@ export const Input = ({
           )}
         />
         {unit !== '' && (
-          <span className="absolute right-1 h-3/5 select-none pr-1 leading-5 text-gray-600/70 outline-none before:absolute before:right-8 before:h-full before:border before:border-white before:bg-gray-800 before:content-['']">
+          <span className="absolute right-1 h-3/5 select-none pr-1 leading-6 text-gray-600/70 outline-none before:absolute before:right-8 before:h-full before:border before:border-white before:bg-gray-800 before:content-['']">
             {unit}
           </span>
         )}
@@ -47,6 +51,6 @@ export const Input = ({
           <p>{notify}</p>
         </div>
       )}
-    </>
+    </div>
   );
 };

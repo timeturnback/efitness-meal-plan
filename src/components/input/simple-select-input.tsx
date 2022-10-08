@@ -17,11 +17,11 @@ export function SimpleSelectInput({
   column: boolean;
 }) {
   return (
-    <div className="inline-block p-2">
+    <div className="block max-w-[220px]">
       <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
-          column ? 'block items-center' : 'flex items-center gap-3 my-3'
+          column ? 'gap-3 flex flex-col mt-3' : 'flex items-center gap-3 my-3'
         )}
       >
         {options.map((item) => (
@@ -30,7 +30,6 @@ export function SimpleSelectInput({
             data={item}
             currentValue={currentValue}
             onClick={setCurrentValue}
-            column={column}
           />
         ))}
       </div>
@@ -42,12 +41,10 @@ const SelectOption = ({
   onClick,
   data,
   currentValue,
-  column,
 }: {
   onClick: (value: string) => void;
   data: SelectOptionObject;
   currentValue: string;
-  column: boolean;
 }) => {
   const { value, label } = data || {};
   const isSelected = value === currentValue;
@@ -58,10 +55,7 @@ const SelectOption = ({
 
   return (
     <button
-      className={classNames(
-        'flex items-center p-3 bg-white rounded-md drop-shadow-md min-w-[6.5rem] w-full',
-        column && 'my-3'
-      )}
+      className="flex w-full min-w-[6.5rem] items-center rounded-md bg-white p-3 drop-shadow-md"
       onClick={_onClick}
     >
       <div className="relative flex items-center border-black pl-7 leading-4 before:absolute before:left-0 before:h-5 before:w-5 before:rounded-3xl before:border before:border-bl-ccc before:content-['']">
