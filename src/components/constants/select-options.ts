@@ -48,6 +48,6 @@ export const FORMULA_OPTIONS: SelectOptionObject[] = [
   },
   {
     label: 'Katch-McArdle',
-    value: 'katch mcArdle',
+    value: 'katch mcardle',
   },
 ];

@@ -18,7 +18,7 @@ const Index = () => {
   const [formula, setFormula] = useState('mifflin st jeor');
   const [fatpercent, setFatPercent] = useState('');
   const Calculate = () => {
-    console.log(age);
+    console.log('a');
   };
   return (
     <div className="mx-auto my-0 h-screen max-w-5xl py-11">
@@ -79,7 +79,7 @@ const Index = () => {
               </div>
             </div>
             <div className="ml-20 flex w-full justify-between">
-              <div className="h-full">
+              <div className="h-full w-full">
                 <div className="h-[416px]">
                   <div className="my-5">
                     <DropDownSelect
@@ -88,17 +88,29 @@ const Index = () => {
                       setCurrentValue={setDropDown}
                     />
                   </div>
-                  <SimpleSelectInput
-                    label="BMR estimation formula"
-                    currentValue={formula}
-                    setCurrentValue={setFormula}
-                    options={FORMULA_OPTIONS}
-                    column={true}
-                  />
+                  <div className="relative">
+                    <SimpleSelectInput
+                      label="BMR estimation formula"
+                      currentValue={formula}
+                      setCurrentValue={setFormula}
+                      options={FORMULA_OPTIONS}
+                      column={true}
+                    />
+                    <div
+                      className={classNames(
+                        'absolute top-[50px] transition-all right-[6px] inline-block h-5 w-5 cursor-pointer rounded-full border border-gray-500 text-center text-gray-500 hover:border-gray-800 hover:text-gray-800 select-none',
+                        formula === 'revised harris benedict' && 'top-[120px]',
+                        formula === 'katch mcardle' && 'top-[188px]'
+                      )}
+                      onClick={Calculate}
+                    >
+                      <span className="block leading-4">?</span>
+                    </div>
+                  </div>
                   <div
                     className={classNames(
                       'transition-all opacity-0',
-                      formula === 'katch mcArdle' && 'opacity-100'
+                      formula === 'katch mcardle' && 'opacity-100'
                     )}
                   >
                     <Input
@@ -115,7 +127,7 @@ const Index = () => {
                 </div>
                 <div
                   className={classNames(
-                    'flex flex-col items-end justify-end transition-all',
+                    'flex flex-col items-end justify-end transition-all mr-[35px]',
                     fatpercent.length > 3 && 'mt-8'
                   )}
                 >
