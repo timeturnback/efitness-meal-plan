@@ -2,31 +2,43 @@ import classNames from 'classnames';
 import { useState } from 'react';
 
 import { Button } from '@/components/button';
-import {
-  DROP_DOWN_OPTIONS,
-  FORMULA_OPTIONS,
-  GENDER_OPTIONS,
-} from '@/components/constants/select-options';
-import { DropDownSelect, Input, SimpleSelectInput } from '@/components/input';
 import { InfoBoard } from '@/components/pages/home';
 
 const Index = () => {
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
-  const [activity, setActivity] = useState('');
-  const [formula, setFormula] = useState('mifflin st jeor');
-  const [fatpercent, setFatPercent] = useState('');
-  const [showerrormessage, setShowErrorMessage] = useState(false);
-  const _onCalculate = () => {
-    if (
-      [gender, age, height, weight, activity, fatpercent].find(
-        (e) => e === ''
-      ) === ''
-    )
-      setShowErrorMessage(true);
+  const [gender, setGender] = useState({ value: '', error: '' });
+  const [age, setAge] = useState({ value: '', error: '' });
+  // const [height, setHeight] = useState({ value: '', error: '' });
+  // const [weight, setWeight] = useState({ value: '', error: '' });
+  // const [activity, setActivity] = useState({ value: '', error: '' });
+  // const [formula, setFormula] = useState({
+  //   value: 'mifflin st jeor',
+  //   error: '',
+  // });
+  // const [fatpercent, setFatPercent] = useState({ value: '', error: '' });
+  // const [showerrormessage, setShowErrorMessage] = useState(false);
+
+  const _validateForm = () => {
+    let isError = false;
+    if (!gender.value) {
+      isError = true;
+      setGender({ value: '', error: 'Please select your gender.' });
+    }
+    if (!age.value) {
+      isError = true;
+      setAge({ value: '', error: 'Please enter the correct age.' });
+    } else if (+age.value < 0 || +age.value > 120) {
+      isError = true;
+      setAge({ value: '', error: 'Please enter the correct age.' });
+    }
+    return !isError;
   };
+
+  const _onSubmit = () => {
+    if (_validateForm()) {
+      //
+    }
+  };
+
   return (
     <div className="mx-auto my-0 h-screen max-w-5xl py-11">
       <div className="grid h-full w-full rounded-xl border-2 border-gray-800/90 px-6">
@@ -38,31 +50,26 @@ const Index = () => {
         </div>
         <div className="flex">
           <div className="flex w-full">
-            <div>
+            {/* <div>
               <div className="relative my-5">
                 <SimpleSelectInput
                   label="Gender"
-                  currentValue={gender}
-                  setCurrentValue={setGender}
+                  currentValue={gender.value}
+                  error={gender.error}
+                  setCurrentValue={(value) => setGender({ value, error: '' })}
                   options={GENDER_OPTIONS}
                   column={false}
                 />
-                {showerrormessage && gender === '' && (
-                  <span className="absolute -bottom-5 text-xs font-medium text-red-500 drop-shadow-md">
-                    Please select your gender.
-                  </span>
-                )}
               </div>
               <div className="relative my-5">
-                <Input
+                <SimpleInput
                   label="Age"
                   type="number"
-                  unit=""
-                  value={age}
-                  onChange={setAge}
+                  value={age.value}
+                  error={age.error}
+                  onChangeText={(value) => setAge({ value, error: '' })}
                   maxvalue={2}
                   placeholder="Ex: 22"
-                  notify="Please enter the correct age."
                 />
                 {showerrormessage && age === '' && (
                   <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
@@ -71,12 +78,12 @@ const Index = () => {
                 )}
               </div>
               <div className="relative my-5">
-                <Input
+                <SimpleInput
                   label="Height"
                   type="number"
                   unit="cm"
                   value={height}
-                  onChange={setHeight}
+                  onChangeText={setHeight}
                   maxvalue={3}
                   placeholder="Ex: 180"
                   notify="Please enter the correct height."
@@ -88,12 +95,12 @@ const Index = () => {
                 )}
               </div>
               <div className="relative my-5">
-                <Input
+                <SimpleInput
                   label="Weight"
                   type="number"
                   unit="kg"
                   value={weight}
-                  onChange={setWeight}
+                  onChangeText={setWeight}
                   maxvalue={3}
                   placeholder="Ex: 65"
                   notify="Please enter the correct weight."
@@ -104,10 +111,10 @@ const Index = () => {
                   </span>
                 )}
               </div>
-            </div>
+            </div> */}
             <div className="ml-20 flex w-full justify-between">
               <div className="h-full w-full">
-                <div className="h-[416px]">
+                {/* <div className="h-[416px]">
                   <div className="relative my-5">
                     <DropDownSelect
                       label="Activity"
@@ -144,12 +151,12 @@ const Index = () => {
                       formula === 'katch mcardle' && 'opacity-100'
                     )}
                   >
-                    <Input
+                    <SimpleInput
                       label=""
                       type="number"
                       unit="%"
                       value={fatpercent}
-                      onChange={setFatPercent}
+                      onChangeText={setFatPercent}
                       maxvalue={3}
                       placeholder="Ex: 20"
                       notify="Please enter your correct fat percentage."
@@ -162,14 +169,13 @@ const Index = () => {
                         </span>
                       )}
                   </div>
-                </div>
+                </div> */}
                 <div
                   className={classNames(
-                    'flex flex-col items-end justify-end transition-all mr-[35px]',
-                    fatpercent.length > 3 && 'mt-8'
+                    'flex flex-col items-end justify-end transition-all mr-[35px]'
                   )}
                 >
-                  <Button label="Calculate" onClick={_onCalculate} />
+                  <Button label="Calculate" onClick={_onSubmit} />
                 </div>
               </div>
               <div className="block h-full w-[1.5px] pb-2">
