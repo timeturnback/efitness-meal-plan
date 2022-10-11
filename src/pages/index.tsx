@@ -2,20 +2,29 @@ import classNames from 'classnames';
 import { useState } from 'react';
 
 import { Button } from '@/components/button';
+import {
+  DROP_DOWN_OPTIONS,
+  FORMULA_OPTIONS,
+  GENDER_OPTIONS,
+} from '@/components/constants/select-options';
+import {
+  DropDownSelect,
+  SimpleInput,
+  SimpleSelectInput,
+} from '@/components/input';
 import { InfoBoard } from '@/components/pages/home';
 
 const Index = () => {
   const [gender, setGender] = useState({ value: '', error: '' });
   const [age, setAge] = useState({ value: '', error: '' });
-  // const [height, setHeight] = useState({ value: '', error: '' });
-  // const [weight, setWeight] = useState({ value: '', error: '' });
-  // const [activity, setActivity] = useState({ value: '', error: '' });
-  // const [formula, setFormula] = useState({
-  //   value: 'mifflin st jeor',
-  //   error: '',
-  // });
-  // const [fatpercent, setFatPercent] = useState({ value: '', error: '' });
-  // const [showerrormessage, setShowErrorMessage] = useState(false);
+  const [height, setHeight] = useState({ value: '', error: '' });
+  const [weight, setWeight] = useState({ value: '', error: '' });
+  const [, setActivity] = useState({ value: '', error: '' });
+  const [formula, setFormula] = useState({
+    value: 'mifflin st jeor',
+    error: '',
+  });
+  const [fatpercent, setFatPercent] = useState({ value: '', error: '' });
 
   const _validateForm = () => {
     let isError = false;
@@ -29,6 +38,14 @@ const Index = () => {
     } else if (+age.value < 0 || +age.value > 120) {
       isError = true;
       setAge({ value: '', error: 'Please enter the correct age.' });
+    }
+    if (!height.value) {
+      isError = true;
+      setHeight({ value: '', error: 'Please enter the corrent height.' });
+    }
+    if (!weight.value) {
+      isError = true;
+      setWeight({ value: '', error: 'Please enter the corrent weight.' });
     }
     return !isError;
   };
@@ -50,7 +67,7 @@ const Index = () => {
         </div>
         <div className="flex">
           <div className="flex w-full">
-            {/* <div>
+            <div>
               <div className="relative my-5">
                 <SimpleSelectInput
                   label="Gender"
@@ -71,75 +88,60 @@ const Index = () => {
                   maxvalue={2}
                   placeholder="Ex: 22"
                 />
-                {showerrormessage && age === '' && (
-                  <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
-                    Please enter your age.
-                  </span>
-                )}
               </div>
               <div className="relative my-5">
                 <SimpleInput
                   label="Height"
                   type="number"
                   unit="cm"
-                  value={height}
-                  onChangeText={setHeight}
+                  value={height.value}
+                  error={height.error}
+                  onChangeText={(value) => setHeight({ value, error: '' })}
                   maxvalue={3}
                   placeholder="Ex: 180"
-                  notify="Please enter the correct height."
                 />
-                {showerrormessage && height === '' && (
-                  <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
-                    Please enter your height.
-                  </span>
-                )}
               </div>
               <div className="relative my-5">
                 <SimpleInput
                   label="Weight"
                   type="number"
                   unit="kg"
-                  value={weight}
-                  onChangeText={setWeight}
+                  value={weight.value}
+                  error={weight.error}
+                  onChangeText={(value) => setWeight({ value, error: '' })}
                   maxvalue={3}
                   placeholder="Ex: 65"
-                  notify="Please enter the correct weight."
                 />
-                {showerrormessage && weight === '' && (
-                  <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
-                    Please enter your weight.
-                  </span>
-                )}
               </div>
-            </div> */}
+            </div>
             <div className="ml-20 flex w-full justify-between">
               <div className="h-full w-full">
-                {/* <div className="h-[416px]">
+                <div className="h-[416px]">
                   <div className="relative my-5">
                     <DropDownSelect
                       label="Activity"
                       options={DROP_DOWN_OPTIONS}
-                      setCurrentValue={setActivity}
+                      setCurrentValue={(value) =>
+                        setActivity({ value, error: '' })
+                      }
                     />
-                    {showerrormessage && activity === '' && (
-                      <span className="absolute -bottom-5 text-xs font-medium text-red-500 drop-shadow-md">
-                        Please choose your activity.
-                      </span>
-                    )}
                   </div>
                   <div className="relative">
                     <SimpleSelectInput
                       label="BMR estimation formula"
-                      currentValue={formula}
-                      setCurrentValue={setFormula}
+                      currentValue={formula.value}
+                      setCurrentValue={(value) =>
+                        setFormula({ value, error: '' })
+                      }
                       options={FORMULA_OPTIONS}
                       column={true}
                     />
                     <div
                       className={classNames(
                         'absolute top-[50px] transition-all right-[6px] inline-block h-5 w-5 cursor-pointer rounded-full border border-gray-500 text-center text-gray-500 hover:border-gray-800 hover:text-gray-800 select-none',
-                        formula === 'revised harris benedict' && 'top-[120px]',
-                        formula === 'katch mcardle' && 'top-[188px]'
+                        formula.value === 'revised harris benedict' &&
+                          'top-[120px]',
+                        formula.value === 'katch mcardle' && 'top-[188px]'
                       )}
                     >
                       <span className="block leading-4">?</span>
@@ -148,28 +150,22 @@ const Index = () => {
                   <div
                     className={classNames(
                       'transition-all opacity-0 relative',
-                      formula === 'katch mcardle' && 'opacity-100'
+                      formula.value === 'katch mcardle' && 'opacity-100'
                     )}
                   >
                     <SimpleInput
                       label=""
                       type="number"
                       unit="%"
-                      value={fatpercent}
-                      onChangeText={setFatPercent}
+                      value={fatpercent.value}
+                      onChangeText={(value) =>
+                        setFatPercent({ value, error: '' })
+                      }
                       maxvalue={3}
                       placeholder="Ex: 20"
-                      notify="Please enter your correct fat percentage."
                     />
-                    {showerrormessage &&
-                      formula === 'katch mcardle' &&
-                      fatpercent === '' && (
-                        <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
-                          Please enter your fat percentage.
-                        </span>
-                      )}
                   </div>
-                </div> */}
+                </div>
                 <div
                   className={classNames(
                     'flex flex-col items-end justify-end transition-all mr-[35px]'

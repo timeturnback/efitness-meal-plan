@@ -9,19 +9,23 @@ export function SimpleSelectInput({
   setCurrentValue,
   options,
   column,
+  error,
 }: {
   label: string;
   currentValue: string;
   setCurrentValue: (value: string) => void;
   options: SelectOptionObject[];
   column: boolean;
+  error?: string;
 }) {
   return (
     <div className="block max-w-[220px]">
       <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
-          column ? 'gap-3 flex flex-col mt-3' : 'flex items-center gap-3 my-3',
+          column
+            ? 'gap-3 flex flex-col mt-3'
+            : 'flex items-center gap-3 my-3 relative',
           options.length >= 3 && 'gap-[calc(0.75rem+0.25rem*2)]'
         )}
       >
@@ -33,6 +37,11 @@ export function SimpleSelectInput({
             onClick={setCurrentValue}
           />
         ))}
+        {error ? (
+          <div className="absolute -bottom-8 w-full max-w-[192px] select-none rounded-xl bg-red-500/90 px-2 text-xs text-white before:absolute before:-top-2 before:left-4 before:h-0 before:w-0 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-red-500/90 before:content-['']">
+            <p>{error}</p>
+          </div>
+        ) : null}
       </div>
     </div>
   );
