@@ -14,11 +14,17 @@ const Index = () => {
   const [age, setAge] = useState('');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [, setDropDown] = useState('');
+  const [activity, setActivity] = useState('');
   const [formula, setFormula] = useState('mifflin st jeor');
   const [fatpercent, setFatPercent] = useState('');
+  const [showerrormessage, setShowErrorMessage] = useState(false);
   const Calculate = () => {
-    console.log('a');
+    if (
+      [gender, age, height, weight, activity, fatpercent].find(
+        (e) => e === ''
+      ) === ''
+    )
+      setShowErrorMessage(true);
   };
   return (
     <div className="mx-auto my-0 h-screen max-w-5xl py-11">
@@ -32,7 +38,7 @@ const Index = () => {
         <div className="flex">
           <div className="flex w-full">
             <div>
-              <div className="my-5">
+              <div className="relative my-5">
                 <SimpleSelectInput
                   label="Gender"
                   currentValue={gender}
@@ -40,8 +46,13 @@ const Index = () => {
                   options={GENDER_OPTIONS}
                   column={false}
                 />
+                {showerrormessage && gender === '' && (
+                  <span className="absolute -bottom-5 text-xs font-medium text-red-500 drop-shadow-md">
+                    Please select your gender.
+                  </span>
+                )}
               </div>
-              <div className="my-5">
+              <div className="relative my-5">
                 <Input
                   label="Age"
                   type="number"
@@ -52,8 +63,13 @@ const Index = () => {
                   placeholder="Ex: 22"
                   notify="Please enter the correct age."
                 />
+                {showerrormessage && age === '' && (
+                  <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
+                    Please enter your age.
+                  </span>
+                )}
               </div>
-              <div className="my-5">
+              <div className="relative my-5">
                 <Input
                   label="Height"
                   type="number"
@@ -64,8 +80,13 @@ const Index = () => {
                   placeholder="Ex: 180"
                   notify="Please enter the correct height."
                 />
+                {showerrormessage && height === '' && (
+                  <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
+                    Please enter your height.
+                  </span>
+                )}
               </div>
-              <div className="my-5">
+              <div className="relative my-5">
                 <Input
                   label="Weight"
                   type="number"
@@ -76,17 +97,27 @@ const Index = () => {
                   placeholder="Ex: 65"
                   notify="Please enter the correct weight."
                 />
+                {showerrormessage && weight === '' && (
+                  <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
+                    Please enter your weight.
+                  </span>
+                )}
               </div>
             </div>
             <div className="ml-20 flex w-full justify-between">
               <div className="h-full w-full">
                 <div className="h-[416px]">
-                  <div className="my-5">
+                  <div className="relative my-5">
                     <DropDownSelect
                       label="Activity"
                       options={DROP_DOWN_OPTIONS}
-                      setCurrentValue={setDropDown}
+                      setCurrentValue={setActivity}
                     />
+                    {showerrormessage && activity === '' && (
+                      <span className="absolute -bottom-5 text-xs font-medium text-red-500 drop-shadow-md">
+                        Please choose your activity.
+                      </span>
+                    )}
                   </div>
                   <div className="relative">
                     <SimpleSelectInput
@@ -102,14 +133,13 @@ const Index = () => {
                         formula === 'revised harris benedict' && 'top-[120px]',
                         formula === 'katch mcardle' && 'top-[188px]'
                       )}
-                      onClick={Calculate}
                     >
                       <span className="block leading-4">?</span>
                     </div>
                   </div>
                   <div
                     className={classNames(
-                      'transition-all opacity-0',
+                      'transition-all opacity-0 relative',
                       formula === 'katch mcardle' && 'opacity-100'
                     )}
                   >
@@ -123,6 +153,13 @@ const Index = () => {
                       placeholder="Ex: 20"
                       notify="Please enter your correct fat percentage."
                     />
+                    {showerrormessage &&
+                      formula === 'katch mcardle' &&
+                      fatpercent === '' && (
+                        <span className="absolute bottom-3 text-xs font-medium text-red-500 drop-shadow-md">
+                          Please enter your fat percentage.
+                        </span>
+                      )}
                   </div>
                 </div>
                 <div
@@ -131,15 +168,69 @@ const Index = () => {
                     fatpercent.length > 3 && 'mt-8'
                   )}
                 >
-                  <Button value="Calculate" onClick={Calculate} />
+                  <Button
+                    label="Calculate"
+                    value={[gender, age, height, weight, activity]}
+                    onClick={Calculate}
+                  />
                 </div>
               </div>
-              <div className="block h-full w-[1.5px] pb-4">
+              <div className="block h-full w-[1.5px] pb-2">
                 <span className="block h-full w-full bg-gray-700" />
               </div>
             </div>
           </div>
-          <div className="w-3/4"></div>
+          <div className="w-3/4 select-none py-[35px]">
+            <div className="px-7">
+              <h5 className="text-[17px] font-medium">
+                Fill in your information and press the Calculate button. Your
+                results will be displayed here!
+              </h5>
+              <div className="mt-4">
+                <p className="leading-8">
+                  A calorie calculator can be used to estimate the number of
+                  calories a person needs to consume each day and output
+                  calories for{' '}
+                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    weight loss
+                  </span>
+                  ,{' '}
+                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    weight gain
+                  </span>
+                  , and{' '}
+                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    weight maintenance
+                  </span>
+                  . For weight loss, include:{' '}
+                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    light weight loss
+                  </span>
+                  ,{' '}
+                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    weight loss
+                  </span>
+                  , and{' '}
+                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    extremely effective weight loss
+                  </span>
+                  . Weight gain includes{' '}
+                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    slight weight gain
+                  </span>
+                  ,{' '}
+                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    weight gain
+                  </span>
+                  , and{' '}
+                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
+                    rapid weight gain
+                  </span>
+                  .
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
