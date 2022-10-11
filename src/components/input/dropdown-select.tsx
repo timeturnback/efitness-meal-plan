@@ -4,9 +4,11 @@ import { useState } from 'react';
 import type { SelectOptionObject } from '../constants/select-options';
 
 export function DropDownSelect({
+  label,
   setCurrentValue,
   options,
 }: {
+  label: string;
   setCurrentValue: (value: string) => void;
   options: SelectOptionObject[];
 }) {
@@ -16,10 +18,11 @@ export function DropDownSelect({
     setRotate(!rotate);
   };
   return (
-    <>
+    <div>
+      <span className="font-medium text-gray-800">{label}</span>
       <div
         onClick={_onClick}
-        className="relative h-11 max-w-[224px] cursor-pointer rounded-md border border-gray-700 shadow-md"
+        className="relative my-3 h-12 max-w-[220px] cursor-pointer rounded-md shadow-md drop-shadow-md"
       >
         <div className="absolute right-0 mr-5 flex h-full items-center">
           <div
@@ -29,12 +32,14 @@ export function DropDownSelect({
             )}
           />
         </div>
-        <span className="absolute flex h-full select-none items-center pl-2 pr-9 pb-[3px] text-sm leading-4">
-          {text}
-        </span>
+        {text && (
+          <span className="absolute flex h-full select-none items-center pl-2 pr-9 pb-[3px] text-sm leading-4">
+            {text}
+          </span>
+        )}
       </div>
       {rotate && (
-        <div className="fixed mt-2 max-w-[224px] select-none rounded-md border border-gray-700 bg-white py-1 transition-all">
+        <div className="fixed z-10 max-w-[220px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all">
           {options.map((item) => (
             <SelectOption
               key={item.value}
@@ -48,7 +53,7 @@ export function DropDownSelect({
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
