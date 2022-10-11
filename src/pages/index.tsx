@@ -8,6 +8,7 @@ import {
   GENDER_OPTIONS,
 } from '@/components/constants/select-options';
 import { DropDownSelect, Input, SimpleSelectInput } from '@/components/input';
+import { InfoBoard } from '@/components/pages/home';
 
 const Index = () => {
   const [gender, setGender] = useState('');
@@ -176,57 +177,7 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="w-3/4 select-none py-[35px]">
-            <div className="px-7">
-              <h5 className="text-[17px] font-medium">
-                Fill in your information and press the Calculate button. Your
-                results will be displayed here!
-              </h5>
-              <div className="mt-4">
-                <p className="leading-8">
-                  A calorie calculator can be used to estimate the number of
-                  calories a person needs to consume each day and output
-                  calories for{' '}
-                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    weight loss
-                  </span>
-                  ,{' '}
-                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    weight gain
-                  </span>
-                  , and{' '}
-                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    weight maintenance
-                  </span>
-                  . For weight loss, include:{' '}
-                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    light weight loss
-                  </span>
-                  ,{' '}
-                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    weight loss
-                  </span>
-                  , and{' '}
-                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    extremely effective weight loss
-                  </span>
-                  . Weight gain includes{' '}
-                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    slight weight gain
-                  </span>
-                  ,{' '}
-                  <span className="relative font-medium before:absolute before:left-[-3px] before:bottom-0 before:-z-10 before:h-[70%] before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    weight gain
-                  </span>
-                  , and{' '}
-                  <span className="relative inline-block font-medium before:absolute before:left-[-3px] before:bottom-1 before:-z-10 before:h-2/4 before:w-[calc(100%+4px)] before:rotate-2 before:bg-amber-300/80 before:content-['']">
-                    rapid weight gain
-                  </span>
-                  .
-                </p>
-              </div>
-            </div>
-          </div>
+          <InfoBoard />
         </div>
       </div>
     </div>
