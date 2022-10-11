@@ -18,7 +18,7 @@ const Index = () => {
   const [formula, setFormula] = useState('mifflin st jeor');
   const [fatpercent, setFatPercent] = useState('');
   const [showerrormessage, setShowErrorMessage] = useState(false);
-  const Calculate = () => {
+  const _onCalculate = () => {
     if (
       [gender, age, height, weight, activity, fatpercent].find(
         (e) => e === ''
@@ -168,11 +168,7 @@ const Index = () => {
                     fatpercent.length > 3 && 'mt-8'
                   )}
                 >
-                  <Button
-                    label="Calculate"
-                    value={[gender, age, height, weight, activity]}
-                    onClick={Calculate}
-                  />
+                  <Button label="Calculate" onClick={_onCalculate} />
                 </div>
               </div>
               <div className="block h-full w-[1.5px] pb-2">
