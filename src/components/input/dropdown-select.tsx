@@ -5,10 +5,12 @@ import type { SelectOptionObject } from '../constants/select-options';
 
 export function DropDownSelect({
   label,
+  error,
   setCurrentValue,
   options,
 }: {
   label: string;
+  error?: string;
   setCurrentValue: (value: string) => void;
   options: SelectOptionObject[];
 }) {
@@ -18,11 +20,11 @@ export function DropDownSelect({
     setRotate(!rotate);
   };
   return (
-    <div>
+    <div className="pb-8">
       <span className="font-medium text-gray-800">{label}</span>
       <div
         onClick={_onClick}
-        className="relative my-3 h-12 max-w-[220px] cursor-pointer rounded-md shadow-md drop-shadow-md"
+        className="relative mt-3 h-12 max-w-[220px] cursor-pointer rounded-md shadow-md drop-shadow-md"
       >
         <div className="absolute right-0 mr-5 flex h-full items-center">
           <div
@@ -38,8 +40,13 @@ export function DropDownSelect({
           </span>
         )}
       </div>
+      {error ? (
+        <div className="absolute bottom-0 w-full max-w-[192px] select-none rounded-xl bg-red-500/90 px-2 text-xs text-white before:absolute before:-top-2 before:left-4 before:h-0 before:w-0 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-red-500/90 before:content-['']">
+          <p>{error}</p>
+        </div>
+      ) : null}
       {rotate && (
-        <div className="fixed z-10 max-w-[220px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all">
+        <div className="fixed z-10 mt-2 max-w-[220px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all">
           {options.map((item) => (
             <SelectOption
               key={item.value}

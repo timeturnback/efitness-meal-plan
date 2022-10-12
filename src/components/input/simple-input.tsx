@@ -3,7 +3,6 @@ import type { FC, InputHTMLAttributes } from 'react';
 
 interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  type: string;
   unit?: string;
   value: string;
   maxvalue: number;
@@ -14,7 +13,6 @@ interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const SimpleInput: FC<SimpleInputProps> = ({
   label,
-  type,
   unit,
   value,
   error,
@@ -41,7 +39,6 @@ export const SimpleInput: FC<SimpleInputProps> = ({
         )}
       >
         <input
-          type={type}
           value={value}
           className={classNames(
             'h-full w-full px-3 outline-none rounded-md',

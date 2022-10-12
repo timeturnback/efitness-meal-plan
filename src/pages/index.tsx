@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/button';
 import {
@@ -19,12 +19,52 @@ const Index = () => {
   const [age, setAge] = useState({ value: '', error: '' });
   const [height, setHeight] = useState({ value: '', error: '' });
   const [weight, setWeight] = useState({ value: '', error: '' });
-  const [, setActivity] = useState({ value: '', error: '' });
+  const [activity, setActivity] = useState({ value: '', error: '' });
   const [formula, setFormula] = useState({
     value: 'mifflin st jeor',
     error: '',
   });
   const [fatpercent, setFatPercent] = useState({ value: '', error: '' });
+
+  useEffect(() => {
+    if (
+      (height.value && +height.value >= 300) ||
+      (height.value && +height.value <= 30)
+    ) {
+      setHeight({
+        ...height,
+        error: 'Please enter the corrent height.',
+      });
+    }
+    if ((age.value && +age.value < 15) || (age.value && +age.value > 80)) {
+      setAge({
+        ...age,
+        error: 'Age is only from 15 years old to 80 years old.',
+      });
+    }
+    if (
+      (weight.value && +weight.value >= 500) ||
+      (weight.value && +weight.value <= 0)
+    ) {
+      setWeight({
+        ...weight,
+        error: 'Please enter the corrent weight.',
+      });
+    }
+    if (
+      (formula.value === 'katch mcardle' &&
+        fatpercent.value &&
+        +fatpercent.value >= 100) ||
+      (formula.value === 'katch mcardle' &&
+        fatpercent.value &&
+        +fatpercent.value <= 0)
+    ) {
+      setFatPercent({
+        ...fatpercent,
+        error: 'Please enter your fat percentage.',
+      });
+    }
+  }, [height.value, age.value, weight.value, fatpercent.value, formula.value]);
 
   const _validateForm = () => {
     let isError = false;
@@ -33,9 +73,6 @@ const Index = () => {
       setGender({ value: '', error: 'Please select your gender.' });
     }
     if (!age.value) {
-      isError = true;
-      setAge({ value: '', error: 'Please enter the correct age.' });
-    } else if (+age.value < 0 || +age.value > 120) {
       isError = true;
       setAge({ value: '', error: 'Please enter the correct age.' });
     }
@@ -47,12 +84,21 @@ const Index = () => {
       isError = true;
       setWeight({ value: '', error: 'Please enter the corrent weight.' });
     }
+    if (!fatpercent.value) {
+      isError = true;
+      setFatPercent({ value: '', error: 'Please enter your fat percentage.' });
+    }
+    if (!activity.value) {
+      isError = true;
+      setActivity({ value: '', error: 'Please select an activity.' });
+    }
     return !isError;
   };
 
   const _onSubmit = () => {
     if (_validateForm()) {
       //
+      console.log('a');
     }
   };
 
@@ -73,7 +119,7 @@ const Index = () => {
                   label="Gender"
                   currentValue={gender.value}
                   error={gender.error}
-                  setCurrentValue={(value) => setGender({ value, error: '' })}
+                  setCurrentValue={(e) => setGender({ value: e, error: '' })}
                   options={GENDER_OPTIONS}
                   column={false}
                 />
@@ -84,7 +130,7 @@ const Index = () => {
                   type="number"
                   value={age.value}
                   error={age.error}
-                  onChangeText={(value) => setAge({ value, error: '' })}
+                  onChangeText={(e) => setAge({ value: e, error: '' })}
                   maxvalue={2}
                   placeholder="Ex: 22"
                 />
@@ -96,7 +142,7 @@ const Index = () => {
                   unit="cm"
                   value={height.value}
                   error={height.error}
-                  onChangeText={(value) => setHeight({ value, error: '' })}
+                  onChangeText={(e) => setHeight({ value: e, error: '' })}
                   maxvalue={3}
                   placeholder="Ex: 180"
                 />
@@ -108,7 +154,7 @@ const Index = () => {
                   unit="kg"
                   value={weight.value}
                   error={weight.error}
-                  onChangeText={(value) => setWeight({ value, error: '' })}
+                  onChangeText={(e) => setWeight({ value: e, error: '' })}
                   maxvalue={3}
                   placeholder="Ex: 65"
                 />
@@ -120,9 +166,10 @@ const Index = () => {
                   <div className="relative my-5">
                     <DropDownSelect
                       label="Activity"
+                      error={activity.error}
                       options={DROP_DOWN_OPTIONS}
-                      setCurrentValue={(value) =>
-                        setActivity({ value, error: '' })
+                      setCurrentValue={(e) =>
+                        setActivity({ value: e, error: '' })
                       }
                     />
                   </div>
@@ -130,8 +177,8 @@ const Index = () => {
                     <SimpleSelectInput
                       label="BMR estimation formula"
                       currentValue={formula.value}
-                      setCurrentValue={(value) =>
-                        setFormula({ value, error: '' })
+                      setCurrentValue={(e) =>
+                        setFormula({ value: e, error: '' })
                       }
                       options={FORMULA_OPTIONS}
                       column={true}
@@ -146,29 +193,34 @@ const Index = () => {
                     >
                       <span className="block leading-4">?</span>
                     </div>
-                  </div>
-                  <div
-                    className={classNames(
-                      'transition-all opacity-0 relative',
-                      formula.value === 'katch mcardle' && 'opacity-100'
-                    )}
-                  >
-                    <SimpleInput
-                      label=""
-                      type="number"
-                      unit="%"
-                      value={fatpercent.value}
-                      onChangeText={(value) =>
-                        setFatPercent({ value, error: '' })
-                      }
-                      maxvalue={3}
-                      placeholder="Ex: 20"
-                    />
+                    <div
+                      className={classNames(
+                        formula.value === 'katch mcardle'
+                          ? 'block transition-all absolute -bottom-14'
+                          : 'hidden'
+                      )}
+                    >
+                      <SimpleInput
+                        label=""
+                        type="number"
+                        unit="%"
+                        value={fatpercent.value}
+                        error={fatpercent.error}
+                        onChangeText={(e) =>
+                          setFatPercent({ value: e, error: '' })
+                        }
+                        maxvalue={3}
+                        placeholder="Ex: 20"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div
                   className={classNames(
-                    'flex flex-col items-end justify-end transition-all mr-[35px]'
+                    'mr-[35px] mt-7 flex flex-col items-end justify-end transition-all',
+                    formula.value === 'katch mcardle' && fatpercent.error
+                      ? 'mt-10'
+                      : null
                   )}
                 >
                   <Button label="Calculate" onClick={_onSubmit} />
