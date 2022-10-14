@@ -112,6 +112,6 @@ export const FORMULA_EQUATIONS_OPTIONS: SelectOptionFormulaEquation[] = [
   {
     label: 'Katch-McArdle',
     image: ImageFormulaEquation.FatPercent,
-    value: 'BMR = 370 + (21,6 x (1 - body fat in percent) x weight in kg)',
+    value: 'BMR = 370 + (21,6 x (weight in kg x (100 - body fat %) / 100))',
   },
 ];
