@@ -234,6 +234,17 @@ const Index = () => {
                           maxvalue={3}
                           placeholder="Ex: 20"
                         />
+                        {formula.value === 'katch mcardle' &&
+                          !fatpercent.error && (
+                            <div className="absolute top-3/4 w-full text-center leading-3">
+                              <a
+                                href="body-fat-calculator"
+                                className="text-xs font-medium text-black hover:border-b-black"
+                              >
+                                I don&apos;t know my body fat percentage.
+                              </a>
+                            </div>
+                          )}
                       </div>
                     </div>
                   </div>
