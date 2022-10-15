@@ -13,7 +13,11 @@ import {
   SimpleInput,
   SimpleSelectInput,
 } from '@/components/input';
-import { InfoBoard, ThreeEquations } from '@/components/pages/home';
+import {
+  InfoBoard,
+  ResultCalories,
+  ThreeEquations,
+} from '@/components/pages/home';
 
 const Index = () => {
   const [gender, setGender] = useState({ value: '', error: '' });
@@ -26,6 +30,7 @@ const Index = () => {
     error: '',
   });
   const [fatpercent, setFatPercent] = useState({ value: '', error: '' });
+  const [bmr, setBMR] = useState(0);
 
   useEffect(() => {
     if (
@@ -85,7 +90,7 @@ const Index = () => {
       isError = true;
       setWeight({ value: '', error: 'Please enter the corrent weight.' });
     }
-    if (!fatpercent.value) {
+    if (!fatpercent.value && formula.value === 'katch mcardle') {
       isError = true;
       setFatPercent({ value: '', error: 'Please enter your fat percentage.' });
     }
@@ -98,9 +103,60 @@ const Index = () => {
 
   const _onSubmit = () => {
     if (_validateForm()) {
-      //
-      console.log('a');
+      if (formula.value === 'mifflin st jeor') {
+        setBMR(Math.round(_calorieResultsMSJ()));
+      } else if (formula.value === 'revised harris benedict') {
+        setBMR(Math.round(_calorieResultsRHB()));
+      } else {
+        const result =
+          370 + 21.6 * ((+weight.value * (100 - +fatpercent.value)) / 100);
+        setBMR(Math.round(result));
+      }
     }
+  };
+
+  const _calorieResultsMSJ = () => {
+    if (gender.value === 'male') {
+      const result =
+        10 * +weight.value + 6.25 * +height.value - 5 * +age.value + 5;
+      return _calculateBMRXActivity(result);
+    }
+    const result =
+      10 * +weight.value + 6.25 * +height.value - 5 * +age.value - 161;
+    return _calculateBMRXActivity(result);
+  };
+
+  const _calorieResultsRHB = () => {
+    if (gender.value === 'male') {
+      const result =
+        13.397 * +weight.value +
+        4.799 * +height.value -
+        5.677 * +age.value +
+        88.362;
+      return _calculateBMRXActivity(result);
+    }
+    const result =
+      9.247 * +weight.value +
+      3.098 * +height.value -
+      4.33 * +age.value +
+      447.593;
+    return _calculateBMRXActivity(result);
+  };
+
+  const _calculateBMRXActivity = (value: number) => {
+    if (activity.value === 'little or no exercise') {
+      return value * 1.2;
+    }
+    if (activity.value === 'light exercise: 1-3 times/week') {
+      return value * 1.375;
+    }
+    if (activity.value === 'moderate exercise: 3-5 times/week') {
+      return value * 1.55;
+    }
+    if (activity.value === 'exercise a lot: 6-7 times/week') {
+      return value * 1.725;
+    }
+    return value * 1.79;
   };
 
   const _FormulaEquation = (value: SetStateAction<string>) => {
@@ -153,7 +209,7 @@ const Index = () => {
                     error={age.error}
                     onChangeText={(e) => setAge({ value: e, error: '' })}
                     maxvalue={2}
-                    placeholder="Ex: 22"
+                    placeholder="Ex: 20"
                   />
                 </div>
                 <div className="relative my-5">
@@ -165,7 +221,7 @@ const Index = () => {
                     error={height.error}
                     onChangeText={(e) => setHeight({ value: e, error: '' })}
                     maxvalue={3}
-                    placeholder="Ex: 180"
+                    placeholder="Ex: 175"
                   />
                 </div>
                 <div className="relative my-5">
@@ -177,7 +233,7 @@ const Index = () => {
                     error={weight.error}
                     onChangeText={(e) => setWeight({ value: e, error: '' })}
                     maxvalue={3}
-                    placeholder="Ex: 65"
+                    placeholder="Ex: 62"
                   />
                 </div>
               </div>
@@ -239,7 +295,7 @@ const Index = () => {
                             <div className="absolute top-3/4 w-full text-center leading-3">
                               <a
                                 href="body-fat-calculator"
-                                className="text-xs font-medium text-black hover:border-b-black"
+                                className="text-xs font-medium text-black hover:border-b-gray-800"
                               >
                                 I don&apos;t know my body fat percentage.
                               </a>
@@ -259,12 +315,12 @@ const Index = () => {
                     <Button label="Calculate" onClick={_onSubmit} />
                   </div>
                 </div>
-                <div className="block h-full w-[1.5px] pb-2">
+                <div className="block h-full w-[1.5px] pt-6 pb-7">
                   <span className="block h-full w-full bg-gray-700" />
                 </div>
               </div>
             </div>
-            <InfoBoard />
+            {bmr ? <ResultCalories bmr={bmr} /> : <InfoBoard />}
           </div>
         </div>
       </div>
