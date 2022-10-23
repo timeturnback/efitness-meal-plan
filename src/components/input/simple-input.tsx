@@ -42,13 +42,13 @@ export const SimpleInput: FC<SimpleInputProps> = ({
           value={value}
           className={classNames(
             'h-full w-full px-3 outline-none rounded-md',
-            unit ? 'w-4/5' : ''
+            unit ? 'w-5/6' : ''
           )}
           onChange={_onChange}
           {...rest}
         />
         {unit ? (
-          <span className="absolute right-1 h-3/5 select-none pr-1 leading-7 text-gray-600/70 outline-none before:absolute before:right-8 before:h-full before:border before:border-white before:bg-gray-800 before:content-['']">
+          <span className="absolute right-1 h-3/5 select-none pr-1 leading-7 text-gray-600/70 outline-none">
             {unit}
           </span>
         ) : null}
