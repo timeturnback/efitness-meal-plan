@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/button';
 import {
   DROP_DOWN_OPTIONS,
+  FORMULA_EQUATIONS_OPTIONS,
   FORMULA_OPTIONS,
   GENDER_OPTIONS,
 } from '@/components/constants/select-options';
@@ -14,9 +15,10 @@ import {
   SimpleSelectInput,
 } from '@/components/input';
 import {
+  HighlightSpan,
   InfoBoard,
   ResultCalories,
-  ThreeEquations,
+  SimpleEquations,
 } from '@/components/pages/home';
 
 const Index = () => {
@@ -191,17 +193,16 @@ const Index = () => {
           <div className="flex">
             <div className="flex w-full">
               <div>
-                <div className="relative my-5">
+                <div className="my-5">
                   <SimpleSelectInput
                     label="Gender"
                     currentValue={gender.value}
                     error={gender.error}
                     setCurrentValue={(e) => setGender({ value: e, error: '' })}
                     options={GENDER_OPTIONS}
-                    column={false}
                   />
                 </div>
-                <div className="relative my-5">
+                <div className="my-5">
                   <SimpleInput
                     label="Age"
                     type="number"
@@ -212,7 +213,7 @@ const Index = () => {
                     placeholder="Ex: 20"
                   />
                 </div>
-                <div className="relative my-5">
+                <div className="my-5">
                   <SimpleInput
                     label="Height"
                     type="number"
@@ -224,7 +225,7 @@ const Index = () => {
                     placeholder="Ex: 175"
                   />
                 </div>
-                <div className="relative my-5">
+                <div className="my-5">
                   <SimpleInput
                     label="Weight"
                     type="number"
@@ -320,7 +321,26 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            {bmr ? <ResultCalories bmr={bmr} /> : <InfoBoard />}
+            {bmr ? (
+              <ResultCalories bmr={bmr} />
+            ) : (
+              <div className="w-3/4">
+                <InfoBoard>
+                  A calorie calculator can be used to estimate the number of
+                  calories a person needs to consume each day and output
+                  calories for <HighlightSpan>weight loss</HighlightSpan>,{' '}
+                  <HighlightSpan>weight gain</HighlightSpan>, and{' '}
+                  <HighlightSpan>maintain weight</HighlightSpan>. For weight
+                  loss, include:{' '}
+                  <HighlightSpan>light weight loss</HighlightSpan>,{' '}
+                  <HighlightSpan>weight loss</HighlightSpan>, and{' '}
+                  <HighlightSpan>extreme weight loss</HighlightSpan>. Weight
+                  gain includes <HighlightSpan>light weight gain</HighlightSpan>
+                  , <HighlightSpan>weight gain</HighlightSpan>, and{' '}
+                  <HighlightSpan>rapid weight gain</HighlightSpan>.
+                </InfoBoard>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -328,7 +348,7 @@ const Index = () => {
         <h2 className="text-lg font-medium">
           The three formulas&apos; equation:
         </h2>
-        <ThreeEquations />
+        <SimpleEquations option={FORMULA_EQUATIONS_OPTIONS} />
       </div>
     </div>
   );
