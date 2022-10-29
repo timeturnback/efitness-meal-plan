@@ -7,14 +7,16 @@ export const SimpleInputRange = ({
   onChange,
   styleColor,
   styleSlider,
+  disabled,
 }: {
   value: string;
   onChange: (value: string) => void;
   styleColor: Argument;
   styleSlider: Argument;
+  disabled?: boolean;
 }) => {
   return (
-    <div className="inline-block px-4 py-6">
+    <div className="relative inline-block px-4 py-6">
       <div className="relative flex h-3 items-center rounded-full">
         <span className="absolute h-3 w-full rounded-full border-2 border-gray-300 bg-gray-300/80 shadow-md">
           <span
@@ -35,6 +37,9 @@ export const SimpleInputRange = ({
           onChange={(e) => onChange(e.target.value)}
         />
       </div>
+      {!disabled && disabled !== undefined && (
+        <div className="absolute top-0 left-0 h-full w-full bg-white opacity-40"></div>
+      )}
     </div>
   );
 };

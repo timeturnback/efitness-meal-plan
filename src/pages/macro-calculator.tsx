@@ -14,12 +14,13 @@ export const MacroCalculator = () => {
   const [customcarb, setCustomCarb] = useState('0');
   useEffect(() => {
     if (
-      (tdee.value && +tdee.value >= 500) ||
+      (tdee.value && +tdee.value >= 4000) ||
       (tdee.value && +tdee.value <= 0)
     ) {
       setTdee({ ...tdee, error: 'Please enter your TDEE correctly.' });
     }
   }, [tdee.value]);
+
   return (
     <div className="mx-auto max-w-5xl">
       <div className="my-0 h-screen py-11">
@@ -42,11 +43,11 @@ export const MacroCalculator = () => {
                     value={tdee.value}
                     error={tdee.error}
                     onChangeText={(e) => setTdee({ value: e, error: '' })}
-                    maxvalue={3}
+                    maxvalue={4}
                   />
                   <Link href="bmr-calculator">
                     <div className="top-3/4 inline w-52 leading-3">
-                      <a className="text-xs font-medium text-black hover:border-b-gray-800">
+                      <a className="text-xs font-medium text-black drop-shadow-md hover:border-b-gray-800">
                         I don&#39;t know my total daily energy expenditure
                         (TDEE).
                       </a>
@@ -77,6 +78,9 @@ export const MacroCalculator = () => {
                     value={customcarb}
                     styleSlider={styles.slider_carb}
                     styleColor={styles.slider_color_carb}
+                    disabled={
+                      macronutrient.value === 'custom' && +tdee.value > 500
+                    }
                   />
                 </div>
                 <div className="flex flex-col">
@@ -91,6 +95,9 @@ export const MacroCalculator = () => {
                     value={customfat}
                     styleSlider={styles.slider_fat}
                     styleColor={styles.slider_color_fat}
+                    disabled={
+                      macronutrient.value === 'custom' && +tdee.value > 500
+                    }
                   />
                 </div>
                 <div className="flex flex-col">
@@ -105,6 +112,9 @@ export const MacroCalculator = () => {
                     value={customprotein}
                     styleSlider={styles.slider_protein}
                     styleColor={styles.slider_color_protein}
+                    disabled={
+                      macronutrient.value === 'custom' && +tdee.value > 500
+                    }
                   />
                 </div>
               </div>
