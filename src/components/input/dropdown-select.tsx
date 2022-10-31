@@ -20,11 +20,11 @@ export function DropDownSelect({
     setRotate(!rotate);
   };
   return (
-    <div className="pb-8">
+    <div className="relative pb-8">
       <span className="font-medium text-gray-800">{label}</span>
       <div
         onClick={_onClick}
-        className="relative mt-3 h-12 max-w-[220px] cursor-pointer rounded-md shadow-md drop-shadow-md"
+        className="mt-3 h-12 max-w-[220px] cursor-pointer rounded-md shadow-md drop-shadow-md"
       >
         <div className="absolute right-0 mr-5 flex h-full items-center">
           <div

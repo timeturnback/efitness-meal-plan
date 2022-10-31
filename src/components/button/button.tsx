@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 export function Button({
   label,
   fetching,
@@ -14,16 +12,13 @@ export function Button({
   return (
     <button
       disabled={disabled || fetching}
-      className={classNames(
-        'relative flex h-12 w-48 cursor-pointer justify-center rounded-md bg-white px-1 py-3 tracking-wide shadow-inner drop-shadow-md transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-400'
-      )}
+      className="relative flex h-12 w-full cursor-pointer items-center justify-center rounded-md border-2 bg-white px-1 py-3 font-medium tracking-wide shadow-md transition-colors duration-300 hover:bg-slate-200 disabled:cursor-not-allowed disabled:bg-gray-400"
       onClick={onClick}
     >
       {fetching ? (
-        <span className="mr-1 inline-block h-full w-6 animate-spin rounded-full border-[3px] border-gray-700 border-l-gray-400" />
+        <span className="mr-1 inline-block h-full w-5 animate-spin rounded-full border-[3px] border-gray-700 border-l-gray-400" />
       ) : null}
       {label}
-      {/* <span className="absolute top-0 h-full w-full rounded-md bg-white opacity-40" /> */}
     </button>
   );
 }

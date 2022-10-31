@@ -9,8 +9,8 @@ export const SimpleInputRange = ({
   styleSlider,
   disabled,
 }: {
-  value: string;
-  onChange: (value: string) => void;
+  value: number;
+  onChange: (value: number) => void;
   styleColor: Argument;
   styleSlider: Argument;
   disabled?: boolean;
@@ -34,7 +34,7 @@ export const SimpleInputRange = ({
             styles.slider
           )}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange(+e.target.value)}
         />
       </div>
       {!disabled && disabled !== undefined && (
