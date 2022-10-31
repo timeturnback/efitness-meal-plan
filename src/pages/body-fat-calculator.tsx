@@ -6,11 +6,8 @@ import {
   GENDER_OPTIONS,
 } from '@/components/constants/select-options';
 import { SimpleInput, SimpleSelectInput } from '@/components/input';
-import {
-  InfoBoard,
-  ResultBodyFat,
-  SimpleEquations,
-} from '@/components/pages/home';
+import { ResultBodyFat } from '@/components/pages/body-fat-calculator';
+import { InfoBoard, SimpleEquations } from '@/components/pages/home';
 
 const BodyFatCalculator = () => {
   const [gender, setGender] = useState({ value: '', error: '' });
