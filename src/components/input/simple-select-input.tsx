@@ -19,13 +19,13 @@ export function SimpleSelectInput({
   error?: string;
 }) {
   return (
-    <div className="block max-w-[220px]">
+    <div className="block max-w-[220px] pb-8">
       <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
           column
             ? 'gap-3 flex flex-col mt-3'
-            : 'flex items-center gap-3 my-3 relative',
+            : 'flex items-center gap-3 mt-3 relative',
           options.length >= 3 && 'gap-[calc(0.75rem+0.25rem*2)]'
         )}
       >
