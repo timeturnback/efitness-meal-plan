@@ -99,13 +99,13 @@ export const FORMULA_EQUATIONS_OPTIONS: SelectOptionFormulaEquation[] = [
         label: 'Male',
         image: ImageFormulaEquation.Male,
         value:
-          'BMR = (13.397 x weight in kg) + (4.799 x height in cm) - (5.677 x age) + 88.362',
+          'BMR = (13,397 x weight in kg) + (4,799 x height in cm) - (5,677 x age) + 88,362',
       },
       female: {
         label: 'Female',
         image: ImageFormulaEquation.Female,
         value:
-          'BMR = (9.247 x weight in kg) + (3.098 x height in cm) - (4.330 x age) + 447.593',
+          'BMR = (9,247 x weight in kg) + (3,098 x height in cm) - (4,330 x age) + 447,593',
       },
     },
   },
