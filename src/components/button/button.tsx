@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 export function Button({
   label,
   fetching,

@@ -15,7 +15,7 @@ export const SimpleEquations = ({
             <div className="pt-5">
               <h2 className="font-medium">{item.label}:</h2>
               <div className="flex items-center">
-                <Image src={item.image} alt={item.label} />
+                <Image src={item?.image || ''} alt={item.label} />
                 <span className="pl-2">{item.value}</span>
               </div>
             </div>
