@@ -6,7 +6,7 @@ interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   unit?: string;
   value: string;
   maxvalue: number;
-  placeholder: string;
+  placeholder?: string;
   error?: string;
   onChangeText?: (value: string) => void;
 }

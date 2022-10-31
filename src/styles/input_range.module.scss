@@ -1,0 +1,41 @@
+.slider {
+&::-webkit-slider-thumb {
+-webkit-appearance: none;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+  transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  &:hover {
+    box-shadow: 0 0 0 10px rgb(45 55 72 / 15%);
+  }
+}
+&:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 16px rgb(45 55 72 / 15%);
+}
+}
+
+
+.slider_protein::-webkit-slider-thumb {
+  background-color: #0891B2;
+}
+
+.slider_color_protein {
+  background-color: #0891B2;
+}
+
+.slider_color_fat {
+  background-color: rgb(247, 183, 74);
+}
+
+.slider_fat::-webkit-slider-thumb {
+  background-color: rgb(247, 183, 74);
+}
+
+.slider_carb::-webkit-slider-thumb {
+  background-color: #8BAE47;
+}
+
+.slider_color_carb {
+  background-color: #8BAE47;
+}

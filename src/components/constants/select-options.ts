@@ -217,3 +217,22 @@ export const FORMULA_FAT_PERCENTAGE_OPTIONS: SelectOptionFormulaEquation[] = [
     },
   },
 ];
+
+export const NUTRIENT_RATIO_OPTIONS: SelectOptionObject[] = [
+  {
+    label: 'Higher Carb (60:25:15)',
+    value: 'hgiher carb',
+  },
+  {
+    label: 'Moderate Carb (50:25:25)',
+    value: 'moderate carb',
+  },
+  {
+    label: 'Lower Carb (10:40:50)',
+    value: 'lower carb',
+  },
+  {
+    label: 'Custom',
+    value: 'custom',
+  },
+];
