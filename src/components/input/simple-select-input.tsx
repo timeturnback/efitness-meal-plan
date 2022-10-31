@@ -15,7 +15,7 @@ export function SimpleSelectInput({
   currentValue: string;
   setCurrentValue: (value: string) => void;
   options: SelectOptionObject[];
-  column: boolean;
+  column?: boolean;
   error?: string;
 }) {
   return (
