@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import type { SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/button';
@@ -12,7 +13,7 @@ import {
   SimpleInput,
   SimpleSelectInput,
 } from '@/components/input';
-import { InfoBoard } from '@/components/pages/home';
+import { InfoBoard, ThreeEquations } from '@/components/pages/home';
 
 const Index = () => {
   const [gender, setGender] = useState({ value: '', error: '' });
@@ -102,137 +103,176 @@ const Index = () => {
     }
   };
 
+  const _FormulaEquation = (value: SetStateAction<string>) => {
+    if (value === 'katch mcardle') {
+      window.scrollTo({
+        top: 720,
+        behavior: 'smooth',
+      });
+    } else if (value === 'revised harris benedict') {
+      window.scrollTo({
+        top: 620,
+        behavior: 'smooth',
+      });
+    } else {
+      window.scrollTo({
+        top: 420,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
-    <div className="mx-auto my-0 h-screen max-w-5xl py-11">
-      <div className="grid h-full w-full rounded-xl border-2 border-gray-800/90 px-6">
-        <h2 className="py-2 text-4xl font-medium text-gray-800 ">
-          Calorie Calculate
-        </h2>
-        <div className="block h-[1.6px] w-full">
-          <span className="block h-full w-full bg-gray-700" />
-        </div>
-        <div className="flex">
-          <div className="flex w-full">
-            <div>
-              <div className="relative my-5">
-                <SimpleSelectInput
-                  label="Gender"
-                  currentValue={gender.value}
-                  error={gender.error}
-                  setCurrentValue={(e) => setGender({ value: e, error: '' })}
-                  options={GENDER_OPTIONS}
-                  column={false}
-                />
+    <div className="mx-auto max-w-5xl">
+      <div className="my-0 h-screen py-11">
+        <div className="grid h-full w-full rounded-xl border-2 border-gray-800/90 px-6">
+          <h2 className="py-2 text-4xl font-medium text-gray-800 ">
+            Calorie Calculate
+          </h2>
+          <div className="block h-[1.6px] w-full">
+            <span className="block h-full w-full bg-gray-700" />
+          </div>
+          <div className="flex">
+            <div className="flex w-full">
+              <div>
+                <div className="relative my-5">
+                  <SimpleSelectInput
+                    label="Gender"
+                    currentValue={gender.value}
+                    error={gender.error}
+                    setCurrentValue={(e) => setGender({ value: e, error: '' })}
+                    options={GENDER_OPTIONS}
+                    column={false}
+                  />
+                </div>
+                <div className="relative my-5">
+                  <SimpleInput
+                    label="Age"
+                    type="number"
+                    value={age.value}
+                    error={age.error}
+                    onChangeText={(e) => setAge({ value: e, error: '' })}
+                    maxvalue={2}
+                    placeholder="Ex: 22"
+                  />
+                </div>
+                <div className="relative my-5">
+                  <SimpleInput
+                    label="Height"
+                    type="number"
+                    unit="cm"
+                    value={height.value}
+                    error={height.error}
+                    onChangeText={(e) => setHeight({ value: e, error: '' })}
+                    maxvalue={3}
+                    placeholder="Ex: 180"
+                  />
+                </div>
+                <div className="relative my-5">
+                  <SimpleInput
+                    label="Weight"
+                    type="number"
+                    unit="kg"
+                    value={weight.value}
+                    error={weight.error}
+                    onChangeText={(e) => setWeight({ value: e, error: '' })}
+                    maxvalue={3}
+                    placeholder="Ex: 65"
+                  />
+                </div>
               </div>
-              <div className="relative my-5">
-                <SimpleInput
-                  label="Age"
-                  type="number"
-                  value={age.value}
-                  error={age.error}
-                  onChangeText={(e) => setAge({ value: e, error: '' })}
-                  maxvalue={2}
-                  placeholder="Ex: 22"
-                />
-              </div>
-              <div className="relative my-5">
-                <SimpleInput
-                  label="Height"
-                  type="number"
-                  unit="cm"
-                  value={height.value}
-                  error={height.error}
-                  onChangeText={(e) => setHeight({ value: e, error: '' })}
-                  maxvalue={3}
-                  placeholder="Ex: 180"
-                />
-              </div>
-              <div className="relative my-5">
-                <SimpleInput
-                  label="Weight"
-                  type="number"
-                  unit="kg"
-                  value={weight.value}
-                  error={weight.error}
-                  onChangeText={(e) => setWeight({ value: e, error: '' })}
-                  maxvalue={3}
-                  placeholder="Ex: 65"
-                />
-              </div>
-            </div>
-            <div className="ml-20 flex w-full justify-between">
-              <div className="h-full w-full">
-                <div className="h-[416px]">
-                  <div className="relative my-5">
-                    <DropDownSelect
-                      label="Activity"
-                      error={activity.error}
-                      options={DROP_DOWN_OPTIONS}
-                      setCurrentValue={(e) =>
-                        setActivity({ value: e, error: '' })
-                      }
-                    />
-                  </div>
-                  <div className="relative">
-                    <SimpleSelectInput
-                      label="BMR estimation formula"
-                      currentValue={formula.value}
-                      setCurrentValue={(e) =>
-                        setFormula({ value: e, error: '' })
-                      }
-                      options={FORMULA_OPTIONS}
-                      column={true}
-                    />
-                    <div
-                      className={classNames(
-                        'absolute top-[50px] transition-all right-[6px] inline-block h-5 w-5 cursor-pointer rounded-full border border-gray-500 text-center text-gray-500 hover:border-gray-800 hover:text-gray-800 select-none',
-                        formula.value === 'revised harris benedict' &&
-                          'top-[120px]',
-                        formula.value === 'katch mcardle' && 'top-[188px]'
-                      )}
-                    >
-                      <span className="block leading-4">?</span>
-                    </div>
-                    <div
-                      className={classNames(
-                        formula.value === 'katch mcardle'
-                          ? 'block transition-all absolute -bottom-14'
-                          : 'hidden'
-                      )}
-                    >
-                      <SimpleInput
-                        label=""
-                        type="number"
-                        unit="%"
-                        value={fatpercent.value}
-                        error={fatpercent.error}
-                        onChangeText={(e) =>
-                          setFatPercent({ value: e, error: '' })
+              <div className="ml-20 flex w-full justify-between">
+                <div className="h-full w-full">
+                  <div className="h-[416px]">
+                    <div className="relative my-5">
+                      <DropDownSelect
+                        label="Activity"
+                        error={activity.error}
+                        options={DROP_DOWN_OPTIONS}
+                        setCurrentValue={(e) =>
+                          setActivity({ value: e, error: '' })
                         }
-                        maxvalue={3}
-                        placeholder="Ex: 20"
                       />
                     </div>
+                    <div className="relative">
+                      <SimpleSelectInput
+                        label="BMR estimation formula"
+                        currentValue={formula.value}
+                        setCurrentValue={(e) =>
+                          setFormula({ value: e, error: '' })
+                        }
+                        options={FORMULA_OPTIONS}
+                        column={true}
+                      />
+                      <div
+                        className={classNames(
+                          'absolute top-[50px] transition-all right-[6px] inline-block h-5 w-5 cursor-pointer rounded-full border border-gray-500 text-center text-gray-500 hover:border-gray-800 hover:text-gray-800 select-none',
+                          formula.value === 'revised harris benedict' &&
+                            'top-[120px]',
+                          formula.value === 'katch mcardle' && 'top-[188px]'
+                        )}
+                        onClick={() => _FormulaEquation(formula.value)}
+                      >
+                        <span className="block leading-4">?</span>
+                      </div>
+                      <div
+                        className={classNames(
+                          formula.value === 'katch mcardle'
+                            ? 'block transition-all absolute -bottom-14'
+                            : 'hidden'
+                        )}
+                      >
+                        <SimpleInput
+                          label=""
+                          type="number"
+                          unit="%"
+                          value={fatpercent.value}
+                          error={fatpercent.error}
+                          onChangeText={(e) =>
+                            setFatPercent({ value: e, error: '' })
+                          }
+                          maxvalue={3}
+                          placeholder="Ex: 20"
+                        />
+                        {formula.value === 'katch mcardle' &&
+                          !fatpercent.error && (
+                            <div className="absolute top-3/4 w-full text-center leading-3">
+                              <a
+                                href="body-fat-calculator"
+                                className="text-xs font-medium text-black hover:border-b-black"
+                              >
+                                I don&apos;t know my body fat percentage.
+                              </a>
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className={classNames(
+                      'mr-[35px] mt-7 flex flex-col items-end justify-end transition-all',
+                      formula.value === 'katch mcardle' && fatpercent.error
+                        ? 'mt-10'
+                        : null
+                    )}
+                  >
+                    <Button label="Calculate" onClick={_onSubmit} />
                   </div>
                 </div>
-                <div
-                  className={classNames(
-                    'mr-[35px] mt-7 flex flex-col items-end justify-end transition-all',
-                    formula.value === 'katch mcardle' && fatpercent.error
-                      ? 'mt-10'
-                      : null
-                  )}
-                >
-                  <Button label="Calculate" onClick={_onSubmit} />
+                <div className="block h-full w-[1.5px] pb-2">
+                  <span className="block h-full w-full bg-gray-700" />
                 </div>
               </div>
-              <div className="block h-full w-[1.5px] pb-2">
-                <span className="block h-full w-full bg-gray-700" />
-              </div>
             </div>
+            <InfoBoard />
           </div>
-          <InfoBoard />
         </div>
+      </div>
+      <div className="h-screen">
+        <h2 className="text-lg font-medium">
+          The three formulas&apos; equation:
+        </h2>
+        <ThreeEquations />
       </div>
     </div>
   );
