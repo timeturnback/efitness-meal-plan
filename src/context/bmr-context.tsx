@@ -1,9 +1,9 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import React, { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
-import { _calorieResultsMSJ, _calorieResultsRHB } from '@/helper/calculation';
+import { calorieResultsMSJ, calorieResultsRHB } from '@/helper/bmr-calculation';
 
-interface HomeContextProps {
+interface BMRContextProps {
   gender: { value: string; error: string };
   setGender: Dispatch<SetStateAction<{ value: string; error: string }>>;
   age: { value: string; error: string };
@@ -20,12 +20,15 @@ interface HomeContextProps {
   fatpercent: { value: string; error: string };
   setFatPercent: Dispatch<SetStateAction<{ value: string; error: string }>>;
   onSubmit: () => void;
-  bmr: number;
+  bmrandtdee: { bmr: number; tdee: number };
+  setBMRAndTDEE: Dispatch<SetStateAction<{ bmr: number; tdee: number }>>;
+  validateForm: () => boolean;
+  calculateTDEE: (value: number) => number;
 }
 
-const HomeContext = createContext({} as HomeContextProps);
+const BMRContext = createContext({} as BMRContextProps);
 
-const HomeProvider = ({ children }: { children: ReactNode }) => {
+const BMRProvider = ({ children }: { children: ReactNode }) => {
   const [gender, setGender] = useState({ value: '', error: '' });
   const [age, setAge] = useState({ value: '', error: '' });
   const [height, setHeight] = useState({ value: '', error: '' });
@@ -36,7 +39,7 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
     error: '',
   });
   const [fatpercent, setFatPercent] = useState({ value: '', error: '' });
-  const [bmr, setBMR] = useState(0);
+  const [bmrandtdee, setBMRAndTDEE] = useState({ bmr: 0, tdee: 0 });
 
   useEffect(() => {
     if (
@@ -63,9 +66,6 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
         error: 'Please enter the corrent weight.',
       });
     }
-  }, [height.value, age.value, weight.value]);
-
-  useEffect(() => {
     if (
       (formula.value === 'katch mcardle' &&
         fatpercent.value &&
@@ -79,9 +79,9 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
         error: 'Please enter your fat percentage.',
       });
     }
-  }, [fatpercent.value, formula.value]);
+  }, [height.value, age.value, weight.value, fatpercent.value, formula.value]);
 
-  const _validateForm = () => {
+  const validateForm = () => {
     let isError = false;
     if (!gender.value) {
       isError = true;
@@ -110,6 +110,81 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
     return !isError;
   };
 
+  const onSubmit = () => {
+    if (validateForm()) {
+      if (formula.value === 'mifflin st jeor') {
+        const valuetdee = calculateTDEE(
+          Math.round(
+            calorieResultsMSJ(
+              gender.value,
+              weight.value,
+              height.value,
+              age.value,
+              activity.value
+            )
+          )
+        );
+        setBMRAndTDEE({
+          bmr: Math.round(
+            calorieResultsMSJ(
+              gender.value,
+              weight.value,
+              height.value,
+              age.value,
+              activity.value
+            )
+          ),
+          tdee: Math.round(valuetdee),
+        });
+      } else if (formula.value === 'revised harris benedict') {
+        const valuetdee = calculateTDEE(
+          Math.round(
+            calorieResultsRHB(
+              gender.value,
+              weight.value,
+              height.value,
+              age.value,
+              activity.value
+            )
+          )
+        );
+        setBMRAndTDEE({
+          bmr: Math.round(
+            calorieResultsRHB(
+              gender.value,
+              weight.value,
+              height.value,
+              age.value,
+              activity.value
+            )
+          ),
+          tdee: Math.round(valuetdee),
+        });
+      } else {
+        const result =
+          370 + 21.6 * ((+weight.value * (100 - +fatpercent.value)) / 100);
+        const valuetdee = calculateTDEE(Math.round(result));
+        setBMRAndTDEE({ bmr: Math.round(result), tdee: Math.round(valuetdee) });
+      }
+    }
+  };
+
+  const calculateTDEE = (bmr: number) => {
+    if (activity.value === 'little or no exercise') {
+      return bmr * 1.2;
+    }
+    if (activity.value === 'light exercise: 1-3 times/week') {
+      return bmr * 1.375;
+    }
+    if (activity.value === 'moderate exercise: 3-5 times/week') {
+      return bmr * 1.55;
+    }
+    if (activity.value === 'exercise a lot: 6-7 times/week') {
+      return bmr * 1.725;
+    }
+    return bmr * 1.9;
+  };
+
   const onFormulaEquation = (value: SetStateAction<string>) => {
     if (value === 'katch mcardle') {
       window.scrollTo({
@@ -128,41 +203,6 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   };
-
-  const onSubmit = () => {
-    if (_validateForm()) {
-      if (formula.value === 'mifflin st jeor') {
-        setBMR(
-          Math.round(
-            _calorieResultsMSJ(
-              gender.value,
-              weight.value,
-              height.value,
-              activity.value,
-              age.value
-            )
-          )
-        );
-      } else if (formula.value === 'revised harris benedict') {
-        setBMR(
-          Math.round(
-            _calorieResultsRHB(
-              gender.value,
-              weight.value,
-              height.value,
-              activity.value,
-              age.value
-            )
-          )
-        );
-      } else {
-        const result =
-          370 + 21.6 * ((+weight.value * (100 - +fatpercent.value)) / 100);
-        setBMR(Math.round(result));
-      }
-    }
-  };
-
   const value = {
     gender,
     setGender,
@@ -180,9 +220,12 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
     fatpercent,
     setFatPercent,
     onSubmit,
-    bmr,
+    bmrandtdee,
+    setBMRAndTDEE,
+    validateForm,
+    calculateTDEE,
   };
-  return <HomeContext.Provider value={value}>{children}</HomeContext.Provider>;
+  return <BMRContext.Provider value={value}>{children}</BMRContext.Provider>;
 };
 
-export { HomeContext, HomeProvider };
+export { BMRContext, BMRProvider };

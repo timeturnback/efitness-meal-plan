@@ -1,7 +1,7 @@
 import type { SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 
-import { calculateBMRXActivity } from '@/helper/calculation';
+import { _calorieResultsMSJ, _calorieResultsRHB } from '@/helper/calculation';
 
 export const useHomeInput = () => {
   const [gender, setGender] = useState({ value: '', error: '' });
@@ -88,34 +88,6 @@ export const useHomeInput = () => {
     return !isError;
   };
 
-  const _calorieResultsMSJ = () => {
-    if (gender.value === 'male') {
-      const result =
-        10 * +weight.value + 6.25 * +height.value - 5 * +age.value + 5;
-      return calculateBMRXActivity(activity.value, result);
-    }
-    const result =
-      10 * +weight.value + 6.25 * +height.value - 5 * +age.value - 161;
-    return calculateBMRXActivity(activity.value, result);
-  };
-
-  const _calorieResultsRHB = () => {
-    if (gender.value === 'male') {
-      const result =
-        13.397 * +weight.value +
-        4.799 * +height.value -
-        5.677 * +age.value +
-        88.362;
-      return calculateBMRXActivity(activity.value, result);
-    }
-    const result =
-      9.247 * +weight.value +
-      3.098 * +height.value -
-      4.33 * +age.value +
-      447.593;
-    return calculateBMRXActivity(activity.value, result);
-  };
-
   const onFormulaEquation = (value: SetStateAction<string>) => {
     if (value === 'katch mcardle') {
       window.scrollTo({
@@ -138,9 +110,29 @@ export const useHomeInput = () => {
   const onSubmit = () => {
     if (_validateForm()) {
       if (formula.value === 'mifflin st jeor') {
-        setBMR(Math.round(_calorieResultsMSJ()));
+        setBMR(
+          Math.round(
+            _calorieResultsMSJ(
+              gender.value,
+              weight.value,
+              height.value,
+              activity.value,
+              age.value
+            )
+          )
+        );
       } else if (formula.value === 'revised harris benedict') {
-        setBMR(Math.round(_calorieResultsRHB()));
+        setBMR(
+          Math.round(
+            _calorieResultsRHB(
+              gender.value,
+              weight.value,
+              height.value,
+              activity.value,
+              age.value
+            )
+          )
+        );
       } else {
         const result =
           370 + 21.6 * ((+weight.value * (100 - +fatpercent.value)) / 100);

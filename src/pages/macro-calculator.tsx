@@ -1,68 +1,16 @@
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import styles from 'src/styles/input_range.module.scss';
+import { useContext } from 'react';
 
 import { Button } from '@/components/button';
-import { NUTRIENT_RATIO_OPTIONS } from '@/components/constants/select-options';
-import { DropDownSelect, SimpleInput } from '@/components/input';
-import { SimpleInputRange } from '@/components/input/simple-input-range';
-import { InfoBoard, ResultMacro } from '@/components/pages/home';
+import { InfoBoard } from '@/components/pages/home';
+import {
+  InfoInputAndSelect,
+  ResultMacro,
+  SelectInputRange,
+} from '@/components/pages/macro-calculator';
+import { MacroContext, MacroProvider } from '@/context/macro-context';
 
 export const MacroCalculator = () => {
-  const [tdee, setTdee] = useState({ value: '', error: '' });
-  const [macronutrient, setMacroNutrient] = useState({ value: '', error: '' });
-  const [customprotein, setCustomProtein] = useState(0);
-  const [customfat, setCustomFat] = useState(0);
-  const [customcarb, setCustomCarb] = useState(0);
-  const [macro, setMacro] = useState({ carb: 0, fat: 0, protein: 0 });
-  useEffect(() => {
-    if (
-      (tdee.value && +tdee.value >= 4000) ||
-      (tdee.value && +tdee.value <= 0)
-    ) {
-      setTdee({ ...tdee, error: 'Please enter your TDEE correctly.' });
-    }
-  }, [tdee.value]);
-
-  useEffect(() => {
-    if (macronutrient.value === 'custom' && +tdee.value > 500) {
-      setMacro({ carb: customcarb, fat: customfat, protein: customprotein });
-    }
-  }, [macronutrient.value, tdee.value, customcarb, customfat, customprotein]);
-
-  const _onSubmit = () => {
-    if (_validateForm()) {
-      if (macronutrient.value === 'hgiher carb') {
-        setMacro({ carb: 60, fat: 15, protein: 25 });
-        setCustomCarb(60);
-        setCustomFat(15);
-        setCustomProtein(25);
-      } else if (macronutrient.value === 'moderate carb') {
-        setMacro({ carb: 50, fat: 25, protein: 25 });
-        setCustomCarb(50);
-        setCustomFat(25);
-        setCustomProtein(25);
-      } else if (macronutrient.value === 'lower carb') {
-        setMacro({ carb: 10, fat: 50, protein: 40 });
-        setCustomCarb(10);
-        setCustomFat(50);
-        setCustomProtein(40);
-      }
-    }
-  };
-
-  const _validateForm = () => {
-    let isError = false;
-    if (!tdee.value) {
-      isError = true;
-      setTdee({ value: '', error: 'Please enter your TDEE.' });
-    }
-    if (!macronutrient.value) {
-      isError = true;
-      setMacroNutrient({ value: '', error: 'Please select a nutrient ratio.' });
-    }
-    return !isError;
-  };
+  const { onSubmit, macronutrient, tdee, macro } = useContext(MacroContext);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -78,92 +26,10 @@ export const MacroCalculator = () => {
           </div>
           <div className="flex h-[calc(100%-80px)]">
             <div className="flex w-3/5 flex-col justify-evenly">
-              <div className="mb-3 flex justify-between">
-                <div className="inline-block">
-                  <SimpleInput
-                    label="TDEE"
-                    type="number"
-                    unit="cal"
-                    value={tdee.value}
-                    error={tdee.error}
-                    onChangeText={(e) => setTdee({ value: e, error: '' })}
-                    maxvalue={4}
-                  />
-                  <Link href="bmr-calculator">
-                    <div className="top-3/4 inline w-52 leading-3">
-                      <a className="cursor-pointer text-xs font-medium text-black drop-shadow-md hover:border-b-gray-800">
-                        I don&#39;t know my total daily energy expenditure
-                        (TDEE).
-                      </a>
-                    </div>
-                  </Link>
-                </div>
-                <div className="w-44">
-                  <DropDownSelect
-                    options={NUTRIENT_RATIO_OPTIONS}
-                    label="Macronutrient Ratios"
-                    error={macronutrient.error}
-                    setCurrentValue={(e) =>
-                      setMacroNutrient({ value: e, error: '' })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col rounded-2xl border-2 p-5 shadow-md">
-                <div className="flex flex-col">
-                  <span>
-                    Carbs:{' '}
-                    <span className="font-medium drop-shadow-md">
-                      {customcarb}%
-                    </span>
-                  </span>
-                  <SimpleInputRange
-                    onChange={(e) => setCustomCarb(e)}
-                    value={customcarb}
-                    styleSlider={styles.slider_carb}
-                    styleColor={styles.slider_color_carb}
-                    disabled={
-                      macronutrient.value === 'custom' && +tdee.value > 500
-                    }
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span>
-                    Fat:{' '}
-                    <span className="font-medium drop-shadow-md">
-                      {customfat}%
-                    </span>
-                  </span>
-                  <SimpleInputRange
-                    onChange={(e) => setCustomFat(e)}
-                    value={customfat}
-                    styleSlider={styles.slider_fat}
-                    styleColor={styles.slider_color_fat}
-                    disabled={
-                      macronutrient.value === 'custom' && +tdee.value > 500
-                    }
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span>
-                    Protein:{' '}
-                    <span className="font-medium drop-shadow-md">
-                      {customprotein}%
-                    </span>
-                  </span>
-                  <SimpleInputRange
-                    onChange={(e) => setCustomProtein(e)}
-                    value={customprotein}
-                    styleSlider={styles.slider_protein}
-                    styleColor={styles.slider_color_protein}
-                    disabled={
-                      macronutrient.value === 'custom' && +tdee.value > 500
-                    }
-                  />
-                </div>
-              </div>
+              <InfoInputAndSelect />
+              <SelectInputRange />
               <div className="flex justify-end">
-                <Button label="Calculate" onClick={_onSubmit} />
+                <Button label="Calculate" onClick={onSubmit} />
               </div>
             </div>
             <div className="w-2/5">
@@ -195,4 +61,12 @@ export const MacroCalculator = () => {
   );
 };
 
-export default MacroCalculator;
+const MacroWrapper = () => {
+  return (
+    <MacroProvider>
+      <MacroCalculator />
+    </MacroProvider>
+  );
+};
+
+export default MacroWrapper;
