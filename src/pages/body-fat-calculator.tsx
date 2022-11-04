@@ -14,7 +14,7 @@ const BodyFatCalculator = () => {
   return (
     <div className="mx-auto max-w-5xl">
       <div className="h-screen py-11 pt-24">
-        <div className="h-full w-full rounded-xl border-2 border-gray-800/90 px-6">
+        <div className="h-full w-full rounded-xl border-2 border-gray-800/90 bg-zinc-100/30 px-6">
           <div>
             <h2 className="py-2 text-4xl font-medium text-gray-800">
               Body Fat Calculator
@@ -24,7 +24,7 @@ const BodyFatCalculator = () => {
             </div>
           </div>
           <div className="flex h-5/6">
-            <div className="flex w-full">
+            <div className="w-full">
               <div className="flex h-full w-full flex-col">
                 <InfoInput />
                 <div className="flex h-2/5 items-end justify-end">
@@ -32,9 +32,6 @@ const BodyFatCalculator = () => {
                     <Button label="Calculate" onClick={onSubmit} />
                   </div>
                 </div>
-              </div>
-              <div className="ml-8 h-full w-[1.5px] pt-6">
-                <span className="block h-full w-full bg-gray-700"></span>
               </div>
             </div>
             <div className="w-8/12">

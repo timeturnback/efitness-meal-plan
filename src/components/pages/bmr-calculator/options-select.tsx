@@ -25,7 +25,7 @@ export const OptionsSelect = () => {
     onSubmit,
   } = useContext(BMRContext);
   return (
-    <div className="ml-20 flex w-full justify-between">
+    <div className="ml-20 w-full justify-between">
       <div className="h-full w-full">
         <div className="h-[416px]">
           <div className="relative my-5">
@@ -94,9 +94,6 @@ export const OptionsSelect = () => {
         >
           <Button label="Calculate" onClick={onSubmit} />
         </div>
-      </div>
-      <div className="block h-full w-[1.5px] pt-6 pb-7">
-        <span className="block h-full w-full bg-gray-700" />
       </div>
     </div>
   );

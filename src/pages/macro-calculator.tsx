@@ -15,7 +15,7 @@ export const MacroCalculator = () => {
   return (
     <div className="mx-auto max-w-5xl">
       <div className="my-0 h-screen py-11">
-        <div className="h-full w-full rounded-xl border-2 border-gray-800/90 px-6">
+        <div className="h-full w-full rounded-xl border-2 border-gray-800/90 bg-zinc-100/30 px-6">
           <div className="h-20">
             <h2 className="py-2 text-4xl font-medium text-gray-800 ">
               Macro Calculate
