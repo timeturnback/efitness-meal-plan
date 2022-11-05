@@ -7,24 +7,6 @@ export interface SelectOptionObject {
   value: string;
 }
 
-export interface SelectOptionFormulaEquation {
-  label: string;
-  image?: string | StaticImageData;
-  value?: string;
-  gender?: {
-    male: {
-      label: string;
-      image: string | StaticImageData;
-      value: string;
-    };
-    female: {
-      label: string;
-      image: string | StaticImageData;
-      value: string;
-    };
-  };
-}
-
 export interface SelectOptionPercentBar {
   low: number;
   value_low: string;
@@ -42,6 +24,12 @@ export interface SelectOptionFatClassification {
   label: string;
   male: string;
   female: string;
+}
+
+export interface SelectOptionRecipes {
+  gender?: string;
+  formula: string;
+  image: string | StaticImageData;
 }
 
 export const DROP_DOWN_OPTIONS: SelectOptionObject[] = [
@@ -90,48 +78,6 @@ export const FORMULA_OPTIONS: SelectOptionObject[] = [
   {
     label: 'Katch-McArdle',
     value: 'katch mcardle',
-  },
-];
-
-export const FORMULA_EQUATIONS_OPTIONS: SelectOptionFormulaEquation[] = [
-  {
-    label: 'Mifflin-St Jeor Formula',
-    gender: {
-      male: {
-        label: 'Male',
-        image: ImageFormulaEquation.Male,
-        value:
-          'BMR = (10 x weight in kg) + (6,25 x height in cm) - (5 x age) + 5',
-      },
-      female: {
-        label: 'Female',
-        image: ImageFormulaEquation.Female,
-        value:
-          'BMR = (10 x weight in kg) + (6,25 x height in cm) - (5 x age) - 161',
-      },
-    },
-  },
-  {
-    label: 'Revised Harris-Benedict Formula',
-    gender: {
-      male: {
-        label: 'Male',
-        image: ImageFormulaEquation.Male,
-        value:
-          'BMR = (13,397 x weight in kg) + (4,799 x height in cm) - (5,677 x age) + 88,362',
-      },
-      female: {
-        label: 'Female',
-        image: ImageFormulaEquation.Female,
-        value:
-          'BMR = (9,247 x weight in kg) + (3,098 x height in cm) - (4,330 x age) + 447,593',
-      },
-    },
-  },
-  {
-    label: 'Katch-McArdle Formula',
-    image: ImageFormulaEquation.FatPercent,
-    value: 'BMR = 370 + (21,6 x (weight in kg x (100 - body fat %) / 100))',
   },
 ];
 
@@ -198,26 +144,6 @@ export const FAT_CLASSIFICATION_OPTIONS: SelectOptionFatClassification[] = [
   },
 ];
 
-export const FORMULA_FAT_PERCENTAGE_OPTIONS: SelectOptionFormulaEquation[] = [
-  {
-    label: 'Body Fat Percentage (BFP) Formula',
-    gender: {
-      male: {
-        label: 'Male',
-        image: ImageFormulaEquation.Male,
-        value:
-          'BFP = ((495 / 1.0324 - 0.19077 * log10(waist in cm - neck in cm) + 0.15456 * log10(height in cm)) - 450)',
-      },
-      female: {
-        label: 'Female',
-        image: ImageFormulaEquation.Female,
-        value:
-          'BFP = ((495 / 1.29579 - 0.35004 * log10(waist in cm + hip in cm - neck in cm) + 0.22100 * log10(height in cm)) - 450)',
-      },
-    },
-  },
-];
-
 export const NUTRIENT_RATIO_OPTIONS: SelectOptionObject[] = [
   {
     label: 'Higher Carb (60:25:15)',
@@ -234,5 +160,57 @@ export const NUTRIENT_RATIO_OPTIONS: SelectOptionObject[] = [
   {
     label: 'Custom',
     value: 'custom',
+  },
+];
+
+export const CALORIE_RECIPE_MSJ_OPTIONS: SelectOptionRecipes[] = [
+  {
+    gender: 'Male',
+    formula:
+      'BMR = (10 x weight in kg) + (6,25 x height in cm) - (5 x age) + 5',
+    image: ImageFormulaEquation.Male,
+  },
+  {
+    gender: 'Female',
+    formula:
+      'BMR = (10 x weight in kg) + (6,25 x height in cm) - (5 x age) - 161',
+    image: ImageFormulaEquation.Female,
+  },
+];
+
+export const CALORIE_RECIPE_RHB_OPTIONS: SelectOptionRecipes[] = [
+  {
+    gender: 'Male',
+    formula:
+      'BMR = (13,397 x weight in kg) + (4,799 x height in cm) - (5,677 x age) + 88,362',
+    image: ImageFormulaEquation.Male,
+  },
+  {
+    gender: 'Female',
+    formula:
+      'BMR = (9,247 x weight in kg) + (3,098 x height in cm) - (4,330 x age) + 447,593',
+    image: ImageFormulaEquation.Female,
+  },
+];
+
+export const CALORIE_RECIPE_KM_OPTIONS: SelectOptionRecipes[] = [
+  {
+    formula: 'BMR = 370 + (21,6 x (weight in kg x (100 - body fat %) / 100))',
+    image: ImageFormulaEquation.FatPercent,
+  },
+];
+
+export const FAT_PERCENTAGE_OPTIONS: SelectOptionRecipes[] = [
+  {
+    gender: 'Male',
+    formula:
+      'BFP = ((495 / 1.0324 - 0.19077 * log10(waist in cm - neck in cm) + 0.15456 * log10(height in cm)) - 450)',
+    image: ImageFormulaEquation.Male,
+  },
+  {
+    gender: 'Female',
+    formula:
+      'BFP = ((495 / 1.29579 - 0.35004 * log10(waist in cm + hip in cm - neck in cm) + 0.22100 * log10(height in cm)) - 450)',
+    image: ImageFormulaEquation.Female,
   },
 ];

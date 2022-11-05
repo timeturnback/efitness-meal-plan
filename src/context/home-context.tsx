@@ -113,17 +113,17 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
   const onFormulaEquation = (value: SetStateAction<string>) => {
     if (value === 'katch mcardle') {
       window.scrollTo({
-        top: 720,
+        top: 1460,
         behavior: 'smooth',
       });
     } else if (value === 'revised harris benedict') {
       window.scrollTo({
-        top: 620,
+        top: 1115,
         behavior: 'smooth',
       });
     } else {
       window.scrollTo({
-        top: 420,
+        top: 770,
         behavior: 'smooth',
       });
     }

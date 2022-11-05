@@ -1,12 +1,16 @@
 import { useContext } from 'react';
 
-import { FORMULA_EQUATIONS_OPTIONS } from '@/components/constants/select-options';
+import {
+  CALORIE_RECIPE_KM_OPTIONS,
+  CALORIE_RECIPE_MSJ_OPTIONS,
+  CALORIE_RECIPE_RHB_OPTIONS,
+} from '@/components/constants/select-options';
+import { SimpleEquations } from '@/components/equations';
 import {
   InfoBoard,
   InfoInput,
   OptionsSelect,
   ResultCalories,
-  SimpleEquations,
 } from '@/components/pages/home';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { HomeContext, HomeProvider } from '@/context/home-context';
@@ -54,11 +58,22 @@ const Index = () => {
           )}
         </WrapperCalculator>
       </div>
-      <div className="h-screen">
-        <h2 className="text-lg font-medium">
+      <div className="h-[2000px]">
+        <h2 className="pb-2 text-lg font-medium">
           The three formulas&apos; equation:
         </h2>
-        <SimpleEquations option={FORMULA_EQUATIONS_OPTIONS} />
+        <SimpleEquations
+          title="Mifflin-St Jeor Formula"
+          option={CALORIE_RECIPE_MSJ_OPTIONS}
+        />
+        <SimpleEquations
+          title="Revised Harris-Benedict Formula"
+          option={CALORIE_RECIPE_RHB_OPTIONS}
+        />
+        <SimpleEquations
+          title="Katch-McArdle Formula"
+          option={CALORIE_RECIPE_KM_OPTIONS}
+        />
       </div>
     </div>
   );

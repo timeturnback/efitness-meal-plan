@@ -1,12 +1,13 @@
 import { useContext } from 'react';
 
 import { Button } from '@/components/button';
-import { FORMULA_FAT_PERCENTAGE_OPTIONS } from '@/components/constants/select-options';
+import { FAT_PERCENTAGE_OPTIONS } from '@/components/constants/select-options';
+import { SimpleEquations } from '@/components/equations';
 import {
   InfoInput,
   ResultBodyFat,
 } from '@/components/pages/body-fat-calculator';
-import { InfoBoard, SimpleEquations } from '@/components/pages/home';
+import { InfoBoard } from '@/components/pages/home';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { BodyFatContext, BodyFatProvider } from '@/context/body-fat-context';
 
@@ -46,7 +47,10 @@ const BodyFatCalculator = () => {
         </WrapperCalculator>
       </div>
       <div className="h-screen">
-        <SimpleEquations option={FORMULA_FAT_PERCENTAGE_OPTIONS} />
+        <SimpleEquations
+          title="Body Fat Percentage (BFP) Formula"
+          option={FAT_PERCENTAGE_OPTIONS}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,14 @@
 import { useContext } from 'react';
 
-import { FORMULA_EQUATIONS_OPTIONS } from '@/components/constants/select-options';
+import {
+  CALORIE_RECIPE_KM_OPTIONS,
+  CALORIE_RECIPE_MSJ_OPTIONS,
+  CALORIE_RECIPE_RHB_OPTIONS,
+} from '@/components/constants/select-options';
+import { SimpleEquations } from '@/components/equations';
 import { InfoInput, OptionsSelect } from '@/components/pages/bmr-calculator';
 import { ResultBMR } from '@/components/pages/bmr-calculator/result-bmr';
-import { InfoBoard, SimpleEquations } from '@/components/pages/home';
+import { InfoBoard } from '@/components/pages/home';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { BMRContext, BMRProvider } from '@/context/bmr-context';
 
@@ -40,7 +45,18 @@ const BMRCalculator = () => {
         <h2 className="text-lg font-medium">
           The three formulas&apos; equation:
         </h2>
-        <SimpleEquations option={FORMULA_EQUATIONS_OPTIONS} />
+        <SimpleEquations
+          title="Mifflin-St Jeor Formula"
+          option={CALORIE_RECIPE_MSJ_OPTIONS}
+        />
+        <SimpleEquations
+          title="Revised Harris-Benedict Formula"
+          option={CALORIE_RECIPE_RHB_OPTIONS}
+        />
+        <SimpleEquations
+          title="Katch-McArdle Formula"
+          option={CALORIE_RECIPE_KM_OPTIONS}
+        />
       </div>
     </div>
   );
