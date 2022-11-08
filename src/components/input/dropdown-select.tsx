@@ -24,7 +24,7 @@ export function DropDownSelect({
       <span className="font-medium text-gray-800">{label}</span>
       <div
         onClick={_onClick}
-        className="relative mt-3 h-12 max-w-[220px] cursor-pointer rounded-md shadow-md"
+        className="relative mt-3 h-12 max-w-[220px] cursor-pointer rounded-md bg-white shadow-md"
       >
         <div className="absolute right-0 mr-5 flex h-full items-center">
           <div

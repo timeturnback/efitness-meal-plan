@@ -15,7 +15,7 @@ export const SimpleEquations = ({
       <div className="rounded-xl border-2 border-gray-800/90 p-3">
         {option.map((item, index) => (
           <div key={index} className="flex justify-center">
-            <div className="group inline-block rounded-lg p-2 transition-all hover:bg-gray-300">
+            <div className="group inline-block rounded-lg p-2 transition-all hover:bg-gray-300/70">
               <div className="flex items-center drop-shadow-md">
                 <Image
                   src={item.image}

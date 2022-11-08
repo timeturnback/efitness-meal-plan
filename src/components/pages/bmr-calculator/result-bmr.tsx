@@ -13,7 +13,11 @@ export const ResultBMR = ({ bmr, tdee }: { bmr: number; tdee: number }) => {
         <ContentSpan label="BMR">{bmr}</ContentSpan>
         <ContentSpan label="TDEE">{tdee}</ContentSpan>
       </div>
-      <Image src={ImagePageBMRCalculator.Meditation} alt="ImageMeditation" />
+      <Image
+        className="rounded-2xl"
+        src={ImagePageBMRCalculator.Meditation}
+        alt="ImageMeditation"
+      />
     </div>
   );
 };

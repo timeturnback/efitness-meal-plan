@@ -63,7 +63,7 @@ const CaloriesTable = ({
   return (
     <div className="flex w-28 flex-col justify-between rounded-lg p-2 text-center shadow-md">
       <div className="leading-5">
-        <h3 className="font-medium">{label}</h3>
+        <h3 className="h-10 font-medium">{label}</h3>
         <span className="text-xs">
           <strong className="text-sm text-gray-900 drop-shadow-md">{kg}</strong>{' '}
           kg/week
