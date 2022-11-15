@@ -7,7 +7,7 @@ import { Header } from '@/layouts/components/header';
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <Header />
-    <div className="pt-10">
+    <div className="mx-auto max-w-5xl pt-10">
       <Component {...pageProps} />
     </div>
   </>

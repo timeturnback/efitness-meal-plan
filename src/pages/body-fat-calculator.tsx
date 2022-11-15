@@ -47,10 +47,12 @@ const BodyFatCalculator = () => {
         </WrapperCalculator>
       </div>
       <div className="h-screen">
-        <SimpleEquations
-          title="Body Fat Percentage (BFP) Formula"
-          option={FAT_PERCENTAGE_OPTIONS}
-        />
+        <div className="rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
+          <SimpleEquations
+            title="Body Fat Percentage (BFP) Formula"
+            option={FAT_PERCENTAGE_OPTIONS}
+          />
+        </div>
       </div>
     </div>
   );

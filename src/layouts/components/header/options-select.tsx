@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import styles from 'src/styles/header.module.scss';
 
 import type { SelectOptionLink } from '@/components/constants/select-options';
@@ -35,9 +35,10 @@ export const PrivateHeader = ({ gender }: { gender: string }) => {
 };
 
 export const ProfilePrivateHeader = ({ image }: { image: string }) => {
-  const [dropdownmenu, setShowDropDownMenu] = useState(false);
+  const { dropdownmenu, setShowDropDownMenu, menuRef } =
+    useContext(HeaderContext);
   return (
-    <div className="relative h-full">
+    <div className="relative h-full" ref={menuRef}>
       <div
         className="relative flex h-full cursor-pointer items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-['']"
         onClick={() => setShowDropDownMenu(!dropdownmenu)}
@@ -68,8 +69,8 @@ export const DropDownMenu = ({ image }: { image: string }) => {
       <div className="my-2 h-px w-full bg-gray-600"></div>
       {DROPDOWN_MENU_PROFILE.map((item) => {
         return item.to ? (
-          <Link href={item.to}>
-            <button className="group flex w-full cursor-pointer items-center p-2 text-left transition-colors hover:bg-slate-300/50 hover:font-medium">
+          <Link href={item.to} key={item.label}>
+            <button className="group flex w-full cursor-pointer items-center px-3 py-2 text-left transition-colors hover:bg-slate-300/50 hover:font-medium">
               <div className="pr-3">
                 <item.icon className="h-5 w-5 text-gray-800/90 transition-colors group-hover:text-gray-900" />
               </div>
@@ -78,7 +79,8 @@ export const DropDownMenu = ({ image }: { image: string }) => {
           </Link>
         ) : (
           <button
-            className="group flex w-full cursor-pointer items-center p-2 text-left transition-colors hover:bg-slate-300/50 hover:font-medium"
+            key={item.label}
+            className="group flex w-full cursor-pointer items-center px-3 py-2 pl-[13px] text-left transition-colors hover:bg-slate-300/50 hover:font-medium"
             onClick={() => _onCLick(item.value)}
           >
             <div className="pr-3">

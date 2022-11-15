@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 
+import { useClickOutSide } from '@/hooks/useClickOutSide';
+
 import type { SelectOptionObject } from '../constants/select-options';
 
 export function DropDownSelect({
@@ -19,8 +21,11 @@ export function DropDownSelect({
   const _onClick = () => {
     setRotate(!rotate);
   };
+  const menuref = useClickOutSide(() => {
+    setRotate(false);
+  });
   return (
-    <div className="relative pb-8">
+    <div className="relative pb-8" ref={menuref}>
       <span className="font-medium text-gray-800">{label}</span>
       <div
         onClick={_onClick}

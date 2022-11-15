@@ -42,21 +42,23 @@ const BMRCalculator = () => {
         </WrapperCalculator>
       </div>
       <div className="h-screen">
-        <h2 className="text-lg font-medium">
+        <h2 className="pb-4 text-lg font-medium">
           The three formulas&apos; equation:
         </h2>
-        <SimpleEquations
-          title="Mifflin-St Jeor Formula"
-          option={CALORIE_RECIPE_MSJ_OPTIONS}
-        />
-        <SimpleEquations
-          title="Revised Harris-Benedict Formula"
-          option={CALORIE_RECIPE_RHB_OPTIONS}
-        />
-        <SimpleEquations
-          title="Katch-McArdle Formula"
-          option={CALORIE_RECIPE_KM_OPTIONS}
-        />
+        <div className="rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
+          <SimpleEquations
+            title="Mifflin-St Jeor Formula"
+            option={CALORIE_RECIPE_MSJ_OPTIONS}
+          />
+          <SimpleEquations
+            title="Revised Harris-Benedict Formula"
+            option={CALORIE_RECIPE_RHB_OPTIONS}
+          />
+          <SimpleEquations
+            title="Katch-McArdle Formula"
+            option={CALORIE_RECIPE_KM_OPTIONS}
+          />
+        </div>
       </div>
     </div>
   );
