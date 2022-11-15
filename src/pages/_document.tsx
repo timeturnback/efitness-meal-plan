@@ -9,6 +9,7 @@ class MyDocument extends Document {
     return (
       <Html lang={AppConfig.locale}>
         <Head />
+        <title>SimpleHealthPlan</title>
         <body>
           <Main />
           <NextScript />

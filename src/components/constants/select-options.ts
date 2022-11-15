@@ -1,10 +1,25 @@
 import type { StaticImageData } from 'next/image';
+import { FaSignOutAlt, FaUser } from 'react-icons/fa';
+import type { IconType } from 'react-icons/lib';
 
 import { ImageFormulaEquation } from '../Images/ImageFormulaEquation';
 
 export interface SelectOptionObject {
   label: string;
   value: string;
+}
+
+export interface SelectOptionLink {
+  label: string;
+  to: string;
+  value: string;
+}
+
+export interface SelectOptionDropdownMenu {
+  label: string;
+  value: string;
+  to?: string;
+  icon: IconType;
 }
 
 export interface SelectOptionPercentBar {
@@ -212,5 +227,42 @@ export const FAT_PERCENTAGE_OPTIONS: SelectOptionRecipes[] = [
     formula:
       'BFP = ((495 / 1.29579 - 0.35004 * log10(waist in cm + hip in cm - neck in cm) + 0.22100 * log10(height in cm)) - 450)',
     image: ImageFormulaEquation.Female,
+  },
+];
+
+export const HEADER_CALCULATORS_OPTIONS: SelectOptionLink[] = [
+  {
+    label: 'BMR Calculator',
+    to: 'bmr-calculator',
+    value: 'bmr calculator',
+  },
+  {
+    label: 'Body Fat calculator',
+    to: 'body-fat-calculator',
+    value: 'body fat calculator',
+  },
+  {
+    label: 'Calorie Calculator',
+    to: '/',
+    value: 'calorie calculator',
+  },
+  {
+    label: 'Macro Calculator',
+    to: 'macro-calculator',
+    value: 'macro calculator',
+  },
+];
+
+export const DROPDOWN_MENU_PROFILE: SelectOptionDropdownMenu[] = [
+  {
+    label: 'Your Profile',
+    value: 'your profile',
+    to: 'profile',
+    icon: FaUser,
+  },
+  {
+    label: 'Sign Out',
+    value: 'sign out',
+    icon: FaSignOutAlt,
   },
 ];

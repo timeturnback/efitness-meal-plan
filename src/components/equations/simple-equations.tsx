@@ -15,7 +15,7 @@ export const SimpleEquations = ({
       <div className="rounded-xl border-2 border-gray-800/90 p-3">
         {option.map((item, index) => (
           <div key={index} className="flex justify-center">
-            <div className="group inline-block rounded-lg p-2 transition-all hover:bg-gray-300/70">
+            <div className="inline-block rounded-lg p-2 transition-all hover:bg-gray-300/50">
               <div className="flex items-center drop-shadow-md">
                 <Image
                   src={item.image}
@@ -23,7 +23,7 @@ export const SimpleEquations = ({
                   height={90}
                   width={90}
                 />
-                <div className="px-5 transition-all group-hover:text-lg">
+                <div className="px-5">
                   {item.gender && (
                     <h2 className="font-medium">{item.gender}</h2>
                   )}

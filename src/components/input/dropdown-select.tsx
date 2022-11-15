@@ -46,7 +46,7 @@ export function DropDownSelect({
         </div>
       ) : null}
       {rotate && (
-        <div className="fixed z-10 mt-2 max-w-[220px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all">
+        <div className="absolute z-10 mt-2 max-w-[220px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all">
           {options.map((item) => (
             <SelectOption
               key={item.value}
