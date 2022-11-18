@@ -32,7 +32,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-loading-skeleton": "^3.1.0",
-    "sass": "^1.55.0"
+    "sass": "^1.55.0",
+    "scrollreveal": "^4.0.9",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -45,6 +47,8 @@
     "@types/lodash": "^4.14.186",
     "@types/node": "^18.7.16",
     "@types/react": "^18.0.18",
+    "@types/react-slick": "^0.23.10",
+    "@types/scrollreveal": "^0.0.8",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "autoprefixer": "^10.4.8",

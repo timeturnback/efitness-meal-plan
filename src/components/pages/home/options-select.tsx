@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useContext } from 'react';
 
-import { Button } from '@/components/button';
+import { SimpleButton } from '@/components/button';
 import {
   DROP_DOWN_OPTIONS,
   FORMULA_OPTIONS,
@@ -11,7 +11,7 @@ import {
   SimpleInput,
   SimpleSelectInput,
 } from '@/components/input';
-import { HomeContext } from '@/context/home-context';
+import { CalorieContext } from '@/context/calorie-context';
 
 export const OptionsSelect = () => {
   const {
@@ -23,7 +23,7 @@ export const OptionsSelect = () => {
     setFatPercent,
     onFormulaEquation,
     onSubmit,
-  } = useContext(HomeContext);
+  } = useContext(CalorieContext);
   return (
     <div className="ml-20 flex w-full justify-between">
       <div className="h-full w-full">
@@ -92,7 +92,7 @@ export const OptionsSelect = () => {
               : null
           )}
         >
-          <Button label="Calculate" onClick={onSubmit} />
+          <SimpleButton label="Calculate" onClick={onSubmit} />
         </div>
       </div>
     </div>

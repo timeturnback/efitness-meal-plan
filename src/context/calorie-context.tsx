@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 
 import { _calorieResultsMSJ, _calorieResultsRHB } from '@/helper/calculation';
 
-interface HomeContextProps {
+interface CalorieContextProps {
   gender: { value: string; error: string };
   setGender: Dispatch<SetStateAction<{ value: string; error: string }>>;
   age: { value: string; error: string };
@@ -23,9 +23,9 @@ interface HomeContextProps {
   bmr: number;
 }
 
-const HomeContext = createContext({} as HomeContextProps);
+const CalorieContext = createContext({} as CalorieContextProps);
 
-const HomeProvider = ({ children }: { children: ReactNode }) => {
+const CalorieProvider = ({ children }: { children: ReactNode }) => {
   const [gender, setGender] = useState({ value: '', error: '' });
   const [age, setAge] = useState({ value: '', error: '' });
   const [height, setHeight] = useState({ value: '', error: '' });
@@ -182,7 +182,9 @@ const HomeProvider = ({ children }: { children: ReactNode }) => {
     onSubmit,
     bmr,
   };
-  return <HomeContext.Provider value={value}>{children}</HomeContext.Provider>;
+  return (
+    <CalorieContext.Provider value={value}>{children}</CalorieContext.Provider>
+  );
 };
 
-export { HomeContext, HomeProvider };
+export { CalorieContext, CalorieProvider };

@@ -2,7 +2,7 @@ import type { StaticImageData } from 'next/image';
 import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import type { IconType } from 'react-icons/lib';
 
-import { ImageFormulaEquation } from '../Images/ImageFormulaEquation';
+import { ImageFormulaEquation } from '../images/FormulaEquation';
 
 export interface SelectOptionObject {
   label: string;
@@ -243,7 +243,7 @@ export const HEADER_CALCULATORS_OPTIONS: SelectOptionLink[] = [
   },
   {
     label: 'Calorie Calculator',
-    to: '/',
+    to: 'calorie-calculator',
     value: 'calorie calculator',
   },
   {

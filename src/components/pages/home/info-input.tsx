@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { GENDER_OPTIONS } from '@/components/constants/select-options';
 import { SimpleInput, SimpleSelectInput } from '@/components/input';
-import { HomeContext } from '@/context/home-context';
+import { CalorieContext } from '@/context/calorie-context';
 
 export const InfoInput = () => {
   const {
@@ -14,7 +14,7 @@ export const InfoInput = () => {
     setHeight,
     weight,
     setWeight,
-  } = useContext(HomeContext);
+  } = useContext(CalorieContext);
   return (
     <div>
       <div className="my-5">

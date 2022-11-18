@@ -5,7 +5,7 @@ import styles from 'src/styles/header.module.scss';
 
 import type { SelectOptionLink } from '@/components/constants/select-options';
 import { DROPDOWN_MENU_PROFILE } from '@/components/constants/select-options';
-import { ImageHeader } from '@/components/Images/header';
+import { ImageHeader } from '@/components/images/header';
 import { HeaderContext } from '@/context/header-context';
 
 export const PublicHeader = () => {

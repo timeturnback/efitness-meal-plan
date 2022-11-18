@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useContext } from 'react';
 
 import { HEADER_CALCULATORS_OPTIONS } from '@/components/constants/select-options';
-import { ImageHeader } from '@/components/Images/header';
+import { ImageHeader } from '@/components/images/header';
 import { HeaderContext, HeaderProvider } from '@/context/header-context';
 
 import {

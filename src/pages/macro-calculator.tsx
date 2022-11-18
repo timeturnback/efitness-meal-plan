@@ -1,12 +1,13 @@
 import { useContext } from 'react';
 
-import { Button } from '@/components/button';
+import { SimpleButton } from '@/components/button';
 import { InfoBoard } from '@/components/pages/home';
 import {
   InfoInputAndSelect,
   ResultMacro,
   SelectInputRange,
 } from '@/components/pages/macro-calculator';
+import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { MacroContext, MacroProvider } from '@/context/macro-context';
 
@@ -14,14 +15,14 @@ export const MacroCalculator = () => {
   const { onSubmit, macronutrient, tdee, macro } = useContext(MacroContext);
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <Wrapper>
       <div className="my-0 h-screen py-11">
         <WrapperCalculator title="Macro Calculator">
           <div className="flex w-3/5 flex-col justify-evenly">
             <InfoInputAndSelect />
             <SelectInputRange />
             <div className="flex justify-end">
-              <Button label="Calculate" onClick={onSubmit} />
+              <SimpleButton label="Calculate" onClick={onSubmit} />
             </div>
           </div>
           <div className="w-2/5">
@@ -48,7 +49,7 @@ export const MacroCalculator = () => {
           </div>
         </WrapperCalculator>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

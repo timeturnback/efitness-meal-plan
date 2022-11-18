@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { ImagePageBMRCalculator } from '@/components/Images/ImagePageBMRCalculator';
+import { ImagePageBMRCalculator } from '@/components/images/PageBMRCalculator';
 
 export const ResultBMR = ({ bmr, tdee }: { bmr: number; tdee: number }) => {
   return (

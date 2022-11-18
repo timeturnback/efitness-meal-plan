@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { Button } from '@/components/button';
+import { SimpleButton } from '@/components/button';
 import { FAT_PERCENTAGE_OPTIONS } from '@/components/constants/select-options';
 import { SimpleEquations } from '@/components/equations';
 import {
@@ -8,13 +8,14 @@ import {
   ResultBodyFat,
 } from '@/components/pages/body-fat-calculator';
 import { InfoBoard } from '@/components/pages/home';
+import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { BodyFatContext, BodyFatProvider } from '@/context/body-fat-context';
 
 const BodyFatCalculator = () => {
   const { onSubmit, fatpercent } = useContext(BodyFatContext);
   return (
-    <div className="mx-auto max-w-5xl">
+    <Wrapper>
       <div className="h-screen py-11 pt-24">
         <WrapperCalculator title="Body Fat Calculator">
           <div className="w-full">
@@ -22,7 +23,7 @@ const BodyFatCalculator = () => {
               <InfoInput />
               <div className="flex h-1/3 items-end justify-end">
                 <div className="w-full">
-                  <Button label="Calculate" onClick={onSubmit} />
+                  <SimpleButton label="Calculate" onClick={onSubmit} />
                 </div>
               </div>
             </div>
@@ -54,7 +55,7 @@ const BodyFatCalculator = () => {
           />
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

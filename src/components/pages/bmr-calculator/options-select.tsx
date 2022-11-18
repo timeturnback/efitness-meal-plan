@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import { useContext } from 'react';
 
-import { Button } from '@/components/button';
+import { SimpleButton } from '@/components/button';
 import {
   DROP_DOWN_OPTIONS,
   FORMULA_OPTIONS,
@@ -92,7 +92,7 @@ export const OptionsSelect = () => {
               : null
           )}
         >
-          <Button label="Calculate" onClick={onSubmit} />
+          <SimpleButton label="Calculate" onClick={onSubmit} />
         </div>
       </div>
     </div>

@@ -6,37 +6,37 @@ import {
   CALORIE_RECIPE_RHB_OPTIONS,
 } from '@/components/constants/select-options';
 import { SimpleEquations } from '@/components/equations';
-import { InfoInput, OptionsSelect } from '@/components/pages/bmr-calculator';
-import { ResultBMR } from '@/components/pages/bmr-calculator/result-bmr';
-import { InfoBoard } from '@/components/pages/home';
+import {
+  InfoBoard,
+  InfoInput,
+  OptionsSelect,
+  ResultCalories,
+} from '@/components/pages/home';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
-import { BMRContext, BMRProvider } from '@/context/bmr-context';
+import { CalorieContext, CalorieProvider } from '@/context/calorie-context';
 
-const BMRCalculator = () => {
-  const { bmrandtdee } = useContext(BMRContext);
+const CalorieCalculatorWrapper = () => {
+  const { bmr } = useContext(CalorieContext);
   return (
     <Wrapper>
       <div className="my-0 h-screen py-11">
-        <WrapperCalculator title="BMR Calculator">
+        <WrapperCalculator title="Calorie Calculator">
           <div className="flex w-full">
             <InfoInput />
             <OptionsSelect />
           </div>
-          {bmrandtdee.bmr !== 0 ? (
-            <ResultBMR bmr={bmrandtdee.bmr} tdee={bmrandtdee.tdee} />
+          {bmr ? (
+            <ResultCalories bmr={bmr} />
           ) : (
             <div className="w-3/4">
               <InfoBoard>
-                The Basal Metabolic Rate (BMR) calculator estimates your basal
-                metabolic rate, which is an estimate of how many calories you
-                burn while you&apos;re resting. The Basal Metabolic Rate (BMR)
-                calculator will print out for you 2 values of BMR and TDEE.
-                <br></br>
-                <span className="font-medium text-gray-900">What is TDEE?</span>
-                <br></br> TDEE stands for Total Daily Energy Expenditure.
-                It&apos;s the total energy a person uses in a day and is
-                calculated by multiplying your BMR by your chosen activity.
+                A calorie calculator can be used to estimate the number of
+                calories a person needs to consume each day and output calories
+                for weight loss, weight gain, and maintain weight. For weight
+                loss, include: light weight loss, weight loss, and extreme
+                weight loss. Weight gain includes light weight gain , weight
+                gain, and rapid weight gain.
               </InfoBoard>
             </div>
           )}
@@ -65,12 +65,12 @@ const BMRCalculator = () => {
   );
 };
 
-const BMRWappers = () => {
+const CalorieCalculator = () => {
   return (
-    <BMRProvider>
-      <BMRCalculator />
-    </BMRProvider>
+    <CalorieProvider>
+      <CalorieCalculatorWrapper />
+    </CalorieProvider>
   );
 };
 
-export default BMRWappers;
+export default CalorieCalculator;

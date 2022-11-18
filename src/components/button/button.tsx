@@ -1,4 +1,4 @@
-export function Button({
+export function SimpleButton({
   label,
   fetching,
   disabled,
