@@ -13,13 +13,13 @@ export const PublicHeader = () => {
   return (
     <div className="flex h-full items-center uppercase drop-shadow-md">
       <Link href={'login'}>
-        <h2 className="cursor-pointer px-2 py-4 transition-colors hover:text-sky-800/90">
+        <h2 className="cursor-pointer px-2 py-4 transition-colors hover:text-cyan-700">
           Login
         </h2>
       </Link>
       <span className="mx-1"></span>
       <Link href={'signup'}>
-        <h2 className="cursor-pointer px-2 py-4 transition-colors hover:text-sky-800/90">
+        <h2 className="cursor-pointer px-2 py-4 transition-colors hover:text-cyan-700">
           Sign Up
         </h2>
       </Link>
@@ -99,13 +99,15 @@ export const HeaderItems = ({ title, to }: { title: string; to: string }) => {
   const { pathname } = useRouter();
   return (
     <Link href={to}>
-      <div
-        className={clsx(
-          'flex h-full cursor-pointer items-center drop-shadow-md transition-all hover:text-sky-800/90',
-          pathname === to && 'text-sky-800/90'
-        )}
-      >
-        <span className="px-7 pt-1 text-lg uppercase">{title}</span>
+      <div className="group flex h-full cursor-pointer items-center drop-shadow-md transition-all">
+        <span
+          className={clsx(
+            'px-7 pt-1 text-lg font-medium uppercase text-gray-900 group-hover:text-cyan-700',
+            pathname === to && 'text-cyan-700'
+          )}
+        >
+          {title}
+        </span>
       </div>
     </Link>
   );
@@ -123,11 +125,11 @@ export const HeaderItemsList = ({
     <div>
       <div
         className={clsx(
-          'group flex h-full cursor-pointer items-center drop-shadow-md transition-colors hover:text-sky-800/90',
+          'group flex h-full cursor-pointer items-center drop-shadow-md transition-colors',
           styles.container
         )}
       >
-        <span className="px-7 pt-1 text-lg uppercase">
+        <span className="px-7 pt-1 text-lg font-medium uppercase text-gray-900 group-hover:text-cyan-700">
           {title}{' '}
           {listitem && (
             <div className="inline-block pl-1">
@@ -143,8 +145,8 @@ export const HeaderItemsList = ({
               <Link href={item.to} key={item.value}>
                 <span
                   className={clsx(
-                    'block py-2 text-center font-medium transition-colors hover:text-sky-800/90',
-                    pathname === item.to && 'text-sky-800/90'
+                    'block py-2 text-center font-medium text-gray-900 transition-colors hover:text-cyan-700',
+                    pathname === item.to && 'text-cyan-700'
                   )}
                 >
                   {item.label}

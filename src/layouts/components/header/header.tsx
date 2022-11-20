@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useContext } from 'react';
 
 import { HEADER_CALCULATORS_OPTIONS } from '@/components/constants/select-options';
-import { ImageHeader } from '@/components/images/header';
 import { HeaderContext, HeaderProvider } from '@/context/header-context';
 
 import {
@@ -26,11 +25,11 @@ export const HeaderWrapper = () => {
     <div className="fixed top-0 z-50 h-16 w-full bg-white shadow-lg">
       <div className="mx-auto flex h-full max-w-5xl justify-between">
         <Link href={'/'}>
-          <img
-            className="inline-block h-full cursor-pointer py-1"
-            src={ImageHeader.Logo.src}
-            alt="Logo_SimpleHealthPlan"
-          />
+          <div className="flex h-full cursor-pointer items-center">
+            <h2 className="text-2xl font-bold text-gray-900 drop-shadow-md">
+              SimpleHealthPlan
+            </h2>
+          </div>
         </Link>
         <div className="flex">
           <HeaderItems title="Home" to="/" />
