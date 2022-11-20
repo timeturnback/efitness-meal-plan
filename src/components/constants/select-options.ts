@@ -2,6 +2,7 @@ import type { StaticImageData } from 'next/image';
 import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import type { IconType } from 'react-icons/lib';
 
+import { ImageCalculatorNow } from '../images/CalculatorNow';
 import { ImageFormulaEquation } from '../images/FormulaEquation';
 
 export interface SelectOptionObject {
@@ -13,6 +14,13 @@ export interface SelectOptionLink {
   label: string;
   to: string;
   value: string;
+}
+
+export interface SelectOptionImage {
+  label: string;
+  image: string;
+  value: string;
+  to: string;
 }
 
 export interface SelectOptionDropdownMenu {
@@ -233,22 +241,22 @@ export const FAT_PERCENTAGE_OPTIONS: SelectOptionRecipes[] = [
 export const HEADER_CALCULATORS_OPTIONS: SelectOptionLink[] = [
   {
     label: 'BMR Calculator',
-    to: 'bmr-calculator',
+    to: '/bmr-calculator',
     value: 'bmr calculator',
   },
   {
     label: 'Body Fat calculator',
-    to: 'body-fat-calculator',
+    to: '/body-fat-calculator',
     value: 'body fat calculator',
   },
   {
     label: 'Calorie Calculator',
-    to: 'calorie-calculator',
+    to: '/calorie-calculator',
     value: 'calorie calculator',
   },
   {
     label: 'Macro Calculator',
-    to: 'macro-calculator',
+    to: '/macro-calculator',
     value: 'macro calculator',
   },
 ];
@@ -264,5 +272,32 @@ export const DROPDOWN_MENU_PROFILE: SelectOptionDropdownMenu[] = [
     label: 'Sign Out',
     value: 'sign out',
     icon: FaSignOutAlt,
+  },
+];
+
+export const CALCULATE_NOW_OPTIONS: SelectOptionImage[] = [
+  {
+    label: 'Calculate the calories in the body',
+    image: ImageCalculatorNow.Calorie.src,
+    value: 'calorie',
+    to: 'calorie-calculator',
+  },
+  {
+    label: 'Calculate body fat percentage',
+    image: ImageCalculatorNow.Fat.src,
+    value: 'fat',
+    to: 'body-fat-calculator',
+  },
+  {
+    label: "Calculate the body's basal metabolic rate (BMR)",
+    image: ImageCalculatorNow.Bmr.src,
+    value: 'bmr',
+    to: 'bmr-calculator',
+  },
+  {
+    label: 'Calculate of macronutrients in the body',
+    image: ImageCalculatorNow.Macro.src,
+    value: 'macro',
+    to: 'macro-calculator',
   },
 ];

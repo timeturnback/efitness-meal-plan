@@ -7,7 +7,7 @@ import {
   InfoInput,
   ResultBodyFat,
 } from '@/components/pages/body-fat-calculator';
-import { InfoBoard } from '@/components/pages/home';
+import { InfoBoard } from '@/components/pages/calore-calculator';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { BodyFatContext, BodyFatProvider } from '@/context/body-fat-context';

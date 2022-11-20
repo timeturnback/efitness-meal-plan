@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import styles from 'src/styles/header.module.scss';
 
@@ -95,9 +96,15 @@ export const DropDownMenu = ({ image }: { image: string }) => {
 };
 
 export const HeaderItems = ({ title, to }: { title: string; to: string }) => {
+  const { pathname } = useRouter();
   return (
     <Link href={to}>
-      <div className="flex h-full cursor-pointer items-center drop-shadow-md transition-all hover:text-sky-800/90">
+      <div
+        className={clsx(
+          'flex h-full cursor-pointer items-center drop-shadow-md transition-all hover:text-sky-800/90',
+          pathname === to && 'text-sky-800/90'
+        )}
+      >
         <span className="px-7 pt-1 text-lg uppercase">{title}</span>
       </div>
     </Link>
@@ -111,6 +118,7 @@ export const HeaderItemsList = ({
   title: string;
   listitem: SelectOptionLink[];
 }) => {
+  const { pathname } = useRouter();
   return (
     <div>
       <div
@@ -133,7 +141,12 @@ export const HeaderItemsList = ({
           <div className="z-10 mt-3 -ml-5 cursor-pointer rounded-xl bg-white px-10 shadow-md before:absolute before:top-1 before:left-2/4 before:-ml-2 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
             {listitem?.map((item) => (
               <Link href={item.to} key={item.value}>
-                <span className="block py-2 text-center font-medium transition-colors hover:text-sky-800/90">
+                <span
+                  className={clsx(
+                    'block py-2 text-center font-medium transition-colors hover:text-sky-800/90',
+                    pathname === item.to && 'text-sky-800/90'
+                  )}
+                >
                   {item.label}
                 </span>
               </Link>

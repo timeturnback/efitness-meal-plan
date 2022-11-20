@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Link from 'next/link';
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
@@ -73,12 +74,11 @@ export const OptionsSelect = () => {
               />
               {formula.value === 'katch mcardle' && !fatpercent.error && (
                 <div className="absolute top-3/4 w-full text-center leading-3">
-                  <a
-                    href="body-fat-calculator"
-                    className="text-xs font-medium text-black hover:border-b-gray-800"
-                  >
-                    I don&apos;t know my body fat percentage.
-                  </a>
+                  <Link href={'body-fat-calculator'}>
+                    <a className="text-xs font-medium text-black hover:border-b-gray-800">
+                      I don&apos;t know my body fat percentage.
+                    </a>
+                  </Link>
                 </div>
               )}
             </div>

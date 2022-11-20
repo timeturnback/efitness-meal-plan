@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
-import { InfoBoard } from '@/components/pages/home';
+import { InfoBoard } from '@/components/pages/calore-calculator';
 import {
   InfoInputAndSelect,
   ResultMacro,

@@ -11,7 +11,7 @@ import {
   InfoInput,
   OptionsSelect,
   ResultCalories,
-} from '@/components/pages/home';
+} from '@/components/pages/calore-calculator';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { CalorieContext, CalorieProvider } from '@/context/calorie-context';

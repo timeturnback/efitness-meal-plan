@@ -8,7 +8,7 @@ import {
 import { SimpleEquations } from '@/components/equations';
 import { InfoInput, OptionsSelect } from '@/components/pages/bmr-calculator';
 import { ResultBMR } from '@/components/pages/bmr-calculator/result-bmr';
-import { InfoBoard } from '@/components/pages/home';
+import { InfoBoard } from '@/components/pages/calore-calculator';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
 import { BMRContext, BMRProvider } from '@/context/bmr-context';

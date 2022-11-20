@@ -1,10 +1,14 @@
+import { useContext } from 'react';
+
 import { SimpleButton } from '@/components/button';
 import { ImageHome } from '@/components/images/home';
+import { CalculateNowContext } from '@/context/calculate-now-context';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 const HomeWrapper = () => {
   const imghome = useScrollReveal({ origin: 'bottom' });
   const contenthome = useScrollReveal();
+  const { setCalculateNow } = useContext(CalculateNowContext);
   return (
     <div className="h-screen pt-16">
       <div className="mx-auto flex h-full max-w-5xl items-center">
@@ -20,7 +24,8 @@ const HomeWrapper = () => {
             <div className="mt-6 w-4/5">
               <SimpleButton
                 label="Calculate Now!"
-                onClick={() => console.log('a')}
+                to="calculate-now"
+                onClick={() => setCalculateNow(false)}
               />
             </div>
           </div>
