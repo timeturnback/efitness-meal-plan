@@ -36,6 +36,9 @@ const ActiveForm = () => {
           </Link>
         ))}
       </div>
+      <div className="w-1/3 py-10">
+        <SimpleButton label="Back to the home page" to="/" />
+      </div>
     </div>
   );
 };
@@ -48,7 +51,7 @@ const FormError = () => {
       </h2>
       <div className="flex w-full justify-center pt-6">
         <div className="w-8/12">
-          <SimpleButton label="Back to home page" to="/" />
+          <SimpleButton label="Back to the home page" to="/" />
         </div>
       </div>
     </div>
