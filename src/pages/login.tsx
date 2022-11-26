@@ -1,24 +1,24 @@
 import clsx from 'clsx';
-import styles from 'src/styles/signup.module.scss';
+import styles from 'src/styles/login.module.scss';
 
-import { SelectInput } from '@/components/pages/signup';
+import { SelectInput } from '@/components/pages/login';
 import { Wrapper } from '@/components/pages/wrapper';
-import { SignUpProvider } from '@/context/signup-context';
+import { LoginProvider } from '@/context/login-context';
 
-const SignUpWrapper = () => {
+const LoginWrapper = () => {
   return (
     <Wrapper>
       <div className="flex h-full items-center justify-center drop-shadow-md">
-        <div className="relative overflow-hidden rounded-2xl border bg-gray-200 px-6 py-4 shadow-md">
+        <div className="relative w-96 overflow-hidden rounded-2xl border bg-gray-200 px-6 py-4 shadow-md">
           <div
             className={clsx(
-              'absolute top-0 -left-28 h-2/4 w-4/6 bg-cyan-700',
+              'absolute top-0 -right-24 h-3/5 w-4/6 bg-cyan-700',
               styles.border_top
             )}
           ></div>
           <div
             className={clsx(
-              'absolute -bottom-16 -right-32 h-2/4 w-4/6 bg-cyan-700',
+              'absolute -bottom-16 -left-32 h-2/4 w-4/6 bg-cyan-700',
               styles.border_bottom
             )}
           ></div>
@@ -32,12 +32,12 @@ const SignUpWrapper = () => {
   );
 };
 
-const SignUp = () => {
+const Login = () => {
   return (
-    <SignUpProvider>
-      <SignUpWrapper />
-    </SignUpProvider>
+    <LoginProvider>
+      <LoginWrapper />
+    </LoginProvider>
   );
 };
 
-export default SignUp;
+export default Login;
