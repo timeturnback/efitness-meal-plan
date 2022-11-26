@@ -1,7 +1,3 @@
-import Image from 'next/image';
-
-import { ImagePageBMRCalculator } from '@/components/images/PageBMRCalculator';
-
 export const ResultBMR = ({ bmr, tdee }: { bmr: number; tdee: number }) => {
   return (
     <div className="w-3/4 py-4 text-gray-800">
@@ -13,11 +9,6 @@ export const ResultBMR = ({ bmr, tdee }: { bmr: number; tdee: number }) => {
         <ContentSpan label="BMR">{bmr}</ContentSpan>
         <ContentSpan label="TDEE">{tdee}</ContentSpan>
       </div>
-      <Image
-        className="rounded-2xl"
-        src={ImagePageBMRCalculator.Meditation}
-        alt="ImageMeditation"
-      />
     </div>
   );
 };
@@ -30,7 +21,7 @@ const ContentSpan = ({
   label: string;
 }) => {
   return (
-    <div className="flex items-center justify-between py-3">
+    <div className="flex items-center justify-between py-5">
       <h3 className="text-2xl font-medium">You {label} is:</h3>
       <span className="text-4xl font-bold uppercase text-gray-900 drop-shadow-md">
         {children} <span className="text-3xl">cal</span>

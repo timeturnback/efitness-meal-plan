@@ -16,39 +16,37 @@ export const MacroCalculator = () => {
 
   return (
     <Wrapper>
-      <div className="my-0 h-screen py-11">
-        <WrapperCalculator title="Macro Calculator">
-          <div className="flex w-3/5 flex-col justify-evenly">
-            <InfoInputAndSelect />
-            <SelectInputRange />
-            <div className="flex justify-end">
-              <SimpleButton label="Calculate" onClick={onSubmit} />
-            </div>
+      <WrapperCalculator title="Macro Calculator">
+        <div className="flex w-3/5 flex-col justify-evenly">
+          <InfoInputAndSelect />
+          <SelectInputRange />
+          <div className="flex justify-end">
+            <SimpleButton label="Calculate" onClick={onSubmit} />
           </div>
-          <div className="w-2/5">
-            {(+tdee.value > 500 && macronutrient.value === 'custom') ||
-            (macronutrient.value !== 'custom' &&
-              +tdee.value > 500 &&
-              macro.carb !== 0) ? (
-              <ResultMacro
-                tdee={+tdee.value}
-                carbs={macro.carb}
-                fat={macro.fat}
-                protein={macro.protein}
-                activity={macronutrient.value}
-              />
-            ) : (
-              <InfoBoard>
-                The Macro Calculator helps you figure out how many
-                macronutrients are available that your body needs each day based
-                on your daily activity level. The Macro Calculator will give you
-                exactly how many carbs, fat, and protein you should eat each day
-                to reach your goal.
-              </InfoBoard>
-            )}
-          </div>
-        </WrapperCalculator>
-      </div>
+        </div>
+        <div className="w-2/5">
+          {(+tdee.value > 500 && macronutrient.value === 'custom') ||
+          (macronutrient.value !== 'custom' &&
+            +tdee.value > 500 &&
+            macro.carb !== 0) ? (
+            <ResultMacro
+              tdee={+tdee.value}
+              carbs={macro.carb}
+              fat={macro.fat}
+              protein={macro.protein}
+              activity={macronutrient.value}
+            />
+          ) : (
+            <InfoBoard>
+              The Macro Calculator helps you figure out how many macronutrients
+              are available that your body needs each day based on your daily
+              activity level. The Macro Calculator will give you exactly how
+              many carbs, fat, and protein you should eat each day to reach your
+              goal.
+            </InfoBoard>
+          )}
+        </div>
+      </WrapperCalculator>
     </Wrapper>
   );
 };
