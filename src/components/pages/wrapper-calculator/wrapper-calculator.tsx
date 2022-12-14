@@ -10,7 +10,7 @@ export const WrapperCalculator = ({
   return (
     <div className="h-screen pt-5 pb-20">
       <div className="h-full w-full rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
-        <div className="h-20">
+        <div className="h-16">
           <h2 className="py-2 text-4xl font-medium text-gray-900/90">
             {title}
           </h2>
@@ -18,7 +18,7 @@ export const WrapperCalculator = ({
             <span className="block h-full w-full bg-gray-700" />
           </div>
         </div>
-        <div className="flex h-[calc(100%-80px)]">{children}</div>
+        <div className="flex h-[calc(100%-64px)]">{children}</div>
       </div>
     </div>
   );

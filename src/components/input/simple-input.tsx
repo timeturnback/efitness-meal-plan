@@ -1,15 +1,19 @@
 import classNames from 'classnames';
 import type { FC, InputHTMLAttributes } from 'react';
+import { useEffect, useState } from 'react';
+import { ImSearch } from 'react-icons/im';
 
 interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   unit?: string;
   value: string;
   maxvalue?: number;
+  search?: boolean;
   maxwidth?: boolean;
   placeholder?: string;
   error?: string;
   onChangeText?: (value: string) => void;
+  onSubmitSeach?: () => void;
 }
 
 export const SimpleInput: FC<SimpleInputProps> = ({
@@ -17,11 +21,14 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   unit,
   value,
   error,
+  search,
   maxwidth,
   onChange,
   onChangeText,
+  onSubmitSeach,
   ...rest
 }) => {
+  const [winput, setWInput] = useState('100%');
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);
@@ -30,6 +37,30 @@ export const SimpleInput: FC<SimpleInputProps> = ({
       onChangeText(e.target.value);
     }
   };
+  useEffect(() => {
+    if (unit && maxwidth) {
+      if (unit.length === 1) {
+        setWInput('98%');
+      } else {
+        setWInput(`${99 - unit.length}%`);
+      }
+    } else if (unit && !maxwidth) {
+      setWInput(`${100 - unit.length * 7}%`);
+    }
+  }, [unit]);
+
+  useEffect(() => {
+    const _onEnterInput = () => {
+      const inputs = document.querySelector('input');
+      inputs?.addEventListener('keypress', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' && onSubmitSeach) {
+          e.preventDefault();
+          onSubmitSeach();
+        }
+      });
+    };
+    _onEnterInput();
+  }, []);
 
   return (
     <div className="z-10 pb-8">
@@ -41,17 +72,26 @@ export const SimpleInput: FC<SimpleInputProps> = ({
           maxwidth ? 'w-full' : 'w-[220px]'
         )}
       >
+        {search && (
+          <div
+            className="absolute flex h-full cursor-pointer items-center pl-3"
+            onClick={onSubmitSeach}
+          >
+            <ImSearch className="text-2xl text-gray-800" />
+          </div>
+        )}
         <input
+          style={{ width: winput }}
           value={value}
           className={classNames(
             'h-full w-full px-3 outline-none rounded-md',
-            unit || unit === '' ? 'w-11/12' : ''
+            search ? 'pl-11' : null
           )}
           onChange={_onChange}
           {...rest}
         />
         {unit ? (
-          <span className="absolute right-1 h-3/5 select-none pr-1 leading-7 text-gray-600/70 outline-none">
+          <span className="absolute right-0 h-3/5 select-none pr-3 leading-7 text-gray-600/70 outline-none">
             {unit}
           </span>
         ) : null}

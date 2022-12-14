@@ -3,6 +3,7 @@ import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import type { IconType } from 'react-icons/lib';
 
 import { ImageCalculatorNow } from '../images/CalculatorNow';
+import { ImageFoodsSuggestions } from '../images/foods/suggestions/index';
 import { ImageFormulaEquation } from '../images/FormulaEquation';
 
 export interface SelectOptionObject {
@@ -16,11 +17,37 @@ export interface SelectOptionLink {
   value: string;
 }
 
+export interface SelectOptionValue {
+  value: string;
+}
+
+export interface SelectOptionApiFoods {
+  name: string;
+  calories: number;
+  serving_size_g: number;
+  fat_total_g: number;
+  fat_saturated_g: number;
+  protein_g: number;
+  sodium_mg: number;
+  potassium_mg: number;
+  cholesterol_mg: number;
+  carbohydrates_total_g: number;
+  fiber_g: number;
+  sugar_g: number;
+}
+
 export interface SelectOptionImage {
   label: string;
   image: string;
   value: string;
   to: string;
+}
+
+export interface SelectOptionSuggest {
+  label: string;
+  image: string;
+  value: string;
+  listitem: SelectOptionValue[];
 }
 
 export interface SelectOptionDropdownMenu {
@@ -299,5 +326,146 @@ export const CALCULATE_NOW_OPTIONS: SelectOptionImage[] = [
     image: ImageCalculatorNow.Macro.src,
     value: 'macro',
     to: 'macro-calculator',
+  },
+];
+
+export const SUGGEST_BEANS: SelectOptionValue[] = [
+  {
+    value: 'Black eye peas',
+  },
+  {
+    value: 'Garbanzo beans',
+  },
+  {
+    value: 'Navy beans',
+  },
+  {
+    value: 'Pinto beans',
+  },
+  {
+    value: 'Refried beans',
+  },
+  {
+    value: 'White beans',
+  },
+];
+
+export const SUGGEST_FRUITS: SelectOptionValue[] = [
+  {
+    value: 'Apple',
+  },
+  {
+    value: 'Banana',
+  },
+  {
+    value: 'Cantaloupe',
+  },
+  {
+    value: 'Grapes',
+  },
+  {
+    value: 'Orange',
+  },
+  {
+    value: 'Pear',
+  },
+  {
+    value: 'Pineapple',
+  },
+  {
+    value: 'Strawberries',
+  },
+  {
+    value: 'Watermelon ',
+  },
+];
+
+export const SUGGEST_CREAL: SelectOptionValue[] = [
+  {
+    value: 'Barley',
+  },
+  {
+    value: 'Buckwheat',
+  },
+  {
+    value: 'Cornmeal',
+  },
+  {
+    value: 'Cracker',
+  },
+  {
+    value: 'Flaxseed',
+  },
+  {
+    value: 'Quinoa',
+  },
+];
+
+export const SUGGEST_MILK: SelectOptionValue[] = [
+  {
+    value: 'Pudding',
+  },
+  {
+    value: 'Skim milk',
+  },
+  {
+    value: 'Yogurt',
+  },
+  {
+    value: 'Chocolate milk',
+  },
+  {
+    value: 'Low fat milk',
+  },
+];
+
+export const SUGGEST_VEGETABLES: SelectOptionValue[] = [
+  {
+    value: 'Carrot',
+  },
+  {
+    value: 'Corn',
+  },
+  {
+    value: 'Potato',
+  },
+  {
+    value: 'Sweet Potato',
+  },
+  {
+    value: 'salad',
+  },
+];
+
+export const MAIN_SUGGESTIONS: SelectOptionSuggest[] = [
+  {
+    label: 'Beans',
+    value: 'beans',
+    image: ImageFoodsSuggestions.beans.src,
+    listitem: SUGGEST_BEANS,
+  },
+  {
+    label: 'Cereal',
+    value: 'cereal',
+    image: ImageFoodsSuggestions.cereal.src,
+    listitem: SUGGEST_CREAL,
+  },
+  {
+    label: 'Fruits',
+    value: 'fruits',
+    image: ImageFoodsSuggestions.fruits.src,
+    listitem: SUGGEST_FRUITS,
+  },
+  {
+    label: 'Milk',
+    value: 'milk',
+    image: ImageFoodsSuggestions.milk.src,
+    listitem: SUGGEST_MILK,
+  },
+  {
+    label: 'Vegetables',
+    value: 'vegetables',
+    image: ImageFoodsSuggestions.vegetables.src,
+    listitem: SUGGEST_VEGETABLES,
   },
 ];

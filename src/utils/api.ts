@@ -6,7 +6,7 @@ const axiosApi = Axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'x-api-key': 'mlEdHCv8gOzhuQ6pRGkJjQ==NpaCyq3OxleKi4I4',
+    'x-api-key': '26CO3nov8PvVnfGWGAVu7w==oZ0VOyDcA6mwdM5Z',
     // 'Cache-Control': 'no-cache',
   },
   timeout: 50000,
@@ -18,24 +18,10 @@ const create = () => {
     axiosInstance: axiosApi,
   });
 
-  // SET AUTH TOKEN
-  const setAuthToken = (userAuth: string) => {
-    if (userAuth) {
-      api.setHeader('Authorization', `Bearer ${userAuth}`);
-    } else {
-      api.setHeader('Authorization', '');
-    }
-  };
-  // API function
-
-  // USER
-  const getCats = (name: string) => api.get(`v1/cats?name=${name}`);
+  const getFoods = (value: string) => api.get(`v1/nutrition?query=${value}`);
 
   return {
-    // CATS
-    getCats,
-    //
-    setAuthToken,
+    getFoods,
   };
 };
 
