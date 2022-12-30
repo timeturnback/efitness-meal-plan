@@ -1,100 +1,48 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
-import { FORMULA_EQUATIONS_OPTIONS } from '@/components/constants/select-options';
-import {
-  HighlightSpan,
-  InfoBoard,
-  InfoInput,
-  OptionsSelect,
-  ResultCalories,
-  SimpleEquations,
-} from '@/components/pages/home';
-import { HomeContext, HomeProvider } from '@/context/home-context';
-import { ApiInstance } from '@/utils/api';
-import { handleError } from '@/utils/apiHelper';
+import { SimpleButton } from '@/components/button';
+import { ImageHome } from '@/components/images/home';
+import { CalculateNowContext } from '@/context/calculate-now-context';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
-const Index = () => {
-  const { bmr } = useContext(HomeContext);
-  const [catsList, setCatsList] = useState<any>(); // TODO : types
-
-  useEffect(() => {
-    _getCats();
-  }, []);
-
-  const _getCats = async () => {
-    const res = await ApiInstance.getCats('American');
-    const { error, result } = handleError(res);
-    if (error) {
-      // toast.error(error.message);
-      // TODO add react-hot-toast and use it here
-    } else {
-      setCatsList(result);
-    }
-  };
-
+const HomeWrapper = () => {
+  const imghome = useScrollReveal({ origin: 'bottom' });
+  const contenthome = useScrollReveal();
+  const { setCalculateNow } = useContext(CalculateNowContext);
   return (
-    <div className="mx-auto max-w-5xl">
-      <div className="my-0 h-screen py-11">
-        <div className="grid h-full w-full rounded-xl border-2 border-gray-800/90 px-6">
-          <h2 className="py-2 text-4xl font-medium text-gray-800 ">
-            Calorie Calculate
-          </h2>
-          <div>
-            {catsList?.map((cat: any) => (
-              <div key={cat.name}>
-                {cat.name}
-                {cat.origin}
-                <img src={cat.image_link} alt="cat image" />
-              </div>
-            ))}
-          </div>
-          <div className="block h-[1.6px] w-full">
-            <span className="block h-full w-full bg-gray-700" />
-          </div>
-          <div className="flex">
-            <div className="flex w-full">
-              <InfoInput />
-              <OptionsSelect />
+    <div className="h-screen pt-16">
+      <div className="mx-auto flex h-full max-w-5xl items-center">
+        <div className="flex items-center justify-between">
+          <div ref={contenthome}>
+            <h2 className="text-5xl font-bold">
+              Calculate and choose the right food for your body.
+            </h2>
+            <span>
+              Do you need to calculate your body&apos;s calories, or do you need
+              to calculate your body fat? Calculate now with SimpleHealthPlan.
+            </span>
+            <div className="mt-6 w-4/5">
+              <SimpleButton
+                label="Calculate Now!"
+                to="calculate-now"
+                onClick={() => setCalculateNow(false)}
+              />
             </div>
-            {bmr ? (
-              <ResultCalories bmr={bmr} />
-            ) : (
-              <div className="w-3/4">
-                <InfoBoard>
-                  A calorie calculator can be used to estimate the number of
-                  calories a person needs to consume each day and output
-                  calories for <HighlightSpan>weight loss</HighlightSpan>,{' '}
-                  <HighlightSpan>weight gain</HighlightSpan>, and{' '}
-                  <HighlightSpan>maintain weight</HighlightSpan>. For weight
-                  loss, include:{' '}
-                  <HighlightSpan>light weight loss</HighlightSpan>,{' '}
-                  <HighlightSpan>weight loss</HighlightSpan>, and{' '}
-                  <HighlightSpan>extreme weight loss</HighlightSpan>. Weight
-                  gain includes <HighlightSpan>light weight gain</HighlightSpan>
-                  , <HighlightSpan>weight gain</HighlightSpan>, and{' '}
-                  <HighlightSpan>rapid weight gain</HighlightSpan>.
-                </InfoBoard>
-              </div>
-            )}
           </div>
+          <img
+            ref={imghome}
+            className="w-3/5"
+            src={ImageHome.background.src}
+            alt=""
+          />
         </div>
-      </div>
-      <div className="h-screen">
-        <h2 className="text-lg font-medium">
-          The three formulas&apos; equation:
-        </h2>
-        <SimpleEquations option={FORMULA_EQUATIONS_OPTIONS} />
       </div>
     </div>
   );
 };
 
-const HomeWrapper = () => {
-  return (
-    <HomeProvider>
-      <Index />
-    </HomeProvider>
-  );
+const Index = () => {
+  return <HomeWrapper />;
 };
 
-export default HomeWrapper;
+export default Index;
