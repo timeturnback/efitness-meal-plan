@@ -37,7 +37,7 @@ export const HeaderWrapper = () => {
             title="Calculators"
             listitem={HEADER_CALCULATORS_OPTIONS}
           />
-          <HeaderItems title="Foods" to="/foods/" />
+          <HeaderItems title="Foods" to="/foods" />
         </div>
         <div>
           {onpublic ? <PublicHeader /> : <PrivateHeader gender="male" />}
