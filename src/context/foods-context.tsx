@@ -1,10 +1,16 @@
-import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import type {
+  Dispatch,
+  MutableRefObject,
+  ReactNode,
+  SetStateAction,
+} from 'react';
 import { createContext, useEffect, useState } from 'react';
 
 import type {
   SelectOptionApiFoods,
   SelectOptionValue,
 } from '@/components/constants/select-options';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ApiInstance } from '@/utils/api';
 import { handleError } from '@/utils/apiHelper';
 
@@ -15,14 +21,12 @@ interface FoodsProps {
     value: string;
     listitem: SelectOptionValue[];
     listvalue: string[];
-    click: boolean;
   };
   setMainSuggest: Dispatch<
     SetStateAction<{
       value: string;
       listitem: SelectOptionValue[];
       listvalue: string[];
-      click: boolean;
     }>
   >;
   listiteminmainsuggest: {
@@ -55,6 +59,43 @@ interface FoodsProps {
   >;
   listitemsearch: SelectOptionApiFoods[];
   setListItemSearch: Dispatch<SetStateAction<SelectOptionApiFoods[]>>;
+  mainsuggestclick: boolean;
+  setMainSuggestClick: Dispatch<SetStateAction<boolean>>;
+  fooddetails: boolean;
+  setFoodDetails: Dispatch<SetStateAction<boolean>>;
+  itemfooddetails: {
+    datadoughnut: {
+      datasets: {
+        data: number[];
+        backgroundColor: string[];
+        borderWidth: number;
+      }[];
+    };
+    data: SelectOptionApiFoods;
+    percentdoughnut: {
+      carb: number;
+      fat: number;
+      protein: number;
+    };
+  };
+  setItemFoodDetails: Dispatch<
+    SetStateAction<{
+      datadoughnut: {
+        datasets: {
+          data: number[];
+          backgroundColor: string[];
+          borderWidth: number;
+        }[];
+      };
+      data: SelectOptionApiFoods;
+      percentdoughnut: {
+        carb: number;
+        fat: number;
+        protein: number;
+      };
+    }>
+  >;
+  scrollfromleft: MutableRefObject<null>;
 }
 
 export const FoodsContext = createContext({} as FoodsProps);
@@ -68,8 +109,8 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     value: '',
     listitem: [] as SelectOptionValue[],
     listvalue: [] as string[],
-    click: false,
   });
+  const [mainsuggestclick, setMainSuggestClick] = useState(false);
   const [listiteminmainsuggest, setListItemInMainSuggest] = useState({
     beans: [] as SelectOptionApiFoods[],
     cereal: [] as SelectOptionApiFoods[],
@@ -80,6 +121,20 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
   const [iteminmainsuggest, setItemInMainSuggest] = useState<
     SelectOptionApiFoods[]
   >([]);
+  const [fooddetails, setFoodDetails] = useState(false);
+  const [itemfooddetails, setItemFoodDetails] = useState({
+    datadoughnut: {
+      datasets: [
+        {
+          data: [0],
+          backgroundColor: [''],
+          borderWidth: 0,
+        },
+      ],
+    },
+    data: '' as unknown as SelectOptionApiFoods,
+    percentdoughnut: { carb: 0, fat: 0, protein: 0 },
+  });
   useEffect(() => {
     const _addItem = () => {
       if (mainsuggest.value === 'beans') {
@@ -132,19 +187,19 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
         }
       });
     };
-    if (mainsuggest.click) {
-      if (mainsuggest.listvalue.includes(mainsuggest.value)) {
-        _addItem();
-      } else {
-        _iteminmainsuggest();
-        setMainSuggest((prev) => ({
-          ...mainsuggest,
-          listvalue: [...prev.listvalue, mainsuggest.value],
-        }));
-      }
-      mainsuggest.click = false;
+    if (!mainsuggest.listvalue.includes(mainsuggest.value)) {
+      _iteminmainsuggest();
+      setMainSuggest((prev) => ({
+        ...mainsuggest,
+        listvalue: [...prev.listvalue, mainsuggest.value],
+      }));
+    } else {
+      _addItem();
     }
-  }, [mainsuggest, listiteminmainsuggest]);
+    if (iteminmainsuggest.length === mainsuggest.listitem.length) {
+      setMainSuggestClick(false);
+    }
+  }, [mainsuggest, listiteminmainsuggest, iteminmainsuggest]);
 
   useEffect(() => {
     const _search = async () => {
@@ -163,6 +218,7 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     };
     _search();
   }, [blsearch]);
+  const scrollfromleft = useScrollReveal({ origin: 'left' });
 
   const value = {
     search,
@@ -177,6 +233,13 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     setBLSearch,
     listitemsearch,
     setListItemSearch,
+    mainsuggestclick,
+    setMainSuggestClick,
+    fooddetails,
+    setFoodDetails,
+    itemfooddetails,
+    setItemFoodDetails,
+    scrollfromleft,
   };
   return (
     <FoodsContext.Provider value={value}>{children}</FoodsContext.Provider>
