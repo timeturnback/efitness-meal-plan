@@ -43,11 +43,13 @@ export const SelectSuggestions = () => {
       </div>
       {mainsuggest.listvalue.length !== 0 && (
         <div>
-          <h2 className="pb-6 text-2xl font-medium text-gray-900 drop-shadow-md">
-            Some suggestions of{' '}
-            {mainsuggest.value.charAt(0).toUpperCase() +
-              mainsuggest.value.slice(1)}
-          </h2>
+          {mainsuggest.value && (
+            <h2 className="pb-6 text-2xl font-medium text-gray-900 drop-shadow-md">
+              Some suggestions of{' '}
+              {mainsuggest.value.charAt(0).toUpperCase() +
+                mainsuggest.value.slice(1)}
+            </h2>
+          )}
           <div className="grid grid-cols-4 gap-11 pb-8">
             {iteminmainsuggest.length === mainsuggest.listitem.length
               ? iteminmainsuggest.map((item) => {
