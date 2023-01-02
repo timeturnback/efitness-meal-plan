@@ -2,9 +2,9 @@ import type { StaticImageData } from 'next/image';
 import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import type { IconType } from 'react-icons/lib';
 
-import { ImageCalculatorNow } from '../images/CalculatorNow';
+import { ImageCalculatorNow } from '../images/calculator-now';
 import { ImageFoodsSuggestions } from '../images/foods/suggestions/index';
-import { ImageFormulaEquation } from '../images/FormulaEquation';
+import { ImageFormulaEquation } from '../images/formula-equation';
 
 export interface SelectOptionObject {
   label: string;
