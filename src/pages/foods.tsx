@@ -7,7 +7,7 @@ import {
   SelectSuggestions,
 } from '@/components/pages/foods';
 import { Wrapper } from '@/components/pages/wrapper';
-import { FoodsContext, FoodsProvider } from '@/context/foods-context';
+import { FoodsContext } from '@/context/foods-context';
 
 const FoodsWrapper = () => {
   const {
@@ -42,11 +42,7 @@ const FoodsWrapper = () => {
 };
 
 const Foods = () => {
-  return (
-    <FoodsProvider>
-      <FoodsWrapper />
-    </FoodsProvider>
-  );
+  return <FoodsWrapper />;
 };
 
 export default Foods;
