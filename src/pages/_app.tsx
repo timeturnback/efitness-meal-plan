@@ -4,16 +4,17 @@ import clsx from 'clsx';
 import type { AppProps } from 'next/app';
 import { useContext } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from 'redux-persist/es/integration/react';
 
 import { ImageApp } from '@/components/images/app';
 import {
   CalculateNowContext,
   CalculateNowProvider,
 } from '@/context/calculate-now-context';
+import { FoodsContext, FoodsProvider } from '@/context/foods-context';
 import { Header } from '@/layouts/components/header';
-
-import Redux, { selector, UserActions } from '../redux';
+import Redux, { selector } from '@/redux';
+import { addFood } from '@/redux/User/UserRedux';
 
 const { store, persistor } = Redux();
 
@@ -21,7 +22,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <CalculateNowProvider>
-        <MyAppWrapper pageProps={pageProps} Component={Component} />
+        <FoodsProvider>
+          <MyAppWrapper pageProps={pageProps} Component={Component} />
+        </FoodsProvider>
       </CalculateNowProvider>
     </PersistGate>
   </Provider>
@@ -29,27 +32,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
 
 const MyAppWrapper = ({ Component, pageProps }: any) => {
   const { pathname, leaves1, leaves2 } = useContext(CalculateNowContext);
-
-  const { currentUserInfo } = useSelector(selector.user);
-  console.log(
-    '🚀 ~ file: _app.tsx:34 ~ MyAppWrapper ~ currentUserInfo',
-    currentUserInfo
-  );
+  const { itemfooddetails } = useContext(FoodsContext);
+  const foodlist = useSelector(selector.food);
   const dispatch = useDispatch();
-
-  const _onTest = () => {
-    dispatch(
-      UserActions.setCurrentUserInfo({
-        someData: 'haha',
-        someData2: 'haha2',
-      })
-    );
+  const _Test = () => {
+    dispatch(addFood(itemfooddetails.data));
+    console.log('🚀 ~ file: _app.tsx:33 ~ MyAppWrapper ~ foodlist', foodlist);
   };
-
   return (
     <div>
       {pathname !== '/calculate-now' && <Header />}
-      <button onClick={_onTest}>Test Redux</button>
+      <button className="pt-16" onClick={_Test}>
+        Test Redux
+      </button>
       <img
         ref={leaves1}
         src={ImageApp.Leaves1.src}
