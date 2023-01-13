@@ -5,12 +5,14 @@ import type {
   SetStateAction,
 } from 'react';
 import { createContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import type {
   SelectOptionApiFoods,
   SelectOptionValue,
 } from '@/components/constants/select-options';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { selector } from '@/redux';
 import { ApiInstance } from '@/utils/api';
 import { handleError } from '@/utils/apiHelper';
 
@@ -20,13 +22,11 @@ interface FoodsProps {
   mainsuggest: {
     value: string;
     listitem: SelectOptionValue[];
-    listvalue: string[];
   };
   setMainSuggest: Dispatch<
     SetStateAction<{
       value: string;
       listitem: SelectOptionValue[];
-      listvalue: string[];
     }>
   >;
   listiteminmainsuggest: {
@@ -108,7 +108,6 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
   const [mainsuggest, setMainSuggest] = useState({
     value: '',
     listitem: [] as SelectOptionValue[],
-    listvalue: [] as string[],
   });
   const [mainsuggestclick, setMainSuggestClick] = useState(false);
   const [listiteminmainsuggest, setListItemInMainSuggest] = useState({
@@ -135,79 +134,77 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     data: '' as unknown as SelectOptionApiFoods,
     percentdoughnut: { carb: 0, fat: 0, protein: 0 },
   });
+
+  const dispatch = useDispatch();
+
+  const {
+    beanslist,
+    cereallist,
+    fruitslist,
+    milklist,
+    vegetableslist,
+    valuemainsuggestlist,
+  } = useSelector(selector.user);
+
   useEffect(() => {
     const _addItem = () => {
       if (mainsuggest.value === 'beans') {
-        setItemInMainSuggest(listiteminmainsuggest.beans);
+        setItemInMainSuggest(beanslist);
       } else if (mainsuggest.value === 'cereal') {
-        setItemInMainSuggest(listiteminmainsuggest.cereal);
+        setItemInMainSuggest(cereallist);
       } else if (mainsuggest.value === 'fruits') {
-        setItemInMainSuggest(listiteminmainsuggest.fruits);
+        setItemInMainSuggest(fruitslist);
       } else if (mainsuggest.value === 'milk') {
-        setItemInMainSuggest(listiteminmainsuggest.milk);
+        setItemInMainSuggest(milklist);
       } else if (mainsuggest.value === 'vegetables') {
-        setItemInMainSuggest(listiteminmainsuggest.vegetables);
+        setItemInMainSuggest(vegetableslist);
       }
     };
-    const _iteminmainsuggest = async () => {
-      setItemInMainSuggest([]);
-      mainsuggest.listitem.forEach(async (item) => {
-        const res = await ApiInstance.getFoods(item.value);
-        const { error, result } = handleError(res);
-        if (error) {
-          //
-        } else {
-          setItemInMainSuggest((prev) => [...prev, result[0]]);
-          if (mainsuggest.value === 'beans') {
-            setListItemInMainSuggest((prev) => ({
-              ...listiteminmainsuggest,
-              beans: [...prev.beans, result[0]],
-            }));
-          } else if (mainsuggest.value === 'cereal') {
-            setListItemInMainSuggest((prev) => ({
-              ...listiteminmainsuggest,
-              cereal: [...prev.cereal, result[0]],
-            }));
-          } else if (mainsuggest.value === 'fruits') {
-            setListItemInMainSuggest((prev) => ({
-              ...listiteminmainsuggest,
-              fruits: [...prev.fruits, result[0]],
-            }));
-          } else if (mainsuggest.value === 'milk') {
-            setListItemInMainSuggest((prev) => ({
-              ...listiteminmainsuggest,
-              milk: [...prev.milk, result[0]],
-            }));
-          } else if (mainsuggest.value === 'vegetables') {
-            setListItemInMainSuggest((prev) => ({
-              ...listiteminmainsuggest,
-              vegetables: [...prev.vegetables, result[0]],
-            }));
-          }
+
+    const _iteminmainsuggest = async (itemlist: SelectOptionValue[]) => {
+      itemlist.forEach(async (item) => {
+        const res = await (await ApiInstance).getFoods(item.value);
+
+        const { result } = await handleError(res);
+
+        setItemInMainSuggest((prev) => [...prev, result[0]]);
+
+        if (mainsuggest.value === 'beans') {
+          dispatch({ type: 'itemBeansList', payload: result[0] });
+        } else if (mainsuggest.value === 'cereal') {
+          dispatch({ type: 'itemCerealList', payload: result[0] });
+        } else if (mainsuggest.value === 'fruits') {
+          dispatch({ type: 'itemFruitsList', payload: result[0] });
+        } else if (mainsuggest.value === 'milk') {
+          dispatch({ type: 'itemMilkList', payload: result[0] });
+        } else if (mainsuggest.value === 'vegetables') {
+          dispatch({ type: 'itemVegetablesList', payload: result[0] });
         }
       });
     };
-    if (!mainsuggest.listvalue.includes(mainsuggest.value)) {
-      _iteminmainsuggest();
-      setMainSuggest((prev) => ({
-        ...mainsuggest,
-        listvalue: [...prev.listvalue, mainsuggest.value],
-      }));
+
+    if (!valuemainsuggestlist.includes(mainsuggest.value) && mainsuggestclick) {
+      setItemInMainSuggest([]);
+      _iteminmainsuggest(mainsuggest.listitem);
+      dispatch({ type: 'valueMainSuggestList', payload: mainsuggest.value });
     } else {
       _addItem();
     }
+  }, [mainsuggest, mainsuggestclick, valuemainsuggestlist]);
+
+  useEffect(() => {
     if (iteminmainsuggest.length === mainsuggest.listitem.length) {
       setMainSuggestClick(false);
     }
-  }, [mainsuggest, listiteminmainsuggest, iteminmainsuggest]);
+  }, [iteminmainsuggest]);
 
   useEffect(() => {
     const _search = async () => {
       if (blsearch.click) {
         blsearch.click = false;
         setListItemSearch([]);
-        const res = await ApiInstance.getFoods(search);
-        const { error, result } = handleError(res);
+        const res = await (await ApiInstance).getFoods(search);
+        const { error, result } = await handleError(res);
         if (error || result.length === 0) {
           setBLSearch({ ...blsearch, findfoods: false });
         } else {

@@ -41,7 +41,7 @@ export const SelectSuggestions = () => {
           />
         ))}
       </div>
-      {mainsuggest.listvalue.length !== 0 && (
+      {mainsuggest.listitem.length !== 0 && (
         <div>
           {mainsuggest.value && (
             <h2 className="pb-6 text-2xl font-medium text-gray-900 drop-shadow-md">
@@ -191,7 +191,6 @@ const MainSuggestions = ({
   const _onClick = (e: string) => {
     setMainSuggestClick(true);
     setMainSuggest({
-      ...mainsuggest,
       value: e,
       listitem: listitem || [],
     });

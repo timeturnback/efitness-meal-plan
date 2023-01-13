@@ -3,7 +3,7 @@ import '../styles/global.css';
 import clsx from 'clsx';
 import type { AppProps } from 'next/app';
 import { useContext } from 'react';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { ImageApp } from '@/components/images/app';
@@ -13,7 +13,7 @@ import {
 } from '@/context/calculate-now-context';
 import { Header } from '@/layouts/components/header';
 
-import Redux, { selector, UserActions } from '../redux';
+import Redux from '../redux';
 
 const { store, persistor } = Redux();
 
@@ -29,27 +29,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
 
 const MyAppWrapper = ({ Component, pageProps }: any) => {
   const { pathname, leaves1, leaves2 } = useContext(CalculateNowContext);
-
-  const { currentUserInfo } = useSelector(selector.user);
-  console.log(
-    '🚀 ~ file: _app.tsx:34 ~ MyAppWrapper ~ currentUserInfo',
-    currentUserInfo
-  );
-  const dispatch = useDispatch();
-
-  const _onTest = () => {
-    dispatch(
-      UserActions.setCurrentUserInfo({
-        someData: 'haha',
-        someData2: 'haha2',
-      })
-    );
-  };
-
   return (
     <div>
       {pathname !== '/calculate-now' && <Header />}
-      <button onClick={_onTest}>Test Redux</button>
       <img
         ref={leaves1}
         src={ImageApp.Leaves1.src}

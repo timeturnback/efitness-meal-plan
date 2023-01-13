@@ -139,8 +139,10 @@ export const HeaderItemsList = ({
         </span>
       </div>
       {listitem && (
-        <div className={clsx('fixed hidden hover:block', styles.listitem)}>
-          <div className="z-10 mt-3 -ml-5 cursor-pointer rounded-xl bg-white px-10 shadow-md before:absolute before:top-1 before:left-2/4 before:-ml-2 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
+        <div
+          className={clsx('fixed -ml-5 hidden hover:block', styles.listitem)}
+        >
+          <div className="z-10 mt-3 cursor-pointer rounded-xl bg-white px-10 shadow-md before:absolute before:top-1 before:left-2/4 before:-ml-2 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
             {listitem?.map((item) => (
               <Link href={item.to} key={item.value}>
                 <span

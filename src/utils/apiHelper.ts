@@ -1,13 +1,13 @@
 import get from 'lodash/get';
 
-export function handleError(response: any) {
+export async function handleError(response: any) {
   let error = null;
   let result = null;
   if (response.ok) {
     if (response.status === 200 || response.status === 201) {
-      result = get(response, ['data', 'data'], get(response, ['data']));
+      result = await get(response, ['data', 'data'], get(response, ['data']));
     } else {
-      error = get(['data', 'message'], response);
+      error = await get(['data', 'message'], response);
     }
   } else {
     const { data } = response;

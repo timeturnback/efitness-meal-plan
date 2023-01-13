@@ -1,60 +1,76 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import type { AnyAction } from 'redux';
 import type { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce';
 import { createActions, createReducer } from 'reduxsauce';
-import * as Immutable from 'seamless-immutable';
+
+import type { SelectOptionApiFoods } from '../../components/constants/select-options';
 
 /* ------------- Model interface Create Action ------------- */
 export interface UserAction extends AnyAction {}
 
 interface IActionTypes extends DefaultActionTypes {
-  SET_CURRENT_USER_INFO: 'setCurrentUserInfo';
   GET_USER_INFO: 'getUserInfo';
-  SET_CURRENT_WORKSPACE: 'setCurrentWorkspace';
 }
 
 interface IActionCreators extends DefaultActionCreators {
-  setCurrentUserInfo: (data: any) => AnyAction;
-  setToken: (token: string) => AnyAction;
-  setCurrentWorkspace: (data: any) => AnyAction;
+  setCurrentUserInfo: (data: SelectOptionApiFoods) => AnyAction;
 }
-
-type IActions = UserAction | AnyAction;
 
 export interface UserState {
-  currentUserInfo: any;
-  isLoggedIn: boolean;
-  currentWorkspace: any;
+  foodlist: SelectOptionApiFoods[];
+  beanslist: SelectOptionApiFoods[];
+  cereallist: SelectOptionApiFoods[];
+  fruitslist: SelectOptionApiFoods[];
+  milklist: SelectOptionApiFoods[];
+  vegetableslist: SelectOptionApiFoods[];
+  valuemainsuggestlist: String[];
 }
-
-type ImmutableMyType = Immutable.ImmutableObject<UserState>;
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions<IActionTypes, IActionCreators>({
-  setCurrentUserInfo: ['data'],
   getUserInfo: null,
-  setCurrentWorkspace: ['data'],
 });
 
 export const UserTypes = Types;
 export default Creators;
 
-export const INITIAL_STATE: ImmutableMyType = Immutable.from({
-  currentUserInfo: undefined,
-  isLoggedIn: false,
-  currentWorkspace: undefined,
-});
+const initialState: UserState = {
+  foodlist: [],
+  beanslist: [],
+  cereallist: [],
+  fruitslist: [],
+  milklist: [],
+  vegetableslist: [],
+  valuemainsuggestlist: [],
+};
 
-export const setCurrentUserInfo = (
-  state: ImmutableMyType,
-  { data }: { data: any }
-) => state.merge({ currentUserInfo: data, isLoggedIn: !!data });
-
-export const setCurrentWorkspace = (
-  state: ImmutableMyType,
-  { data }: { data: any }
-) => state.merge({ currentWorkspace: data });
-
-export const reducer = createReducer<ImmutableMyType, IActions>(INITIAL_STATE, {
-  [Types.SET_CURRENT_USER_INFO]: setCurrentUserInfo,
-  [Types.SET_CURRENT_WORKSPACE]: setCurrentWorkspace,
+export const reducer = createReducer(initialState, {
+  foodList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
+    ...state,
+    foodlist: [...state.foodlist, action.payload],
+  }),
+  itemBeansList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
+    ...state,
+    beanslist: [...state.beanslist, action.payload],
+  }),
+  itemCerealList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
+    ...state,
+    cereallist: [...state.cereallist, action.payload],
+  }),
+  itemFruitsList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
+    ...state,
+    fruitslist: [...state.fruitslist, action.payload],
+  }),
+  itemMilkList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
+    ...state,
+    milklist: [...state.milklist, action.payload],
+  }),
+  itemVegetablesList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
+    ...state,
+    vegetableslist: [...state.vegetableslist, action.payload],
+  }),
+  valueMainSuggestList: (state, action: PayloadAction<string>) => ({
+    ...state,
+    valuemainsuggestlist: [...state.valuemainsuggestlist, action.payload],
+  }),
 });
