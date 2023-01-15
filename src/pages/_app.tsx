@@ -11,6 +11,7 @@ import {
   CalculateNowContext,
   CalculateNowProvider,
 } from '@/context/calculate-now-context';
+import { FoodsContext, FoodsProvider } from '@/context/foods-context';
 import { Header } from '@/layouts/components/header';
 
 import Redux from '../redux';
@@ -21,7 +22,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <CalculateNowProvider>
-        <MyAppWrapper pageProps={pageProps} Component={Component} />
+        <FoodsProvider>
+          <MyAppWrapper pageProps={pageProps} Component={Component} />
+        </FoodsProvider>
       </CalculateNowProvider>
     </PersistGate>
   </Provider>
