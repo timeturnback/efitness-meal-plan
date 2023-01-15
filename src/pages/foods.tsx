@@ -10,14 +10,9 @@ import { Wrapper } from '@/components/pages/wrapper';
 import { FoodsContext, FoodsProvider } from '@/context/foods-context';
 
 const FoodsWrapper = () => {
-  const {
-    search,
-    setSearch,
-    setBLSearch,
-    blsearch,
-    fooddetails,
-    itemfooddetails,
-  } = useContext(FoodsContext);
+  const { search, setSearch, fooddetails, itemfooddetails, setInputSubmit } =
+    useContext(FoodsContext);
+
   return (
     <Wrapper>
       <div className="mt-10">
@@ -32,7 +27,7 @@ const FoodsWrapper = () => {
           onChangeText={(e) => setSearch(e)}
           maxwidth
           search
-          onSubmitSeach={() => setBLSearch({ ...blsearch, click: true })}
+          onSubmitSeach={() => setInputSubmit(true)}
         />
       </div>
       <SearchFoods />

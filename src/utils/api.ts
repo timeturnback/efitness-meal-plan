@@ -12,14 +12,13 @@ const axiosApi = Axios.create({
   timeout: 50000,
 });
 
-const create = async () => {
-  const api = await apisauce.create({
+const create = () => {
+  const api = apisauce.create({
     // @ts-ignore
     axiosInstance: axiosApi,
   });
 
-  const getFoods = async (value: string) =>
-    api.get(`v1/nutrition?query=${value}`);
+  const getFoods = (value: string) => api.get(`v1/nutrition?query=${value}`);
 
   return {
     getFoods,

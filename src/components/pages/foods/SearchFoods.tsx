@@ -8,16 +8,16 @@ import { FoodsContext } from '@/context/foods-context';
 import { PercentFoods } from '@/helper/percent-foods';
 
 export const SearchFoods = () => {
-  const { blsearch, listitemsearch } = useContext(FoodsContext);
+  const { findfoods, listitemsearch } = useContext(FoodsContext);
   return (
     <div>
-      {!blsearch.findfoods && listitemsearch.length === 0 ? (
+      {findfoods && listitemsearch.length === 0 ? (
         <CantFindFoods />
       ) : (
         <div
           className={clsx(
             'grid grid-cols-2 gap-6',
-            blsearch.findfoods && listitemsearch.length !== 0 ? 'pt-12' : null
+            findfoods && listitemsearch.length !== 0 ? 'pt-12' : null
           )}
         >
           {listitemsearch.map((item) => (

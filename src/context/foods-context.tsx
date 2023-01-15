@@ -13,6 +13,7 @@ import type {
 } from '@/components/constants/select-options';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { selector } from '@/redux';
+import type { TypeValue } from '@/redux/User/UserRedux';
 import { ApiInstance } from '@/utils/api';
 import { handleError } from '@/utils/apiHelper';
 
@@ -47,16 +48,6 @@ interface FoodsProps {
   >;
   iteminmainsuggest: SelectOptionApiFoods[];
   setItemInMainSuggest: Dispatch<SetStateAction<SelectOptionApiFoods[]>>;
-  blsearch: {
-    click: boolean;
-    findfoods: boolean;
-  };
-  setBLSearch: Dispatch<
-    SetStateAction<{
-      click: boolean;
-      findfoods: boolean;
-    }>
-  >;
   listitemsearch: SelectOptionApiFoods[];
   setListItemSearch: Dispatch<SetStateAction<SelectOptionApiFoods[]>>;
   mainsuggestclick: boolean;
@@ -96,6 +87,12 @@ interface FoodsProps {
     }>
   >;
   scrollfromleft: MutableRefObject<null>;
+  findfoods: boolean;
+  setFindFoods: Dispatch<SetStateAction<boolean>>;
+  inputsubmit: boolean;
+  setInputSubmit: Dispatch<SetStateAction<boolean>>;
+  fooditemlist: string[];
+  setFoodItemList: Dispatch<SetStateAction<string[]>>;
 }
 
 export const FoodsContext = createContext({} as FoodsProps);
@@ -104,7 +101,6 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
   const [listitemsearch, setListItemSearch] = useState(
     [] as SelectOptionApiFoods[]
   );
-  const [blsearch, setBLSearch] = useState({ click: false, findfoods: true });
   const [mainsuggest, setMainSuggest] = useState({
     value: '',
     listitem: [] as SelectOptionValue[],
@@ -135,62 +131,51 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     percentdoughnut: { carb: 0, fat: 0, protein: 0 },
   });
 
+  const [findfoods, setFindFoods] = useState(false);
+  const [inputsubmit, setInputSubmit] = useState(false);
+  const [fooditemlist, setFoodItemList] = useState([] as string[]);
+
   const dispatch = useDispatch();
 
-  const {
-    beanslist,
-    cereallist,
-    fruitslist,
-    milklist,
-    vegetableslist,
-    valuemainsuggestlist,
-  } = useSelector(selector.user);
+  const { foodsuggestlist, foodlist } = useSelector(selector.user);
 
   useEffect(() => {
     const _addItem = () => {
       if (mainsuggest.value === 'beans') {
-        setItemInMainSuggest(beanslist);
+        setItemInMainSuggest(foodsuggestlist[mainsuggest.value]);
       } else if (mainsuggest.value === 'cereal') {
-        setItemInMainSuggest(cereallist);
+        setItemInMainSuggest(foodsuggestlist[mainsuggest.value]);
       } else if (mainsuggest.value === 'fruits') {
-        setItemInMainSuggest(fruitslist);
+        setItemInMainSuggest(foodsuggestlist[mainsuggest.value]);
       } else if (mainsuggest.value === 'milk') {
-        setItemInMainSuggest(milklist);
+        setItemInMainSuggest(foodsuggestlist[mainsuggest.value]);
       } else if (mainsuggest.value === 'vegetables') {
-        setItemInMainSuggest(vegetableslist);
+        setItemInMainSuggest(foodsuggestlist[mainsuggest.value]);
       }
     };
 
     const _iteminmainsuggest = async (itemlist: SelectOptionValue[]) => {
+      let subarray: SelectOptionApiFoods[] = [];
+      const count: TypeValue = {};
       itemlist.forEach(async (item) => {
-        const res = await (await ApiInstance).getFoods(item.value);
+        const res = await ApiInstance.getFoods(item.value);
 
-        const { result } = await handleError(res);
+        const { result } = handleError(res);
 
         setItemInMainSuggest((prev) => [...prev, result[0]]);
-
-        if (mainsuggest.value === 'beans') {
-          dispatch({ type: 'itemBeansList', payload: result[0] });
-        } else if (mainsuggest.value === 'cereal') {
-          dispatch({ type: 'itemCerealList', payload: result[0] });
-        } else if (mainsuggest.value === 'fruits') {
-          dispatch({ type: 'itemFruitsList', payload: result[0] });
-        } else if (mainsuggest.value === 'milk') {
-          dispatch({ type: 'itemMilkList', payload: result[0] });
-        } else if (mainsuggest.value === 'vegetables') {
-          dispatch({ type: 'itemVegetablesList', payload: result[0] });
-        }
+        subarray = [...subarray, result[0]];
+        count[mainsuggest.value] = subarray;
+        dispatch({ type: 'foodSuggestList', payload: count });
       });
     };
 
-    if (!valuemainsuggestlist.includes(mainsuggest.value) && mainsuggestclick) {
+    if (!foodsuggestlist[mainsuggest.value] && mainsuggestclick) {
       setItemInMainSuggest([]);
       _iteminmainsuggest(mainsuggest.listitem);
-      dispatch({ type: 'valueMainSuggestList', payload: mainsuggest.value });
     } else {
       _addItem();
     }
-  }, [mainsuggest, mainsuggestclick, valuemainsuggestlist]);
+  }, [mainsuggest, mainsuggestclick]);
 
   useEffect(() => {
     if (iteminmainsuggest.length === mainsuggest.listitem.length) {
@@ -200,21 +185,29 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const _search = async () => {
-      if (blsearch.click) {
-        blsearch.click = false;
+      if (inputsubmit) {
+        setInputSubmit(false);
         setListItemSearch([]);
-        const res = await (await ApiInstance).getFoods(search);
-        const { error, result } = await handleError(res);
-        if (error || result.length === 0) {
-          setBLSearch({ ...blsearch, findfoods: false });
+        if (foodlist[search]) {
+          setListItemSearch(foodlist[search]);
         } else {
-          setBLSearch({ ...blsearch, findfoods: true });
-          setListItemSearch(result);
+          const res = await ApiInstance.getFoods(search);
+          const { error, result } = handleError(res);
+          if (error || result.length === 0) {
+            setFindFoods(true);
+          } else {
+            setFindFoods(false);
+            setListItemSearch(result);
+            const count: TypeValue = {};
+            count[search] = result;
+            dispatch({ type: 'foodList', payload: count });
+          }
         }
       }
     };
     _search();
-  }, [blsearch]);
+  }, [inputsubmit, foodlist]);
+
   const scrollfromleft = useScrollReveal({ origin: 'left' });
 
   const value = {
@@ -226,8 +219,8 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     setListItemInMainSuggest,
     iteminmainsuggest,
     setItemInMainSuggest,
-    blsearch,
-    setBLSearch,
+    findfoods,
+    setFindFoods,
     listitemsearch,
     setListItemSearch,
     mainsuggestclick,
@@ -237,6 +230,10 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     itemfooddetails,
     setItemFoodDetails,
     scrollfromleft,
+    inputsubmit,
+    setInputSubmit,
+    fooditemlist,
+    setFoodItemList,
   };
   return (
     <FoodsContext.Provider value={value}>{children}</FoodsContext.Provider>

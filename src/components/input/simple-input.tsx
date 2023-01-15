@@ -50,16 +50,15 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   }, [unit]);
 
   useEffect(() => {
-    const _onEnterInput = () => {
-      const inputs = document.querySelector('input');
-      inputs?.addEventListener('keypress', (e: KeyboardEvent) => {
-        if (e.key === 'Enter' && onSubmitSeach) {
-          e.preventDefault();
-          onSubmitSeach();
-        }
-      });
+    const inputs = document.querySelector('input');
+    const _handler = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && onSubmitSeach) {
+        e.preventDefault();
+        onSubmitSeach();
+      }
     };
-    _onEnterInput();
+    inputs?.addEventListener('keypress', _handler);
+    // return inputs?.addEventListener('keypress', _handler);
   }, []);
 
   return (
