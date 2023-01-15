@@ -137,7 +137,7 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
 
   const dispatch = useDispatch();
 
-  const { foodsuggestlist, foodlist } = useSelector(selector.user);
+  const { foodsuggestlist, foodlist } = useSelector(selector.food);
 
   useEffect(() => {
     const _addItem = () => {

@@ -8,12 +8,12 @@ import createSagaMiddleware from 'redux-saga';
 import immutablePersistenceTransform from './immutable-persistence-transfrom';
 // import logger from 'redux-logger';
 import Saga from './saga';
-import type { UserState } from './User/UserRedux';
-import { reducer as UserReducer } from './User/UserRedux';
+import type { FoodState } from './User/UserRedux';
+import { reducer as FoodReducer } from './User/UserRedux';
 
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
-  user: UserReducer,
+  user: FoodReducer,
 });
 
 const persistConfig = {
@@ -53,5 +53,5 @@ const createStore = (rootReducer: any, rootSaga: any) => {
 
 export type RootState = ReturnType<typeof reducers>;
 export const selector = {
-  user: (state: RootState) => state.user as unknown as UserState,
+  food: (state: RootState) => state.user as unknown as FoodState,
 };

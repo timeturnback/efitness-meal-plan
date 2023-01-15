@@ -20,7 +20,7 @@ export type TypeValue = {
   [key: string]: any;
 };
 
-export interface UserState {
+export interface FoodState {
   foodlist: TypeValue;
   foodsuggestlist: TypeValue;
 }
@@ -33,7 +33,7 @@ const { Types, Creators } = createActions<IActionTypes, IActionCreators>({
 export const UserTypes = Types;
 export default Creators;
 
-const initialState: UserState = {
+const initialState: FoodState = {
   foodlist: {},
   foodsuggestlist: {},
 };
