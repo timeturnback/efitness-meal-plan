@@ -2,11 +2,11 @@ import apisauce from 'apisauce';
 import Axios from 'axios';
 
 const axiosApi = Axios.create({
-  baseURL: 'https://api.api-ninjas.com',
+  baseURL: process.env.NEXT_PUBLIC_API_FOOD,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'x-api-key': '26CO3nov8PvVnfGWGAVu7w==oZ0VOyDcA6mwdM5Z',
+    'x-api-key': process.env.NEXT_PUBLIC_API_KEY_FOOD,
     // 'Cache-Control': 'no-cache',
   },
   timeout: 50000,
