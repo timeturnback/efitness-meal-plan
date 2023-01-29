@@ -1,4 +1,7 @@
+import 'firebase/compat/auth';
+
 import clsx from 'clsx';
+import firebase from 'firebase/compat/app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
@@ -8,18 +11,19 @@ import type { SelectOptionLink } from '@/components/constants/select-options';
 import { DROPDOWN_MENU_PROFILE } from '@/components/constants/select-options';
 import { ImageHeader } from '@/components/images/header';
 import { HeaderContext } from '@/context/header-context';
+import { MainContext } from '@/context/main-context';
 
 export const PublicHeader = () => {
   return (
-    <div className="flex h-full items-center uppercase drop-shadow-md">
-      <Link href={'login'}>
-        <h2 className="cursor-pointer px-2 py-4 transition-colors hover:text-cyan-700">
+    <div className="flex items-center h-full uppercase drop-shadow-md">
+      <Link href={'/login'}>
+        <h2 className="px-2 py-4 transition-colors cursor-pointer hover:text-cyan-700">
           Login
         </h2>
       </Link>
       <span className="mx-1"></span>
-      <Link href={'signup'}>
-        <h2 className="cursor-pointer px-2 py-4 transition-colors hover:text-cyan-700">
+      <Link href={'/signup'}>
+        <h2 className="px-2 py-4 transition-colors cursor-pointer hover:text-cyan-700">
           Sign Up
         </h2>
       </Link>
@@ -27,24 +31,45 @@ export const PublicHeader = () => {
   );
 };
 
-export const PrivateHeader = ({ gender }: { gender: string }) => {
-  return gender === 'male' ? (
-    <ProfilePrivateHeader image={ImageHeader.MaleProfile.src} />
-  ) : (
-    <ProfilePrivateHeader image={ImageHeader.FemaleProfile.src} />
-  );
+export const PrivateHeader = () => {
+  const { accountinfor } = useContext(MainContext);
+  const _handler = () => {
+    if (accountinfor.gender === 'male') {
+      return <ProfilePrivateHeader image={ImageHeader.MaleProfile.src} />;
+    }
+    if (accountinfor.gender === 'female') {
+      return <ProfilePrivateHeader image={ImageHeader.FemaleProfile.src} />;
+    }
+    return <ProfilePrivateHeader image={accountinfor.avatar} />;
+  };
+  return _handler();
 };
 
 export const ProfilePrivateHeader = ({ image }: { image: string }) => {
   const { dropdownmenu, setShowDropDownMenu, menuRef } =
     useContext(HeaderContext);
+  const { accountinfor } = useContext(MainContext);
   return (
     <div className="relative h-full" ref={menuRef}>
       <div
-        className="relative flex h-full cursor-pointer items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-['']"
+        className={clsx(
+          "relative flex h-full cursor-pointer items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-['']",
+          accountinfor.gender !== 'male' && accountinfor.gender !== 'female'
+            ? 'before:right-0.5'
+            : 'before:right-2'
+        )}
         onClick={() => setShowDropDownMenu(!dropdownmenu)}
       >
-        <img src={image} alt="" className="h-14 drop-shadow-md" />
+        <img
+          src={image}
+          alt=""
+          className={clsx(
+            'rounded-full drop-shadow-md',
+            accountinfor.gender !== 'male' && accountinfor.gender !== 'female'
+              ? 'h-12'
+              : 'h-14'
+          )}
+        />
       </div>
       {dropdownmenu && <DropDownMenu image={image} />}
     </div>
@@ -52,28 +77,40 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
 };
 
 export const DropDownMenu = ({ image }: { image: string }) => {
-  const { setOnPublic } = useContext(HeaderContext);
+  const { setOnPublic, accountinfor } = useContext(MainContext);
   const _onCLick = (value: string) => {
-    if (value === 'sign out') setOnPublic(true);
+    if (value === 'sign out') {
+      firebase.auth().signOut();
+      setOnPublic(false);
+    }
   };
   return (
-    <div className="absolute right-0 z-20 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-5 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
+    <div className="absolute right-0 z-20 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
       <div className="flex items-center px-2">
-        <img src={image} alt="" className="h-14 drop-shadow-md" />
-        <div className="flex w-48 flex-col justify-center px-2">
-          <h2 className="font-medium">Hau Nguyen</h2>
-          <span className="overflow-hidden text-ellipsis text-xs">
-            haunguyen123sssssss@gmail.com
+        <img
+          src={image}
+          alt=""
+          className={clsx(
+            'rounded-full drop-shadow-md',
+            accountinfor.gender !== 'male' && accountinfor.gender !== 'female'
+              ? 'h-12'
+              : 'h-14'
+          )}
+        />
+        <div className="flex flex-col justify-center w-48 px-2">
+          <h2 className="font-medium">{accountinfor.fullname}</h2>
+          <span className="overflow-hidden text-xs text-ellipsis">
+            {accountinfor.email}
           </span>
         </div>
       </div>
-      <div className="my-2 h-px w-full bg-gray-600"></div>
+      <div className="w-full h-px my-2 bg-gray-600"></div>
       {DROPDOWN_MENU_PROFILE.map((item) => {
         return item.to ? (
           <Link href={item.to} key={item.label}>
-            <button className="group flex w-full cursor-pointer items-center px-3 py-2 text-left transition-colors hover:bg-slate-300/50 hover:font-medium">
+            <button className="flex items-center w-full px-3 py-2 text-left transition-colors cursor-pointer group hover:bg-slate-300/50 hover:font-medium">
               <div className="pr-3">
-                <item.icon className="h-5 w-5 text-gray-800/90 transition-colors group-hover:text-gray-900" />
+                <item.icon className="w-5 h-5 transition-colors text-gray-800/90 group-hover:text-gray-900" />
               </div>
               {item.label}
             </button>
@@ -85,7 +122,7 @@ export const DropDownMenu = ({ image }: { image: string }) => {
             onClick={() => _onCLick(item.value)}
           >
             <div className="pr-3">
-              <item.icon className="h-5 w-5 text-gray-800/90 transition-colors group-hover:text-gray-900" />
+              <item.icon className="w-5 h-5 transition-colors text-gray-800/90 group-hover:text-gray-900" />
             </div>
             {item.label}
           </button>
@@ -99,7 +136,7 @@ export const HeaderItems = ({ title, to }: { title: string; to: string }) => {
   const { pathname } = useRouter();
   return (
     <Link href={to}>
-      <div className="group flex h-full cursor-pointer items-center drop-shadow-md transition-all">
+      <div className="flex items-center h-full transition-all cursor-pointer group drop-shadow-md">
         <span
           className={clsx(
             'px-7 pt-1 text-lg font-medium uppercase text-gray-900 group-hover:text-cyan-700',
@@ -129,11 +166,11 @@ export const HeaderItemsList = ({
           styles.container
         )}
       >
-        <span className="px-7 pt-1 text-lg font-medium uppercase text-gray-900 group-hover:text-cyan-700">
+        <span className="pt-1 text-lg font-medium text-gray-900 uppercase px-7 group-hover:text-cyan-700">
           {title}{' '}
           {listitem && (
             <div className="inline-block pl-1">
-              <div className="mb-1 h-2 w-2 rotate-45 border-b-2 border-r-2 border-gray-900 group-hover:border-sky-800/90"></div>
+              <div className="w-2 h-2 mb-1 rotate-45 border-b-2 border-r-2 border-gray-900 group-hover:border-sky-800/90"></div>
             </div>
           )}
         </span>

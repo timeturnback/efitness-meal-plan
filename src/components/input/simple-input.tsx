@@ -62,18 +62,20 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   }, []);
 
   return (
-    <div className="z-10 pb-8">
+    <div
+      className={classNames('relative z-10 pb-8', maxwidth ? 'w-full' : null)}
+    >
       <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
-          'relative mt-3 flex h-12 items-center rounded-md border drop-shadow-md bg-white focus-within:border-blue-700/80',
-          error ? 'focus-within:border-red-500/90' : null,
+          'mt-3 flex h-12 items-center rounded-md border drop-shadow-md bg-white focus-within:border-blue-700/80',
+          error ? 'focus-within:border-red-500/90 border-red-500/90' : null,
           maxwidth ? 'w-full' : 'w-[220px]'
         )}
       >
         {search && (
           <div
-            className="absolute flex h-full cursor-pointer items-center pl-3"
+            className="absolute flex items-center h-full pl-3 cursor-pointer"
             onClick={onSubmitSeach}
           >
             <ImSearch className="text-2xl text-gray-800" />
@@ -90,13 +92,18 @@ export const SimpleInput: FC<SimpleInputProps> = ({
           {...rest}
         />
         {unit ? (
-          <span className="absolute right-0 h-3/5 select-none pr-3 leading-7 text-gray-600/70 outline-none">
+          <span className="absolute right-0 pr-3 leading-7 outline-none select-none h-3/5 text-gray-600/70">
             {unit}
           </span>
         ) : null}
       </div>
       {error ? (
-        <div className="absolute mt-3 max-w-[220px] select-none rounded-xl bg-red-500/90 px-2 text-xs text-white before:absolute before:-top-2 before:left-4 before:h-0 before:w-0 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-red-500/90 before:content-['']">
+        <div
+          className={classNames(
+            "absolute mt-3 select-none rounded-xl bg-red-500/90 px-2 text-xs text-white before:absolute before:-top-2 before:left-4 before:h-0 before:w-0 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-red-500/90 before:content-['']",
+            maxwidth ? 'w-full' : 'max-w-[220px]'
+          )}
+        >
           <p>{error}</p>
         </div>
       ) : null}

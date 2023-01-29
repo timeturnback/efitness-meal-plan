@@ -16,7 +16,7 @@ import { BMRContext, BMRProvider } from '@/context/bmr-context';
 const BMRCalculator = () => {
   const { bmrandtdee } = useContext(BMRContext);
   return (
-    <Wrapper>
+    <Wrapper title="BMR Calculator">
       <WrapperCalculator title="BMR Calculator">
         <div className="flex w-full">
           <InfoInput />
@@ -44,7 +44,7 @@ const BMRCalculator = () => {
         <h2 className="pb-4 text-lg font-medium">
           The three formulas&apos; equation:
         </h2>
-        <div className="rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
+        <div className="px-6 border-2 rounded-xl border-gray-800/90 bg-zinc-100/40">
           <SimpleEquations
             title="Mifflin-St Jeor Formula"
             option={CALORIE_RECIPE_MSJ_OPTIONS}

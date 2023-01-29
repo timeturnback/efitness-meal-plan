@@ -14,7 +14,7 @@ const FoodsWrapper = () => {
     useContext(FoodsContext);
 
   return (
-    <Wrapper>
+    <Wrapper title="Foods">
       <div className="mt-10">
         {fooddetails && (
           <FoodDetails
