@@ -1,4 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { DefaultActionCreators, DefaultActionTypes } from 'reduxsauce';
 import { createActions, createReducer } from 'reduxsauce';
@@ -20,9 +21,22 @@ export type TypeValue = {
   [key: string]: any;
 };
 
+export interface SelectOptionVerifyPage {
+  title: string;
+  email: string;
+  query: string;
+  code: string | number;
+}
+
+export type TypeValueVerifyPData = {
+  reset_password: SelectOptionVerifyPage;
+  signup: {};
+};
+
 export interface FoodState {
   foodlist: TypeValue;
   foodsuggestlist: TypeValue;
+  verify_p_data: TypeValueVerifyPData;
 }
 
 /* ------------- Types and Action Creators ------------- */
@@ -36,6 +50,34 @@ export default Creators;
 const initialState: FoodState = {
   foodlist: {},
   foodsuggestlist: {},
+  verify_p_data: {} as TypeValueVerifyPData,
+};
+
+export const useUserActions = () => {
+  const dispatch = useDispatch();
+
+  const foodList = (value: SelectOptionApiFoods) => {
+    dispatch({ type: 'foodList', payload: value });
+  };
+
+  const foodSuggestList = (value: SelectOptionApiFoods) => {
+    dispatch({ type: 'foodSuggestList', payload: value });
+  };
+
+  const verifyPageData = (value: TypeValue) => {
+    dispatch({ type: 'verifyPageData', payload: value });
+  };
+
+  const DELETEItemVerifyPageData = (value: SelectOptionVerifyPage) => {
+    dispatch({ type: 'DELETEItemVerifyPageData', payload: value });
+  };
+
+  return {
+    foodList,
+    foodSuggestList,
+    verifyPageData,
+    DELETEItemVerifyPageData,
+  };
 };
 
 export const reducer = createReducer(initialState, {
@@ -46,5 +88,15 @@ export const reducer = createReducer(initialState, {
   foodSuggestList: (state, action: PayloadAction<SelectOptionApiFoods>) => ({
     ...state,
     foodsuggestlist: { ...state.foodsuggestlist, ...action.payload },
+  }),
+  verifyPageData: (state, action: PayloadAction<SelectOptionVerifyPage>) => ({
+    ...state,
+    verify_p_data: { ...state.verify_p_data, ...action.payload },
+  }),
+  DELETEItemVerifyPageData: (state) => ({
+    ...state,
+    // verify_p_data: state.verify_p_data.filter(
+    //   (item) => item.title !== action.payload.title
+    // ),
   }),
 });

@@ -9,8 +9,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { ImageApp } from '@/components/images/app';
 import { SimpleLoading } from '@/components/loading';
+import { AuthStateChangedProvider } from '@/context/auth-state-changed-context';
 import { MainContext, MainProvider } from '@/context/main-context';
-import { Header } from '@/layouts/components/header';
+import { Header } from '@/layouts/components/header/header';
 
 import Redux from '../redux';
 
@@ -20,7 +21,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <MainProvider>
-        <MyAppWrapper pageProps={pageProps} Component={Component} />
+        <AuthStateChangedProvider>
+          <MyAppWrapper pageProps={pageProps} Component={Component} />
+        </AuthStateChangedProvider>
       </MainProvider>
     </PersistGate>
   </Provider>

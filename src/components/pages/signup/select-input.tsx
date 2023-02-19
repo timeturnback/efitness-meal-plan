@@ -4,9 +4,9 @@ import { useContext } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import { SimpleButton } from '@/components/button';
-import { orSignIn } from '@/components/firebase';
 import { SimpleInput } from '@/components/input';
 import { SignUpContext } from '@/context/signup-context';
+import { orSignIn } from '@/hooks/useAuth';
 
 export const SelectInput = () => {
   const {
@@ -37,6 +37,7 @@ export const SelectInput = () => {
           value={lastname.value}
           error={lastname.error}
           onChangeText={(e) => setLastName({ value: e, error: '' })}
+          type="text"
         />
       </div>
       <div className="grid">

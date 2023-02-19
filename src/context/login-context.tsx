@@ -1,5 +1,10 @@
+import type firebase from 'firebase/compat/app';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useState } from 'react';
+
+import type { SelectOptionLoginNotice } from '@/components/constants/select-options';
+import { LOGIN_NOTICES } from '@/components/constants/select-options';
+import { AuthService } from '@/hooks/useAuth';
 
 interface LoginProps {
   email: {
@@ -12,36 +17,38 @@ interface LoginProps {
       error: string;
     }>
   >;
-  pass: {
+  password: {
     value: string;
     error: string;
   };
-  setPass: Dispatch<
+  setPassword: Dispatch<
     SetStateAction<{
       value: string;
       error: string;
     }>
   >;
-  showpass: {
-    show: boolean;
-    inputtype: string;
+  onSubmit: () => Promise<void>;
+  userlogin: {
+    status: boolean;
+    user: SelectOptionLoginNotice;
   };
-  setShowPass: Dispatch<
+  setUserLogin: Dispatch<
     SetStateAction<{
-      show: boolean;
-      inputtype: string;
+      status: boolean;
+      user: SelectOptionLoginNotice;
     }>
   >;
-  onSubmit: () => void;
+
+  onSendAConfirmationEmail: () => () => void;
 }
 
 export const LoginContext = createContext({} as LoginProps);
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
-  const [pass, setPass] = useState({ value: '', error: '' });
-  const [showpass, setShowPass] = useState({
-    show: true,
-    inputtype: 'password',
+  const [password, setPassword] = useState({ value: '', error: '' });
+  const [userlogin, setUserLogin] = useState({
+    status: false,
+    user: {} as SelectOptionLoginNotice,
   });
   const _CheckForm = () => {
     let isError = false;
@@ -55,25 +62,73 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
         error: 'Please enter the correct email address',
       });
     }
-    if (!pass.value) {
+    if (!password.value) {
       isError = true;
-      setPass({ value: '', error: 'Please enter password' });
+      setPassword({ value: '', error: 'Please enter password' });
     }
     return !isError;
   };
-  const onSubmit = () => {
+
+  const _checkAccountLogin = (
+    user:
+      | {
+          user: firebase.User | null;
+          error?: undefined;
+        }
+      | {
+          error: any;
+          user?: undefined;
+        }
+  ) => {
+    if (user.error) {
+      if (user.error === 'auth/wrong-password') {
+        setPassword({
+          value: password.value,
+          error: 'wrong password',
+        });
+      } else if (user.error === 'auth/too-many-requests') {
+        setUserLogin({ status: true, user: LOGIN_NOTICES.wrong_password });
+      }
+    } else if (user.user?.emailVerified) {
+      setUserLogin({ status: true, user: LOGIN_NOTICES.success });
+    } else {
+      setUserLogin({ status: true, user: LOGIN_NOTICES.risk });
+    }
+  };
+
+  const onSendAConfirmationEmail = () => {
+    AuthService.sendAConfirmationEmail();
+    setUserLogin({ status: false, user: userlogin.user });
+    const timer = setTimeout(() => {
+      setUserLogin({ status: true, user: LOGIN_NOTICES.resendMail });
+    }, 1500);
+    return () => clearTimeout(timer);
+  };
+
+  const onSubmit = async () => {
     if (_CheckForm()) {
-      //
+      const result = await AuthService.checkEmailUser(email.value);
+      if (result.length >= 1) {
+        const user = await AuthService.loginUser(email.value, password.value);
+        _checkAccountLogin(user);
+      } else {
+        setEmail({
+          value: email.value,
+          error: 'This email is not registered',
+        });
+        setPassword({ value: '', error: '' });
+      }
     }
   };
   const value = {
     email,
     setEmail,
-    showpass,
-    setShowPass,
-    pass,
-    setPass,
+    password,
+    setPassword,
     onSubmit,
+    userlogin,
+    setUserLogin,
+    onSendAConfirmationEmail,
   };
   return (
     <LoginContext.Provider value={value}>{children}</LoginContext.Provider>

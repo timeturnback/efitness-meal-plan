@@ -3,6 +3,7 @@ import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import type { IconType } from 'react-icons/lib';
 
 import { ImageCalculatorNow } from '../images/calculator-now';
+import { ImagesComposite } from '../images/composite-images';
 import { ImageFoodsSuggestions } from '../images/foods/suggestions/index';
 import { ImageFormulaEquation } from '../images/formula-equation';
 
@@ -80,6 +81,14 @@ export interface SelectOptionRecipes {
   gender?: string;
   formula: string;
   image: string | StaticImageData;
+}
+
+export interface SelectOptionLoginNotice {
+  image: string;
+  title: string;
+  content_1?: string;
+  content_2?: string;
+  button_close: boolean;
 }
 
 export const DROP_DOWN_OPTIONS: SelectOptionObject[] = [
@@ -469,3 +478,36 @@ export const MAIN_SUGGESTIONS: SelectOptionSuggest[] = [
     listitem: SUGGEST_VEGETABLES,
   },
 ];
+
+export const LOGIN_NOTICES = {
+  wrong_password: {
+    image: ImagesComposite.wrong.src,
+    title: 'Wrong password',
+    content_1:
+      'You have entered the wrong password too many times temporarily, the account',
+    content_2:
+      'cannot be logged in. Please try logging in again in a few minutes.',
+    button_close: true,
+  },
+  risk: {
+    image: ImagesComposite.risk.src,
+    title: 'Not verified',
+    content_1: 'The email address',
+    content_2:
+      'is not verified. To continue logging in, please confirm your email address.',
+    button_close: true,
+  },
+  success: {
+    image: ImagesComposite.checkmark.src,
+    title: 'Logged in successfully',
+    button_close: false,
+  },
+  resendMail: {
+    image: ImagesComposite.checkmark.src,
+    title: 'Send successful email verification',
+    content_1: 'Email account verification for',
+    content_2:
+      'has been sent back. Please visit the link in the mail to verify your account.',
+    button_close: true,
+  },
+};

@@ -1,9 +1,7 @@
-import 'firebase/compat/auth';
-
-import firebase from 'firebase/compat/app';
-import { useRouter } from 'next/router';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useContext, useState } from 'react';
+
+import { AuthService } from '@/hooks/useAuth';
 
 import { MainContext } from './main-context';
 
@@ -27,12 +25,10 @@ interface SignUpProps {
     }>
   >;
   onSubmit: () => void;
-}
 
-export const onCheckEmailUser = async (emailUser: string) => {
-  const result = await firebase.auth().fetchSignInMethodsForEmail(emailUser);
-  return result;
-};
+  signupsuccess: boolean;
+  setSignUpSuccess: Dispatch<SetStateAction<boolean>>;
+}
 
 export const SignUpContext = createContext({} as SignUpProps);
 
@@ -45,10 +41,9 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
     show: true,
     inputtype: 'password',
   });
+  const [signupsuccess, setSignUpSuccess] = useState(false);
 
-  const router = useRouter();
-
-  const { setLoading, setInfoCreateUser } = useContext(MainContext);
+  const { setInfoCreateUser } = useContext(MainContext);
 
   const _CheckForm = () => {
     let isError = false;
@@ -95,14 +90,23 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
   const onSubmit = () => {
     if (_CheckForm()) {
       createUserWithEmailAndPassword(email.value, password.value);
+      setSignUpSuccess(true);
     }
   };
+
+  // const handleSetLoading = () => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
+  //   setLoading(true);
+  //   return () => clearTimeout(timer);
+  // };
 
   const createUserWithEmailAndPassword = async (
     emailUser: string,
     passwordUser: string
   ) => {
-    const result = await onCheckEmailUser(emailUser);
+    const result = await AuthService.checkEmailUser(emailUser);
     if (result.length >= 1) {
       setEmail({
         value: email.value,
@@ -110,27 +114,13 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
           'The email address is already in use by another account, please use another email.',
       });
     } else {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-      setLoading(true);
-      const user = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(emailUser, passwordUser);
-      user.user?.updateProfile({
-        displayName: `${firstname.value} ${lastname.value}`,
+      const user = await AuthService.createUser({
+        email: emailUser,
+        password: passwordUser,
+        firstname: firstname.value,
+        lastname: lastname.value,
       });
-      await user.user?.sendEmailVerification();
       setInfoCreateUser(user);
-      router.push(`/signup/verify?email=${user.user?.email}`);
-      // setAccountInfor({
-      //   fullname: user.displayName || 'Unkown Username',
-      //   email: user.email || 'Unkown User Email',
-      //   avatar: user.photoURL || ImageHeader.User.src,
-      //   password: '',
-      //   gender: '',
-      // });
-      // setInfoCreateUser(user);
     }
   };
 
@@ -157,6 +147,8 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
     showpassword,
     setShowPassword,
     onSubmit,
+    signupsuccess,
+    setSignUpSuccess,
   };
   return (
     <SignUpContext.Provider value={value}>{children}</SignUpContext.Provider>

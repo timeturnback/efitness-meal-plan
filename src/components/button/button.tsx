@@ -56,7 +56,7 @@ const Button = ({
     <button
       disabled={disabled || fetching}
       className={clsx(
-        'relative flex h-12 w-full cursor-pointer items-center justify-center rounded-md px-1 py-3 font-medium tracking-wide drop-shadow-md transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-400',
+        'relative flex h-12 w-full cursor-pointer items-center justify-center rounded-md py-3 px-5 font-medium tracking-wide drop-shadow-md transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-gray-400',
         buttoncolor
           ? 'bg-cyan-800 text-white hover:bg-cyan-900'
           : 'bg-white text-gray-900 shadow-md hover:bg-slate-200'

@@ -1,7 +1,4 @@
-import 'firebase/compat/auth';
-
 import clsx from 'clsx';
-import firebase from 'firebase/compat/app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
@@ -10,8 +7,8 @@ import styles from 'src/styles/header.module.scss';
 import type { SelectOptionLink } from '@/components/constants/select-options';
 import { DROPDOWN_MENU_PROFILE } from '@/components/constants/select-options';
 import { ImageHeader } from '@/components/images/header';
+import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { HeaderContext } from '@/context/header-context';
-import { MainContext } from '@/context/main-context';
 
 export const PublicHeader = () => {
   return (
@@ -32,15 +29,15 @@ export const PublicHeader = () => {
 };
 
 export const PrivateHeader = () => {
-  const { accountinfor } = useContext(MainContext);
+  const { useraccountinfo } = useContext(AuthStateChangedContext);
   const _handler = () => {
-    if (accountinfor.gender === 'male') {
+    if (useraccountinfo.gender === 'male') {
       return <ProfilePrivateHeader image={ImageHeader.MaleProfile.src} />;
     }
-    if (accountinfor.gender === 'female') {
+    if (useraccountinfo.gender === 'female') {
       return <ProfilePrivateHeader image={ImageHeader.FemaleProfile.src} />;
     }
-    return <ProfilePrivateHeader image={accountinfor.avatar} />;
+    return <ProfilePrivateHeader image={useraccountinfo.avatar} />;
   };
   return _handler();
 };
@@ -48,13 +45,14 @@ export const PrivateHeader = () => {
 export const ProfilePrivateHeader = ({ image }: { image: string }) => {
   const { dropdownmenu, setShowDropDownMenu, menuRef } =
     useContext(HeaderContext);
-  const { accountinfor } = useContext(MainContext);
+  const { useraccountinfo } = useContext(AuthStateChangedContext);
   return (
     <div className="relative h-full" ref={menuRef}>
       <div
         className={clsx(
           "relative flex h-full cursor-pointer items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-['']",
-          accountinfor.gender !== 'male' && accountinfor.gender !== 'female'
+          useraccountinfo.gender !== 'male' &&
+            useraccountinfo.gender !== 'female'
             ? 'before:right-0.5'
             : 'before:right-2'
         )}
@@ -65,42 +63,50 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
           alt=""
           className={clsx(
             'rounded-full drop-shadow-md',
-            accountinfor.gender !== 'male' && accountinfor.gender !== 'female'
+            useraccountinfo.gender !== 'male' &&
+              useraccountinfo.gender !== 'female'
               ? 'h-12'
               : 'h-14'
           )}
         />
       </div>
-      {dropdownmenu && <DropDownMenu image={image} />}
+      <DropDownMenu image={image} />
     </div>
   );
 };
 
 export const DropDownMenu = ({ image }: { image: string }) => {
-  const { setOnPublic, accountinfor } = useContext(MainContext);
+  const { dropdownmenu, onSignOut } = useContext(HeaderContext);
+  const { setOnPublic, useraccountinfo } = useContext(AuthStateChangedContext);
   const _onCLick = (value: string) => {
     if (value === 'sign out') {
-      firebase.auth().signOut();
+      onSignOut();
       setOnPublic(false);
     }
   };
   return (
-    <div className="absolute right-0 z-20 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
+    <div
+      className={clsx(
+        "absolute right-0 z-20 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 transition-all duration-200 before:border-x-transparent before:border-b-white before:content-['']",
+        dropdownmenu ? 'opacity-100' : 'opacity-0'
+      )}
+    >
       <div className="flex items-center px-2">
         <img
           src={image}
           alt=""
           className={clsx(
             'rounded-full drop-shadow-md',
-            accountinfor.gender !== 'male' && accountinfor.gender !== 'female'
+            useraccountinfo.gender !== 'male' &&
+              useraccountinfo.gender !== 'female'
               ? 'h-12'
               : 'h-14'
           )}
         />
         <div className="flex flex-col justify-center w-48 px-2">
-          <h2 className="font-medium">{accountinfor.fullname}</h2>
+          <h2 className="font-medium">{useraccountinfo.fullname}</h2>
           <span className="overflow-hidden text-xs text-ellipsis">
-            {accountinfor.email}
+            {useraccountinfo.email}
           </span>
         </div>
       </div>

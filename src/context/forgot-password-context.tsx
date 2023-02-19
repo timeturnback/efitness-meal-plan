@@ -1,10 +1,7 @@
 import 'firebase/compat/auth';
 
-import { useRouter } from 'next/router';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
-
-import { onCheckEmailUser } from './signup-context';
 
 interface forgotPasswordProps {
   recoveryemail: {
@@ -48,8 +45,6 @@ export const ForgotPasswordProvider = ({
     code: 0,
   });
 
-  const router = useRouter();
-
   const _CheckForm = () => {
     let isError = false;
     if (!recoveryemail.value) {
@@ -64,20 +59,20 @@ export const ForgotPasswordProvider = ({
 
   const onSubmit = async () => {
     if (_CheckForm()) {
-      const result = await onCheckEmailUser(recoveryemail.value);
-      if (!result.length) {
-        setRecoveryEmail({
-          value: recoveryemail.value,
-          error: 'This email is not registered',
-        });
-      } else {
-        router.push(`/forgot-password/verify?email=${recoveryemail.value}`);
-        setDataResetPassword({
-          email: recoveryemail.value,
-          to: recoveryemail.value,
-          code: Number(`${Math.random()}`.substring(2, 8)),
-        });
-      }
+      // const result = await onCheckEmailUser(recoveryemail.value);
+      // if (!result.length) {
+      //   setRecoveryEmail({
+      //     value: recoveryemail.value,
+      //     error: 'This email is not registered',
+      //   });
+      // } else {
+      //   router.push(`/forgot-password/verify?email=${recoveryemail.value}`);
+      //   setDataResetPassword({
+      //     email: recoveryemail.value,
+      //     to: recoveryemail.value,
+      //     code: Number(`${Math.random()}`.substring(2, 8)),
+      //   });
+      // }
     }
   };
 

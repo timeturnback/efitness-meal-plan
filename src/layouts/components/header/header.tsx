@@ -1,9 +1,10 @@
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useContext } from 'react';
 
 import { HEADER_CALCULATORS_OPTIONS } from '@/components/constants/select-options';
+import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { HeaderProvider } from '@/context/header-context';
-import { MainContext } from '@/context/main-context';
 
 import {
   HeaderItems,
@@ -20,8 +21,8 @@ export const Header = () => {
   );
 };
 
-export const HeaderWrapper = () => {
-  const { onpublic } = useContext(MainContext);
+const HeaderWrapper = () => {
+  const { onpublic } = useContext(AuthStateChangedContext);
   return (
     <div className="fixed top-0 z-40 w-full h-16 bg-white shadow-lg">
       <div className="flex justify-between h-full max-w-5xl mx-auto">
@@ -40,7 +41,15 @@ export const HeaderWrapper = () => {
           />
           <HeaderItems title="Foods" to="/foods" />
         </div>
-        <div>{onpublic ? <PrivateHeader /> : <PublicHeader />}</div>
+        <div
+          className={clsx(
+            onpublic === true || onpublic === false
+              ? 'opacity-100 visible'
+              : 'opacity-0 invisible'
+          )}
+        >
+          {onpublic ? <PrivateHeader /> : <PublicHeader />}
+        </div>
       </div>
     </div>
   );
