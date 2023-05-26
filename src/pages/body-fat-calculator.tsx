@@ -15,12 +15,12 @@ import { BodyFatContext, BodyFatProvider } from '@/context/body-fat-context';
 const BodyFatCalculator = () => {
   const { onSubmit, fatpercent } = useContext(BodyFatContext);
   return (
-    <Wrapper>
+    <Wrapper title="Body Fat Calculator">
       <WrapperCalculator title="Body Fat Calculator">
         <div className="w-full">
-          <div className="flex h-full w-full flex-col">
+          <div className="flex flex-col w-full h-full">
             <InfoInput />
-            <div className="flex h-1/3 items-end justify-end">
+            <div className="flex items-end justify-end h-1/3">
               <div className="w-full">
                 <SimpleButton label="Calculate" onClick={onSubmit} />
               </div>
@@ -46,7 +46,7 @@ const BodyFatCalculator = () => {
         </div>
       </WrapperCalculator>
       <div className="h-screen">
-        <div className="rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
+        <div className="px-6 border-2 rounded-xl border-gray-800/90 bg-zinc-100/40">
           <SimpleEquations
             title="Body Fat Percentage (BFP) Formula"
             option={FAT_PERCENTAGE_OPTIONS}

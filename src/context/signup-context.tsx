@@ -1,19 +1,19 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
+
+import { AuthService } from '@/hooks/useAuth';
+
+import { MainContext } from './main-context';
 
 interface SignUpProps {
   firstname: { value: string; error: string };
   setFirstName: Dispatch<SetStateAction<{ value: string; error: string }>>;
-  lafttname: { value: string; error: string };
+  lastname: { value: string; error: string };
   setLastName: Dispatch<SetStateAction<{ value: string; error: string }>>;
   email: { value: string; error: string };
   setEmail: Dispatch<SetStateAction<{ value: string; error: string }>>;
   password: { value: string; error: string };
   setPassWord: Dispatch<SetStateAction<{ value: string; error: string }>>;
-  confirmpassword: { value: string; error: string };
-  setConfirmPassWord: Dispatch<
-    SetStateAction<{ value: string; error: string }>
-  >;
   showpassword: {
     show: boolean;
     inputtype: string;
@@ -25,43 +25,25 @@ interface SignUpProps {
     }>
   >;
   onSubmit: () => void;
-  accountinfor: {
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-  };
-  setAccountInfor: Dispatch<
-    SetStateAction<{
-      firstname: string;
-      lastname: string;
-      email: string;
-      password: string;
-    }>
-  >;
+
+  signupsuccess: boolean;
+  setSignUpSuccess: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SignUpContext = createContext({} as SignUpProps);
 
 export const SignUpProvider = ({ children }: { children: ReactNode }) => {
   const [firstname, setFirstName] = useState({ value: '', error: '' });
-  const [lafttname, setLastName] = useState({ value: '', error: '' });
+  const [lastname, setLastName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassWord] = useState({ value: '', error: '' });
-  const [confirmpassword, setConfirmPassWord] = useState({
-    value: '',
-    error: '',
-  });
   const [showpassword, setShowPassword] = useState({
     show: true,
     inputtype: 'password',
   });
-  const [accountinfor, setAccountInfor] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-  });
+  const [signupsuccess, setSignUpSuccess] = useState(false);
+
+  const { setInfoCreateUser } = useContext(MainContext);
 
   const _CheckForm = () => {
     let isError = false;
@@ -75,13 +57,13 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
         error: 'Please enter your first name correctly',
       });
     }
-    if (!lafttname.value) {
+    if (!lastname.value) {
       isError = true;
       setLastName({ value: '', error: 'Please enter last name' });
-    } else if (lafttname.value.match(/[0-9]/)) {
+    } else if (lastname.value.match(/[0-9]/)) {
       isError = true;
       setLastName({
-        value: lafttname.value,
+        value: lastname.value,
         error: 'Please enter your last name correctly',
       });
     }
@@ -102,49 +84,71 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
       isError = true;
       setPassWord({ value: password.value, error: 'Password is too short' });
     }
-    if (!confirmpassword.value) {
-      isError = true;
-      setConfirmPassWord({ value: '', error: 'Please enter password confirm' });
-    } else if (
-      password.value &&
-      confirmpassword.value &&
-      password.value !== confirmpassword.value
-    ) {
-      isError = true;
-      setConfirmPassWord({
-        value: confirmpassword.value,
-        error: 'Confirmation password is not the same',
-      });
-    }
     return !isError;
   };
+
   const onSubmit = () => {
     if (_CheckForm()) {
-      setAccountInfor({
-        firstname: firstname.value,
-        lastname: lafttname.value,
-        email: email.value,
-        password: password.value,
-      });
-      console.log(accountinfor);
+      createUserWithEmailAndPassword(email.value, password.value);
+      setSignUpSuccess(true);
     }
   };
+
+  // const handleSetLoading = () => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
+  //   setLoading(true);
+  //   return () => clearTimeout(timer);
+  // };
+
+  const createUserWithEmailAndPassword = async (
+    emailUser: string,
+    passwordUser: string
+  ) => {
+    const result = await AuthService.checkEmailUser(emailUser);
+    if (result.length >= 1) {
+      setEmail({
+        value: email.value,
+        error:
+          'The email address is already in use by another account, please use another email.',
+      });
+    } else {
+      const user = await AuthService.createUser({
+        email: emailUser,
+        password: passwordUser,
+        firstname: firstname.value,
+        lastname: lastname.value,
+      });
+      setInfoCreateUser(user);
+    }
+  };
+
+  // useEffect(() => {
+  //   const unregisterAuthObserver = firebase
+  //     .auth()
+  //     .onAuthStateChanged((user) => {
+  //       if (!user) {
+  //         setOnPublic(false);
+  //       }
+  //     });
+  //   return () => unregisterAuthObserver();
+  // }, []);
+
   const value = {
     firstname,
     setFirstName,
-    lafttname,
+    lastname,
     setLastName,
     email,
     setEmail,
     password,
     setPassWord,
-    confirmpassword,
-    setConfirmPassWord,
     showpassword,
     setShowPassword,
     onSubmit,
-    accountinfor,
-    setAccountInfor,
+    signupsuccess,
+    setSignUpSuccess,
   };
   return (
     <SignUpContext.Provider value={value}>{children}</SignUpContext.Provider>

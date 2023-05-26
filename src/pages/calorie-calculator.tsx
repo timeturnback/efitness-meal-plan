@@ -19,7 +19,7 @@ import { CalorieContext, CalorieProvider } from '@/context/calorie-context';
 const CalorieCalculatorWrapper = () => {
   const { bmr } = useContext(CalorieContext);
   return (
-    <Wrapper>
+    <Wrapper title="Calorie Calculator">
       <WrapperCalculator title="Calorie Calculator">
         <div className="flex w-full">
           <InfoInput />
@@ -44,7 +44,7 @@ const CalorieCalculatorWrapper = () => {
         <h2 className="pb-4 text-lg font-medium">
           The three formulas&apos; equation:
         </h2>
-        <div className="rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
+        <div className="px-6 border-2 rounded-xl border-gray-800/90 bg-zinc-100/40">
           <SimpleEquations
             title="Mifflin-St Jeor Formula"
             option={CALORIE_RECIPE_MSJ_OPTIONS}

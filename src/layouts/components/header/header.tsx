@@ -1,8 +1,10 @@
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useContext } from 'react';
 
 import { HEADER_CALCULATORS_OPTIONS } from '@/components/constants/select-options';
-import { HeaderContext, HeaderProvider } from '@/context/header-context';
+import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
+import { HeaderProvider } from '@/context/header-context';
 
 import {
   HeaderItems,
@@ -19,13 +21,13 @@ export const Header = () => {
   );
 };
 
-export const HeaderWrapper = () => {
-  const { onpublic } = useContext(HeaderContext);
+const HeaderWrapper = () => {
+  const { onpublic } = useContext(AuthStateChangedContext);
   return (
-    <div className="fixed top-0 z-50 h-16 w-full bg-white shadow-lg">
-      <div className="mx-auto flex h-full max-w-5xl justify-between">
+    <div className="fixed top-0 z-40 w-full h-16 bg-white shadow-lg">
+      <div className="flex justify-between h-full max-w-5xl mx-auto">
         <Link href={'/'}>
-          <div className="flex h-full cursor-pointer items-center">
+          <div className="flex items-center h-full cursor-pointer">
             <h2 className="text-2xl font-bold text-gray-900 drop-shadow-md">
               SimpleHealthPlan
             </h2>
@@ -39,8 +41,14 @@ export const HeaderWrapper = () => {
           />
           <HeaderItems title="Foods" to="/foods" />
         </div>
-        <div>
-          {onpublic ? <PublicHeader /> : <PrivateHeader gender="male" />}
+        <div
+          className={clsx(
+            onpublic === true || onpublic === false
+              ? 'opacity-100 visible'
+              : 'opacity-0 invisible'
+          )}
+        >
+          {onpublic ? <PrivateHeader /> : <PublicHeader />}
         </div>
       </div>
     </div>

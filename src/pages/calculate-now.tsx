@@ -3,13 +3,13 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { CALCULATE_NOW_OPTIONS } from '@/components/constants/select-options';
-import { CalculateNowContext } from '@/context/calculate-now-context';
+import { MainContext } from '@/context/main-context';
 
 const CalculateNow = () => {
-  const { calculatenow } = useContext(CalculateNowContext);
+  const { calculatenow } = useContext(MainContext);
   return (
-    <div className="mx-auto h-screen w-full max-w-5xl">
-      <div className="flex h-full w-full items-center justify-center">
+    <div className="w-full h-screen max-w-5xl mx-auto">
+      <div className="flex items-center justify-center w-full h-full">
         {calculatenow ? <FormError /> : <ActiveForm />}
       </div>
     </div>
@@ -18,15 +18,15 @@ const CalculateNow = () => {
 
 const ActiveForm = () => {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <h2 className="pb-10 text-center text-4xl font-medium text-gray-900">
+    <div className="flex flex-col items-center justify-center w-full h-full">
+      <h2 className="pb-10 text-4xl font-medium text-center text-gray-900">
         What do you need to calculate?
       </h2>
-      <div className="flex w-full justify-center gap-5">
+      <div className="flex justify-center w-full gap-5">
         {CALCULATE_NOW_OPTIONS.map((item) => (
           <Link href={item.to} key={item.value}>
-            <div className="flex w-72 cursor-pointer flex-col justify-between rounded-lg border bg-white p-3 shadow-md drop-shadow-md transition-all hover:bg-gray-200/80 hover:drop-shadow-xl">
-              <h2 className="text-center text-3xl font-medium text-gray-900 drop-shadow-md">
+            <div className="flex flex-col justify-between p-3 transition-all bg-white border rounded-lg shadow-md cursor-pointer w-72 drop-shadow-md hover:bg-gray-200/80 hover:drop-shadow-xl">
+              <h2 className="text-3xl font-medium text-center text-gray-900 drop-shadow-md">
                 {item.label}
               </h2>
               <div className="flex justify-center drop-shadow-md">
@@ -49,7 +49,7 @@ const FormError = () => {
       <h2 className="text-4xl font-medium text-gray-900">
         The form has not been executed.
       </h2>
-      <div className="flex w-full justify-center pt-6">
+      <div className="flex justify-center w-full pt-6">
         <div className="w-8/12">
           <SimpleButton label="Back to the home page" to="/" />
         </div>

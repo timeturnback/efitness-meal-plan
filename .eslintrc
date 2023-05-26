@@ -51,7 +51,9 @@
         "unused-imports/no-unused-imports": "error",
         "@typescript-eslint/naming-convention": "off",
         "no-underscore-dangle": "off",
-        "@typescript-eslint/no-use-before-define": "off"
+        "@typescript-eslint/no-use-before-define": "off",
+        "tailwindcss/classnames-order": "off",
+        "import/no-anonymous-default-export": "off"
       }
     },
     // Configuration for testing

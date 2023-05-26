@@ -15,9 +15,9 @@ export const MacroCalculator = () => {
   const { onSubmit, macronutrient, tdee, macro } = useContext(MacroContext);
 
   return (
-    <Wrapper>
+    <Wrapper title="Macro Calculator">
       <WrapperCalculator title="Macro Calculator">
-        <div className="flex w-3/5 flex-col justify-evenly">
+        <div className="flex flex-col w-3/5 justify-evenly">
           <InfoInputAndSelect />
           <SelectInputRange />
           <div className="flex justify-end">

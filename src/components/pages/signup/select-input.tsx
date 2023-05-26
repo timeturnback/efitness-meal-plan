@@ -1,22 +1,23 @@
+/* eslint-disable no-irregular-whitespace */
+import Link from 'next/link';
 import { useContext } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import { SimpleButton } from '@/components/button';
 import { SimpleInput } from '@/components/input';
 import { SignUpContext } from '@/context/signup-context';
+import { orSignIn } from '@/hooks/useAuth';
 
 export const SelectInput = () => {
   const {
     firstname,
-    lafttname,
+    lastname,
     password,
-    confirmpassword,
     email,
     setFirstName,
     setLastName,
     setEmail,
     setPassWord,
-    setConfirmPassWord,
     showpassword,
     setShowPassword,
     onSubmit,
@@ -33,9 +34,10 @@ export const SelectInput = () => {
         />
         <SimpleInput
           label="Last Name"
-          value={lafttname.value}
-          error={lafttname.error}
+          value={lastname.value}
+          error={lastname.error}
           onChangeText={(e) => setLastName({ value: e, error: '' })}
+          type="text"
         />
       </div>
       <div className="grid">
@@ -76,40 +78,20 @@ export const SelectInput = () => {
             />
           )}
         </div>
-        <div className="relative">
-          <SimpleInput
-            label="Confirm Password"
-            value={confirmpassword.value}
-            error={confirmpassword.error}
-            onChangeText={(e) => setConfirmPassWord({ value: e, error: '' })}
-            maxwidth
-            unit=""
-            type={showpassword.inputtype}
-          />
-          {!showpassword.show ? (
-            <AiOutlineEye
-              className="absolute right-4 top-[46%] cursor-pointer text-xl outline-none"
-              onClick={() =>
-                setShowPassword({
-                  show: !showpassword.show,
-                  inputtype: 'password',
-                })
-              }
-            />
-          ) : (
-            <AiOutlineEyeInvisible
-              className="absolute right-4 top-[46%] cursor-pointer text-xl outline-none"
-              onClick={() =>
-                setShowPassword({ show: !showpassword.show, inputtype: 'text' })
-              }
-            />
-          )}
-        </div>
-        <div className="flex w-full justify-end">
-          <div className="w-2/5 pt-6">
-            <SimpleButton label="Sign Up" onClick={onSubmit} />
+        <div className="flex justify-between w-full">
+          <div className="w-full pt-6">
+            <SimpleButton label="Sign Up" color onClick={onSubmit} />
           </div>
         </div>
+        {orSignIn()}
+        <span className="z-10 flex items-center justify-center text-gray-900">
+          Already have an account.&nbsp;
+          <Link href={'login'}>
+            <span className="z-20 font-medium text-gray-900 transition-colors cursor-pointer drop-shadow-md hover:underline">
+              Login
+            </span>
+          </Link>
+        </span>
       </div>
     </>
   );
