@@ -6,7 +6,6 @@ import styles from 'src/styles/header.module.scss';
 
 import type { SelectOptionLink } from '@/components/constants/select-options';
 import { DROPDOWN_MENU_PROFILE } from '@/components/constants/select-options';
-import { ImageHeader } from '@/components/images/header';
 import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { HeaderContext } from '@/context/header-context';
 
@@ -29,15 +28,9 @@ export const PublicHeader = () => {
 };
 
 export const PrivateHeader = () => {
-  const { useraccountinfo } = useContext(AuthStateChangedContext);
+  const { gender } = useContext(AuthStateChangedContext);
   const _handler = () => {
-    if (useraccountinfo.gender === 'male') {
-      return <ProfilePrivateHeader image={ImageHeader.MaleProfile.src} />;
-    }
-    if (useraccountinfo.gender === 'female') {
-      return <ProfilePrivateHeader image={ImageHeader.FemaleProfile.src} />;
-    }
-    return <ProfilePrivateHeader image={useraccountinfo.avatar} />;
+    return <ProfilePrivateHeader image={gender.image_header} />;
   };
   return _handler();
 };
@@ -45,14 +38,13 @@ export const PrivateHeader = () => {
 export const ProfilePrivateHeader = ({ image }: { image: string }) => {
   const { dropdownmenu, setShowDropDownMenu, menuRef } =
     useContext(HeaderContext);
-  const { useraccountinfo } = useContext(AuthStateChangedContext);
+  const { gender } = useContext(AuthStateChangedContext);
   return (
     <div className="relative h-full" ref={menuRef}>
       <div
         className={clsx(
           "relative flex h-full cursor-pointer items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-['']",
-          useraccountinfo.gender !== 'male' &&
-            useraccountinfo.gender !== 'female'
+          gender.value !== 'male' && gender.value !== 'female'
             ? 'before:right-0.5'
             : 'before:right-2'
         )}
@@ -63,8 +55,7 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
           alt=""
           className={clsx(
             'rounded-full drop-shadow-md',
-            useraccountinfo.gender !== 'male' &&
-              useraccountinfo.gender !== 'female'
+            gender.value !== 'male' && gender.value !== 'female'
               ? 'h-12'
               : 'h-14'
           )}
@@ -76,18 +67,24 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
 };
 
 export const DropDownMenu = ({ image }: { image: string }) => {
-  const { dropdownmenu, onSignOut } = useContext(HeaderContext);
-  const { setOnPublic, useraccountinfo } = useContext(AuthStateChangedContext);
-  const _onCLick = (value: string) => {
+  const { dropdownmenu, onSignOut, setOpenProfile, setShowDropDownMenu } =
+    useContext(HeaderContext);
+  const { setOnPublic, useraccountinfo, gender } = useContext(
+    AuthStateChangedContext
+  );
+  const _onClick = (value: string) => {
     if (value === 'sign out') {
       onSignOut();
       setOnPublic(false);
+    } else if (value === 'your profile') {
+      setOpenProfile(true);
+      setShowDropDownMenu(!dropdownmenu);
     }
   };
   return (
     <div
       className={clsx(
-        "absolute right-0 z-20 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 transition-all duration-200 before:border-x-transparent before:border-b-white before:content-['']",
+        "absolute right-0 z-40 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 transition-all duration-200 before:border-x-transparent before:border-b-white before:content-['']",
         dropdownmenu ? 'opacity-100' : 'opacity-0'
       )}
     >
@@ -97,14 +94,15 @@ export const DropDownMenu = ({ image }: { image: string }) => {
           alt=""
           className={clsx(
             'rounded-full drop-shadow-md',
-            useraccountinfo.gender !== 'male' &&
-              useraccountinfo.gender !== 'female'
+            gender.value !== 'male' && gender.value !== 'female'
               ? 'h-12'
               : 'h-14'
           )}
         />
         <div className="flex flex-col justify-center w-48 px-2">
-          <h2 className="font-medium">{useraccountinfo.fullname}</h2>
+          <h2 className="font-medium">
+            {useraccountinfo.fullname.replace(' - ', ' ')}
+          </h2>
           <span className="overflow-hidden text-xs text-ellipsis">
             {useraccountinfo.email}
           </span>
@@ -125,7 +123,7 @@ export const DropDownMenu = ({ image }: { image: string }) => {
           <button
             key={item.label}
             className="group flex w-full cursor-pointer items-center px-3 py-2 pl-[13px] text-left transition-colors hover:bg-slate-300/50 hover:font-medium"
-            onClick={() => _onCLick(item.value)}
+            onClick={() => _onClick(item.value)}
           >
             <div className="pr-3">
               <item.icon className="w-5 h-5 transition-colors text-gray-800/90 group-hover:text-gray-900" />

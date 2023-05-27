@@ -11,6 +11,9 @@ interface HeaderContextProps {
   menuRef: RefObject<HTMLDivElement>;
 
   onSignOut: () => void;
+
+  openprofile: boolean;
+  setOpenProfile: Dispatch<SetStateAction<boolean>>;
 }
 
 export const HeaderContext = createContext({} as HeaderContextProps);
@@ -21,6 +24,8 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
   });
   const router = useRouter();
 
+  const [openprofile, setOpenProfile] = useState(false);
+
   const onSignOut = () => {
     router.push('/');
     AuthService.signOut();
@@ -30,6 +35,8 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
     dropdownmenu,
     setShowDropDownMenu,
     onSignOut,
+    openprofile,
+    setOpenProfile,
   };
   return (
     <HeaderContext.Provider value={value}>{children}</HeaderContext.Provider>

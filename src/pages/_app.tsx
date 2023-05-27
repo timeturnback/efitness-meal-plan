@@ -10,8 +10,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ImageApp } from '@/components/images/app';
 import { SimpleLoading } from '@/components/loading';
 import { AuthStateChangedProvider } from '@/context/auth-state-changed-context';
+import { HeaderContext, HeaderProvider } from '@/context/header-context';
 import { MainContext, MainProvider } from '@/context/main-context';
 import { Header } from '@/layouts/components/header/header';
+import { ProfileOptions } from '@/layouts/components/header/profile-options';
 
 import Redux from '../redux';
 
@@ -20,21 +22,26 @@ const { store, persistor } = Redux();
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <MainProvider>
-        <AuthStateChangedProvider>
-          <MyAppWrapper pageProps={pageProps} Component={Component} />
-        </AuthStateChangedProvider>
-      </MainProvider>
+      <HeaderProvider>
+        <MainProvider>
+          <AuthStateChangedProvider>
+            <MyAppWrapper pageProps={pageProps} Component={Component} />
+          </AuthStateChangedProvider>
+        </MainProvider>
+      </HeaderProvider>
     </PersistGate>
   </Provider>
 );
 
 const MyAppWrapper = ({ Component, pageProps }: any) => {
   const { loading, pathname } = useContext(MainContext);
+  const { openprofile } = useContext(HeaderContext);
   return (
     <div>
       <NextNProgress options={{ showSpinner: false }} />
       {loading && <SimpleLoading />}
+      {/* <SimpleBulletinBoard /> */}
+      {openprofile && <ProfileOptions />}
       {pathname !== '/calculate-now' && <Header />}
       <img
         src={ImageApp.Leaves1.src}

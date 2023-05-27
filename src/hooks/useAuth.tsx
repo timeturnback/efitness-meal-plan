@@ -1,4 +1,5 @@
 import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 import firebase from 'firebase/compat/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -6,9 +7,18 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 const config = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY_FIREBASE,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: 'simplehealthplan-b5d05',
+  messagingSenderId: '39095286951',
   // ...
 };
-firebase.initializeApp(config);
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+} else {
+  firebase.app();
+}
+
+const myFirebase = firebase;
+export default myFirebase;
 
 export const uiConfig = {
   // Popup signin flow rather than redirect flow.
@@ -43,7 +53,7 @@ export const AuthService = {
       .auth()
       .createUserWithEmailAndPassword(email, password);
     user.user?.updateProfile({
-      displayName: `${firstname} ${lastname}`,
+      displayName: `${firstname} - ${lastname}`,
     });
     await user.user?.sendEmailVerification();
     return user;
@@ -75,5 +85,23 @@ export const AuthService = {
   sendAConfirmationEmail: async () => {
     await firebase.auth().currentUser?.reload();
     await firebase.auth().currentUser?.sendEmailVerification();
+  },
+  checkPassword: async (email: string, password: string) => {
+    const response = await fetch('/api/check-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+    return data;
+  },
+  updatePassword: async (user: firebase.User, newpassword: string) => {
+    return user.updatePassword(newpassword);
   },
 };

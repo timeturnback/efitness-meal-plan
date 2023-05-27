@@ -1,6 +1,5 @@
 import 'firebase/compat/auth';
 
-import type firebase from 'firebase/compat/app';
 import { useRouter } from 'next/router';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
@@ -16,11 +15,6 @@ interface MainProps {
 
   // leaves1: MutableRefObject<null>;
   // leaves2: MutableRefObject<null>;
-
-  infocreateuser: firebase.auth.UserCredential | undefined;
-  setInfoCreateUser: Dispatch<
-    SetStateAction<firebase.auth.UserCredential | undefined>
-  >;
 }
 
 export const MainContext = createContext({} as MainProps);
@@ -33,8 +27,6 @@ export const MainProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   // const leaves1 = useScrollReveal({ origin: 'left' });
   // const leaves2 = useScrollReveal({ origin: 'bottom' });
-  const [infocreateuser, setInfoCreateUser] =
-    useState<firebase.auth.UserCredential>();
 
   useEffect(() => {
     if (sessionStorage.getItem('reloaded') !== null) {
@@ -72,8 +64,6 @@ export const MainProvider = ({ children }: { children: ReactNode }) => {
     pathname,
     // leaves1,
     // leaves2,
-    infocreateuser,
-    setInfoCreateUser,
   };
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;
 };

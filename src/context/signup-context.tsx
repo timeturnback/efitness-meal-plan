@@ -1,9 +1,7 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 import { AuthService } from '@/hooks/useAuth';
-
-import { MainContext } from './main-context';
 
 interface SignUpProps {
   firstname: { value: string; error: string };
@@ -14,16 +12,6 @@ interface SignUpProps {
   setEmail: Dispatch<SetStateAction<{ value: string; error: string }>>;
   password: { value: string; error: string };
   setPassWord: Dispatch<SetStateAction<{ value: string; error: string }>>;
-  showpassword: {
-    show: boolean;
-    inputtype: string;
-  };
-  setShowPassword: Dispatch<
-    SetStateAction<{
-      show: boolean;
-      inputtype: string;
-    }>
-  >;
   onSubmit: () => void;
 
   signupsuccess: boolean;
@@ -37,13 +25,7 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
   const [lastname, setLastName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassWord] = useState({ value: '', error: '' });
-  const [showpassword, setShowPassword] = useState({
-    show: true,
-    inputtype: 'password',
-  });
   const [signupsuccess, setSignUpSuccess] = useState(false);
-
-  const { setInfoCreateUser } = useContext(MainContext);
 
   const _CheckForm = () => {
     let isError = false;
@@ -94,14 +76,6 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // const handleSetLoading = () => {
-  //   const timer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 1000);
-  //   setLoading(true);
-  //   return () => clearTimeout(timer);
-  // };
-
   const createUserWithEmailAndPassword = async (
     emailUser: string,
     passwordUser: string
@@ -114,26 +88,14 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
           'The email address is already in use by another account, please use another email.',
       });
     } else {
-      const user = await AuthService.createUser({
+      await AuthService.createUser({
         email: emailUser,
         password: passwordUser,
         firstname: firstname.value,
         lastname: lastname.value,
       });
-      setInfoCreateUser(user);
     }
   };
-
-  // useEffect(() => {
-  //   const unregisterAuthObserver = firebase
-  //     .auth()
-  //     .onAuthStateChanged((user) => {
-  //       if (!user) {
-  //         setOnPublic(false);
-  //       }
-  //     });
-  //   return () => unregisterAuthObserver();
-  // }, []);
 
   const value = {
     firstname,
@@ -144,8 +106,6 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
     setEmail,
     password,
     setPassWord,
-    showpassword,
-    setShowPassword,
     onSubmit,
     signupsuccess,
     setSignUpSuccess,

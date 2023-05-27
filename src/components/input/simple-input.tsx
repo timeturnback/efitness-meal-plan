@@ -34,6 +34,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
 }) => {
   const [winput, setWInput] = useState('100%');
   const [seepassw, setSeePassW] = useState(false);
+  const [inputtype, setInputType] = useState('text');
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);
@@ -66,9 +67,20 @@ export const SimpleInput: FC<SimpleInputProps> = ({
     // return inputs?.addEventListener('keypress', _handler);
   }, []);
 
+  useEffect(() => {
+    if (seepassword) {
+      if (seepassw) setInputType('text');
+      else setInputType('password');
+    }
+  }, [seepassword, seepassw]);
+
   return (
     <div
-      className={classNames('relative z-10 pb-8', maxwidth ? 'w-full' : null)}
+      className={classNames(
+        'relative z-10',
+        maxwidth ? 'w-full' : null,
+        error ? 'pb-8' : null
+      )}
     >
       <span className="font-medium text-gray-800">{label}</span>
       <div
@@ -80,7 +92,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
       >
         {search && (
           <div
-            className="absolute flex items-center h-full pl-3 cursor-pointer"
+            className="absolute z-20 flex items-center h-full pl-3 cursor-pointer"
             onClick={onSubmitSeach}
           >
             <ImSearch className="text-2xl text-gray-800" />
@@ -96,7 +108,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
               seepassword ? 'pr-11' : null
             )}
             onChange={_onChange}
-            type={seepassw ? 'text' : 'password'}
+            type={inputtype}
             {...rest}
           />
           {seepassword ? (
