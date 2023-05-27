@@ -1,3 +1,5 @@
+import 'firebase/compat/auth';
+
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';

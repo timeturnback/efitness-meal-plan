@@ -4,7 +4,6 @@ import { useContext } from 'react';
 
 import { HEADER_CALCULATORS_OPTIONS } from '@/components/constants/select-options';
 import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
-import { HeaderProvider } from '@/context/header-context';
 
 import {
   HeaderItems,
@@ -14,14 +13,6 @@ import {
 } from './options-select';
 
 export const Header = () => {
-  return (
-    <HeaderProvider>
-      <HeaderWrapper />
-    </HeaderProvider>
-  );
-};
-
-const HeaderWrapper = () => {
   const { onpublic } = useContext(AuthStateChangedContext);
   return (
     <div className="fixed top-0 z-40 w-full h-16 bg-white shadow-lg">
@@ -40,6 +31,7 @@ const HeaderWrapper = () => {
             listitem={HEADER_CALCULATORS_OPTIONS}
           />
           <HeaderItems title="Foods" to="/foods" />
+          <HeaderItems title="Release Notes" to="/release-notes" />
         </div>
         <div
           className={clsx(

@@ -1,6 +1,7 @@
 import type { StaticImageData } from 'next/image';
-import { FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 import type { IconType } from 'react-icons/lib';
+import { RiHistoryLine, RiUserLine } from 'react-icons/ri';
 
 import { ImageCalculatorNow } from '../images/calculator-now';
 import { ImagesComposite } from '../images/composite-images';
@@ -35,6 +36,12 @@ export interface SelectOptionApiFoods {
   carbohydrates_total_g: number;
   fiber_g: number;
   sugar_g: number;
+}
+
+export interface InfoUsers {
+  gender: string;
+  image_gender: string;
+  date_of_birth: string;
 }
 
 export interface SelectOptionImage {
@@ -90,6 +97,21 @@ export interface SelectOptionLoginNotice {
   content_2?: string;
   button_close: boolean;
 }
+
+export const DROP_DOWN_OPTIONS_GENDER: SelectOptionObject[] = [
+  {
+    label: 'Male',
+    value: 'male',
+  },
+  {
+    label: 'Female',
+    value: 'female',
+  },
+  {
+    label: 'Nonbinary',
+    value: 'nonbinary',
+  },
+];
 
 export const DROP_DOWN_OPTIONS: SelectOptionObject[] = [
   {
@@ -301,13 +323,18 @@ export const DROPDOWN_MENU_PROFILE: SelectOptionDropdownMenu[] = [
   {
     label: 'Your Profile',
     value: 'your profile',
-    to: 'profile',
-    icon: FaUser,
+    icon: RiUserLine,
+  },
+  {
+    label: 'Search History',
+    value: 'search history',
+    to: 'search-history',
+    icon: RiHistoryLine,
   },
   {
     label: 'Sign Out',
     value: 'sign out',
-    icon: FaSignOutAlt,
+    icon: FiLogOut,
   },
 ];
 

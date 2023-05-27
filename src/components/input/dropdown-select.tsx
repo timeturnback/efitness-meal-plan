@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 
 import { useClickOutSide } from '@/hooks/useClickOutSide';
 
@@ -10,28 +11,41 @@ export function DropDownSelect({
   error,
   setCurrentValue,
   options,
+  defaultValue,
 }: {
   label: string;
   error?: string;
   setCurrentValue: (value: string) => void;
   options: SelectOptionObject[];
+  defaultValue?: string;
 }) {
   const [rotate, setRotate] = useState(false);
   const [text, setText] = useState('');
+  useEffect(() => {
+    if (defaultValue) setText(defaultValue);
+  }, [defaultValue]);
+
   const _onClick = () => {
     setRotate(!rotate);
   };
+
   const menuref = useClickOutSide(() => {
     setRotate(false);
   });
   return (
-    <div className="relative pb-8" ref={menuref}>
+    <div
+      className={clsx('relative max-w-[220px]', error ? 'pb-8' : null)}
+      ref={menuref}
+    >
       <span className="font-medium text-gray-800">{label}</span>
       <div
         onClick={_onClick}
-        className="relative mt-3 h-12 max-w-[220px] cursor-pointer rounded-md bg-white shadow-md"
+        className={clsx(
+          'relative h-12 bg-white rounded-md shadow-md cursor-pointer',
+          label ? 'mt-3' : null
+        )}
       >
-        <div className="absolute right-0 mr-5 flex h-full items-center">
+        <div className="absolute right-0 flex items-center h-full pt-0.5 mr-5">
           <div
             className={classNames(
               'w-2 h-2 mb-1 transition-all rotate-45 border-b-2 border-r-2 border-gray-900',
@@ -40,7 +54,7 @@ export function DropDownSelect({
           />
         </div>
         {text && (
-          <span className="absolute flex h-full select-none items-center pl-2 pr-9 pb-[3px] text-sm leading-4">
+          <span className="flex h-full select-none items-center pl-5 pr-9 pt-1 pb-[3px] text-sm leading-4">
             {text}
           </span>
         )}
@@ -51,7 +65,7 @@ export function DropDownSelect({
         </div>
       ) : null}
       {rotate && (
-        <div className="absolute z-10 mt-2 max-w-[220px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all">
+        <div className="absolute w-full z-10 mt-2 max-w-[220px] max-h-[155px] overflow-auto select-none rounded-md border bg-white py-1 drop-shadow-md transition-all scrollbar">
           {options.map((item) => (
             <SelectOption
               key={item.value}
@@ -93,7 +107,7 @@ const SelectOption = ({
   return (
     <span
       onClick={_onClick}
-      className="block w-full cursor-pointer px-2 py-[5px] text-sm leading-4 transition-all hover:bg-zinc-600/20"
+      className="block w-full cursor-pointer px-2 py-[5px] text-sm text-center leading-4 transition-all hover:bg-zinc-600/20"
     >
       {label}
     </span>
