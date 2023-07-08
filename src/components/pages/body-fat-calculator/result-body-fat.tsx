@@ -129,9 +129,13 @@ const PercentArrows = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       const percentElement = document.getElementById('percent');
-      let valueLeft = value * 10 - 30;
-      if (valueLeft <= 0) valueLeft = -30;
-      percentElement!.style.left = `${value * 10 - 30}px`;
+      if (value <= 0) {
+        percentElement!.style.left = `-30px`;
+      } else {
+        let valueLeft = value * 10 - 30;
+        if (valueLeft <= 0) valueLeft = -30;
+        percentElement!.style.left = `${value * 10 - 30}px`;
+      }
     }, 300);
     return () => clearTimeout(timer);
   }, [value]);

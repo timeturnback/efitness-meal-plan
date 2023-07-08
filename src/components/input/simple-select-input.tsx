@@ -56,11 +56,8 @@ const SelectOption = ({
   data: SelectOptionObject;
   currentValue: string;
 }) => {
-  const { value, label } = data || {};
-  const isSelected = value === currentValue;
-
   const _onClick = () => {
-    onClick(value);
+    onClick(data.value);
   };
 
   return (
@@ -68,15 +65,17 @@ const SelectOption = ({
       className="flex w-full min-w-[6.5rem] items-center rounded-md bg-white p-3 drop-shadow-md"
       onClick={_onClick}
     >
-      <div className="relative flex items-center border-black pl-7 leading-4 before:absolute before:left-0 before:h-5 before:w-5 before:rounded-3xl before:border before:border-bl-ccc before:content-['']">
+      <div className="relative flex items-center border-black pl-7 leading-4 before:absolute before:left-0 before:h-5 before:w-5 before:rounded-3xl before:border  before:content-['']">
         <div
           className={classNames(
-            'absolute w-3 h-3 transition-all scale-0 opacity-0 bg-gray-800 rounded-3xl left-1',
-            isSelected && 'scale-100 opacity-100'
+            'absolute w-3 h-3 transition-all bg-gray-800 rounded-3xl left-1',
+            data.value === currentValue
+              ? 'scale-100 opacity-100'
+              : ' scale-0 opacity-0'
           )}
         />
       </div>
-      {label}
+      {data.label}
     </button>
   );
 };

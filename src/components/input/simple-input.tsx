@@ -98,7 +98,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
             <ImSearch className="text-2xl text-gray-800" />
           </div>
         )}
-        <div className="relative flex items-center justify-end w-full h-full">
+        <div className="relative flex items-center w-full h-full justify-start">
           <input
             style={{ width: winput }}
             value={value}
