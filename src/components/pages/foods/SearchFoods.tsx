@@ -10,7 +10,7 @@ import { PercentFoods } from '@/helper/percent-foods';
 export const SearchFoods = () => {
   const { findfoods, listitemsearch } = useContext(FoodsContext);
   return (
-    <div>
+    <div className="mt-6">
       {findfoods && listitemsearch.length === 0 ? (
         <CantFindFoods />
       ) : (

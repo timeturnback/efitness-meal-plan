@@ -185,7 +185,7 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const _search = async () => {
-      if (inputsubmit) {
+      if (inputsubmit && search) {
         setInputSubmit(false);
         setListItemSearch([]);
         if (foodlist[search]) {
