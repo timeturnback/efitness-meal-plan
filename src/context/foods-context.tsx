@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type {
   SelectOptionApiFoods,
   SelectOptionValue,
-} from '@/components/constants/select-options';
+} from '@/constants/select-options';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { selector } from '@/redux';
 import type { TypeValue } from '@/redux/User/UserRedux';

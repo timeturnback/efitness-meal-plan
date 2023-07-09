@@ -1,10 +1,5 @@
 import { useContext } from 'react';
 
-import {
-  CALORIE_RECIPE_KM_OPTIONS,
-  CALORIE_RECIPE_MSJ_OPTIONS,
-  CALORIE_RECIPE_RHB_OPTIONS,
-} from '@/components/constants/select-options';
 import { SimpleEquations } from '@/components/equations';
 import {
   InfoBoard,
@@ -14,6 +9,11 @@ import {
 } from '@/components/pages/calore-calculator';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
+import {
+  CALORIE_RECIPE_KM_OPTIONS,
+  CALORIE_RECIPE_MSJ_OPTIONS,
+  CALORIE_RECIPE_RHB_OPTIONS,
+} from '@/constants/select-options';
 import { CalorieContext, CalorieProvider } from '@/context/calorie-context';
 
 const CalorieCalculatorWrapper = () => {

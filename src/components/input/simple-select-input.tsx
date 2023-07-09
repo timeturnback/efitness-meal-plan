@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
-import type { SelectOptionObject } from '../constants/select-options';
-import { GENDER_OPTIONS } from '../constants/select-options';
+import type { SelectOptionObject } from '../../constants/select-options';
+import { GENDER_OPTIONS } from '../../constants/select-options';
 
 export function SimpleSelectInput({
   label,

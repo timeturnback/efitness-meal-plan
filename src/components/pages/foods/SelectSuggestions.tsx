@@ -7,8 +7,8 @@ import style_color from 'src/styles/input_range.module.scss';
 import type {
   SelectOptionApiFoods,
   SelectOptionValue,
-} from '@/components/constants/select-options';
-import { MAIN_SUGGESTIONS } from '@/components/constants/select-options';
+} from '@/constants/select-options';
+import { MAIN_SUGGESTIONS } from '@/constants/select-options';
 import { FoodsContext } from '@/context/foods-context';
 import { PercentFoods } from '@/helper/percent-foods';
 

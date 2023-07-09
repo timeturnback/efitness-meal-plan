@@ -8,9 +8,9 @@ import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { AuthService } from '@/hooks/useAuth';
 import { selector } from '@/redux';
 
+import type { SelectOptionObject } from '../../constants/select-options';
+import { DROP_DOWN_OPTIONS_GENDER } from '../../constants/select-options';
 import { SimpleButton } from '../button';
-import type { SelectOptionObject } from '../constants/select-options';
-import { DROP_DOWN_OPTIONS_GENDER } from '../constants/select-options';
 import { ImagesUserProfile } from '../Images/user-profile';
 import { DropDownSelect, SimpleInput } from '../input';
 

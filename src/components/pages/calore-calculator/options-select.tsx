@@ -4,14 +4,11 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import {
-  DROP_DOWN_OPTIONS,
-  FORMULA_OPTIONS,
-} from '@/components/constants/select-options';
-import {
   DropDownSelect,
   SimpleInput,
   SimpleSelectInput,
 } from '@/components/input';
+import { DROP_DOWN_OPTIONS, FORMULA_OPTIONS } from '@/constants/select-options';
 import { CalorieContext } from '@/context/calorie-context';
 
 export const OptionsSelect = () => {

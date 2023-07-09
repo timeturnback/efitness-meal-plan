@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import { useContext } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import type { SelectOptionApiFoods } from '@/components/constants/select-options';
 import { ImageFoods } from '@/components/Images/foods';
+import type { SelectOptionApiFoods } from '@/constants/select-options';
 import { FoodsContext } from '@/context/foods-context';
 import { PercentFoods } from '@/helper/percent-foods';
 

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
-import type { SelectOptionLink } from '@/components/constants/select-options';
-import { DROPDOWN_MENU_PROFILE } from '@/components/constants/select-options';
+import type { SelectOptionLink } from '@/constants/select-options';
+import { DROPDOWN_MENU_PROFILE } from '@/constants/select-options';
 import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { HeaderContext } from '@/context/header-context';
 

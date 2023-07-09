@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { IoClose } from 'react-icons/io5';
 
-import type { SelectOptionApiFoods } from '@/components/constants/select-options';
+import type { SelectOptionApiFoods } from '@/constants/select-options';
 import { FoodsContext } from '@/context/foods-context';
 
 export const FoodDetails = ({

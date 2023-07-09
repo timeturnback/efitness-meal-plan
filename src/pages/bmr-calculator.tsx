@@ -1,16 +1,16 @@
 import { useContext } from 'react';
 
-import {
-  CALORIE_RECIPE_KM_OPTIONS,
-  CALORIE_RECIPE_MSJ_OPTIONS,
-  CALORIE_RECIPE_RHB_OPTIONS,
-} from '@/components/constants/select-options';
 import { SimpleEquations } from '@/components/equations';
 import { InfoInput, OptionsSelect } from '@/components/pages/bmr-calculator';
 import { ResultBMR } from '@/components/pages/bmr-calculator/result-bmr';
 import { InfoBoard } from '@/components/pages/calore-calculator';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
+import {
+  CALORIE_RECIPE_KM_OPTIONS,
+  CALORIE_RECIPE_MSJ_OPTIONS,
+  CALORIE_RECIPE_RHB_OPTIONS,
+} from '@/constants/select-options';
 import { BMRContext, BMRProvider } from '@/context/bmr-context';
 
 const BMRCalculator = () => {

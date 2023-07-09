@@ -2,8 +2,8 @@ import type firebase from 'firebase/compat/app';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useState } from 'react';
 
-import type { SelectOptionLoginNotice } from '@/components/constants/select-options';
-import { LOGIN_NOTICES } from '@/components/constants/select-options';
+import type { SelectOptionLoginNotice } from '@/constants/select-options';
+import { LOGIN_NOTICES } from '@/constants/select-options';
 import { AuthService } from '@/hooks/useAuth';
 
 interface LoginProps {

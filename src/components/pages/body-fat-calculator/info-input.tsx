@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
-import { GENDER_OPTIONS } from '@/components/constants/select-options';
 import { SimpleInput, SimpleSelectInput } from '@/components/input';
+import { GENDER_OPTIONS } from '@/constants/select-options';
 import { BodyFatContext } from '@/context/body-fat-context';
 
 export const InfoInput = () => {

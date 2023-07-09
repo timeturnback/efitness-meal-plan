@@ -5,12 +5,12 @@ import { useEffect } from 'react';
 import type {
   SelectOptionFatClassification,
   SelectOptionPercentBar,
-} from '@/components/constants/select-options';
+} from '@/constants/select-options';
 import {
   FAT_CLASSIFICATION_OPTIONS,
   MENS_PERCENT_BAR_OPTIONS,
   WOMENS_PERCENT_BAR_OPTIONS,
-} from '@/components/constants/select-options';
+} from '@/constants/select-options';
 
 export const ResultBodyFat = ({
   gender,

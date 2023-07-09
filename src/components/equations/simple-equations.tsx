@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import type { SelectOptionRecipes } from '../constants/select-options';
+import type { SelectOptionRecipes } from '../../constants/select-options';
 
 export const SimpleEquations = ({
   title,
