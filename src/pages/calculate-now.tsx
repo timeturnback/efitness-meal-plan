@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
-import { CALCULATE_NOW_OPTIONS } from '@/components/constants/select-options';
+import { CALCULATE_NOW_OPTIONS } from '@/constants/select-options';
 import { MainContext } from '@/context/main-context';
 
 const CalculateNow = () => {

@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
-import { FAT_PERCENTAGE_OPTIONS } from '@/components/constants/select-options';
 import { SimpleEquations } from '@/components/equations';
 import {
   InfoInput,
@@ -10,6 +9,7 @@ import {
 import { InfoBoard } from '@/components/pages/calore-calculator';
 import { Wrapper } from '@/components/pages/wrapper';
 import { WrapperCalculator } from '@/components/pages/wrapper-calculator';
+import { FAT_PERCENTAGE_OPTIONS } from '@/constants/select-options';
 import { BodyFatContext, BodyFatProvider } from '@/context/body-fat-context';
 
 const BodyFatCalculator = () => {

@@ -7,7 +7,7 @@ import { createActions, createReducer } from 'reduxsauce';
 import type {
   InfoUsers,
   SelectOptionApiFoods,
-} from '../../components/constants/select-options';
+} from '../../constants/select-options';
 
 /* ------------- Model interface Create Action ------------- */
 export interface UserAction extends AnyAction {}

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useContext } from 'react';
 
-import { NUTRIENT_RATIO_OPTIONS } from '@/components/constants/select-options';
 import { DropDownSelect, SimpleInput } from '@/components/input';
+import { NUTRIENT_RATIO_OPTIONS } from '@/constants/select-options';
 import { MacroContext } from '@/context/macro-context';
 
 export const InfoInputAndSelect = () => {

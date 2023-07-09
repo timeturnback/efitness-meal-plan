@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { useClickOutSide } from '@/hooks/useClickOutSide';
 
-import type { SelectOptionObject } from '../constants/select-options';
+import type { SelectOptionObject } from '../../constants/select-options';
 
 export function DropDownSelect({
   label,

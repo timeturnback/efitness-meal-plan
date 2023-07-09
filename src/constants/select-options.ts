@@ -3,11 +3,11 @@ import { FiLogOut } from 'react-icons/fi';
 import type { IconType } from 'react-icons/lib';
 import { RiHistoryLine, RiUserLine } from 'react-icons/ri';
 
-import { ImageCalculatorNow } from '../Images/calculator-now';
-import { ImagesComposite } from '../Images/composite-images';
-import { ImageNutritiousFoods } from '../Images/foods/nutritious-foods';
-import { ImageFoodsSuggestions } from '../Images/foods/suggestions/index';
-import { ImageFormulaEquation } from '../Images/formula-equation';
+import { ImageCalculatorNow } from '../components/Images/calculator-now';
+import { ImagesComposite } from '../components/Images/composite-images';
+import { ImageNutritiousFoods } from '../components/Images/foods/nutritious-foods';
+import { ImageFoodsSuggestions } from '../components/Images/foods/suggestions/index';
+import { ImageFormulaEquation } from '../components/Images/formula-equation';
 
 export interface SelectOptionNutritionFoods {
   name: string;

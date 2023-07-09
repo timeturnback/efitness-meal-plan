@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import {
   type SelectOptionNutritionFoods,
   NUTRITIOUS_FOODS,
-} from '@/components/constants/select-options';
+} from '@/constants/select-options';
 
 export const SuggestFoodsNutrition = () => {
   const settings = {

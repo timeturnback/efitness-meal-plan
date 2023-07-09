@@ -6,7 +6,7 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { ImageHome } from '@/components/Images/home';
-import { SuggestFoodsNutrition } from '@/components/pages/home';
+import { ContentFat, SuggestFoodsNutrition } from '@/components/pages/home';
 import { MainContext } from '@/context/main-context';
 
 const HomeWrapper = () => {
@@ -44,6 +44,7 @@ const Index = () => {
   return (
     <div className="h-screen">
       <HomeWrapper />
+      <ContentFat />
       <div className="h-screen">
         <SuggestFoodsNutrition />
       </div>
