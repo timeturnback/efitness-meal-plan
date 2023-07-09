@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { useContext } from 'react';
-import styles from 'src/styles/login.module.scss';
 
 import { SimpleButton } from '@/components/button';
 import { SelectInput } from '@/components/pages/login';
@@ -68,18 +67,8 @@ const LoginWrapper = () => {
             userlogin.status ? 'blur-sm pointer-events-none select-none' : null
           )}
         >
-          <div
-            className={clsx(
-              'absolute top-0 -right-24 h-3/5 w-4/6 bg-cyan-700',
-              styles.border_top
-            )}
-          ></div>
-          <div
-            className={clsx(
-              'absolute -bottom-16 -left-32 h-2/4 w-4/6 bg-cyan-700',
-              styles.border_bottom
-            )}
-          ></div>
+          <div className="absolute top-0 -right-24 h-3/5 w-4/6 bg-cyan-700 border_top_login"></div>
+          <div className="absolute -bottom-16 -left-32 h-2/4 w-4/6 bg-cyan-700 border_bottom_login"></div>
           <h2 className="pb-3 text-3xl font-bold text-center text-gray-900 drop-shadow-md">
             Login
           </h2>

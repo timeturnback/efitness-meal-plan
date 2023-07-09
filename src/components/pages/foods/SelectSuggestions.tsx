@@ -2,7 +2,6 @@ import { ArcElement, Chart } from 'chart.js';
 import clsx from 'clsx';
 import { useContext } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-import styles from 'src/styles/global.module.scss';
 import style_color from 'src/styles/input_range.module.scss';
 
 import type {
@@ -79,12 +78,10 @@ const ItemInMainSuggestLoading = () => {
   return (
     <div className="w-56 rounded-xl bg-white p-2 shadow drop-shadow-md transition-all duration-300">
       <div className="flex items-center justify-evenly pb-1">
-        <div className={clsx('h-24 w-24 rounded-full', styles.skeleton)}></div>
-        <div
-          className={clsx('inline h-5 w-16 rounded-md', styles.skeleton)}
-        ></div>
+        <div className="h-24 w-24 rounded-full skeletons"></div>
+        <div className="inline h-5 w-16 rounded-md skeletons"></div>
       </div>
-      <div className={clsx(styles.skeleton, 'h-6 w-full rounded-md')}></div>
+      <div className="h-6 w-full rounded-md skeletons"></div>
     </div>
   );
 };

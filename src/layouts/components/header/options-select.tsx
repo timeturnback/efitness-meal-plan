@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import styles from 'src/styles/header.module.scss';
 
 import type { SelectOptionLink } from '@/components/constants/select-options';
 import { DROPDOWN_MENU_PROFILE } from '@/components/constants/select-options';
@@ -164,12 +163,7 @@ export const HeaderItemsList = ({
   const { pathname } = useRouter();
   return (
     <div>
-      <div
-        className={clsx(
-          'group flex h-full cursor-pointer items-center drop-shadow-md transition-colors',
-          styles.container
-        )}
-      >
+      <div className="group flex h-full cursor-pointer items-center drop-shadow-md transition-colors container_header">
         <span className="pt-1 text-lg font-medium text-gray-900 uppercase px-7 group-hover:text-cyan-700">
           {title}{' '}
           {listitem && (
@@ -180,9 +174,7 @@ export const HeaderItemsList = ({
         </span>
       </div>
       {listitem && (
-        <div
-          className={clsx('fixed -ml-5 hidden hover:block', styles.listitem)}
-        >
+        <div className="fixed -ml-5 hidden hover:block listitem_header">
           <div className="z-10 mt-3 cursor-pointer rounded-xl bg-white px-10 shadow-md before:absolute before:top-1 before:left-2/4 before:-ml-2 before:border-x-8 before:border-b-8 before:border-x-transparent before:border-b-white before:content-['']">
             {listitem?.map((item) => (
               <Link href={item.to} key={item.value}>
