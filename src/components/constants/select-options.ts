@@ -3,10 +3,11 @@ import { FiLogOut } from 'react-icons/fi';
 import type { IconType } from 'react-icons/lib';
 import { RiHistoryLine, RiUserLine } from 'react-icons/ri';
 
-import { ImageCalculatorNow } from '../images/calculator-now';
-import { ImagesComposite } from '../images/composite-images';
-import { ImageFoodsSuggestions } from '../images/foods/suggestions/index';
-import { ImageFormulaEquation } from '../images/formula-equation';
+import { ImageCalculatorNow } from '../Images/calculator-now';
+import { ImagesComposite } from '../Images/composite-images';
+import { ImageNutritiousFoods } from '../Images/foods/nutritious-foods';
+import { ImageFoodsSuggestions } from '../Images/foods/suggestions/index';
+import { ImageFormulaEquation } from '../Images/formula-equation';
 
 export interface SelectOptionObject {
   label: string;
@@ -538,3 +539,30 @@ export const LOGIN_NOTICES = {
     button_close: true,
   },
 };
+
+export const NUTRITIOUS_FOODS = [
+  {
+    name: 'Kiwi',
+    description:
+      'Kiwi has a reputation as a health food because of its high vitamin C content, but the fruit is also rich in other nutrients. These may help reduce blood pressure, boost wound healing, help maintain bowel health, and more.',
+    img: ImageNutritiousFoods.Kiwi,
+  },
+  {
+    name: 'Blue Berry',
+    description:
+      'Blueberries are a good source of manganese and vitamins C and K1. They also provide small amounts of copper, as well as vitamins E and B6. Blueberries may have benefits for your heart, brain, and blood sugar.',
+    img: ImageNutritiousFoods.BlueBerry,
+  },
+  {
+    name: 'Green Beans',
+    description:
+      'Green beans are heart healthy. They contain no cholesterol. One cup of raw green beans has 2.7 g of fiber. Soluble fiber may help lower LDL or so-called bad cholesterol and total cholesterol levels. It may also support heart health by lowering blood pressure and reducing inflammation.',
+    img: ImageNutritiousFoods.GreenBeans,
+  },
+  {
+    name: 'Yogurt',
+    description:
+      'Yogurt is a great source of high-quality protein, offers various amounts of fat, and contains small amounts of lactose. Many brands are also high in added sugar and flavorings.',
+    img: ImageNutritiousFoods.Yogurt,
+  },
+];

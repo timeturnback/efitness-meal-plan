@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { ImageApp } from '@/components/images/app';
+import { ImageApp } from '@/components/Images/app';
 import { SimpleLoading } from '@/components/loading';
 import { AuthStateChangedProvider } from '@/context/auth-state-changed-context';
 import { HeaderContext, HeaderProvider } from '@/context/header-context';

@@ -1,4 +1,4 @@
-import { ImagesComposite } from '@/components/images/composite-images';
+import { ImagesComposite } from '@/components/Images/composite-images';
 
 export const SimpleBulletinBoard = () => {
   return (

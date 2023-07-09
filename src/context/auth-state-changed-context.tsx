@@ -5,8 +5,8 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ImageHeader } from '@/components/images/header';
-import { ImagesUserProfile } from '@/components/images/user-profile';
+import { ImageHeader } from '@/components/Images/header';
+import { ImagesUserProfile } from '@/components/Images/user-profile';
 import { selector } from '@/redux';
 
 interface AuthStateChangedProps {

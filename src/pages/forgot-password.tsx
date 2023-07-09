@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
-import { forgotPassWord } from '@/components/images/forgot-password';
+import { forgotPassWord } from '@/components/Images/forgot-password';
 import { SimpleInput } from '@/components/input';
 import { Wrapper } from '@/components/pages/wrapper';
 import {
