@@ -57,3 +57,11 @@ input[type=number] {
 .slick-list, .slick-track, .slick-slider, .slick-slide > div {
 height: 100%
 }
+
+.border_radius_suggest_foods_nutrition_bottom {
+border-radius: 60% 40% 66% 34% / 34% 56% 44% 66% 
+}
+
+.border_radius_suggest_foods_nutrition_top {
+border-radius: 0% 100% 61% 39% / 49% 55% 45% 51% 
+}

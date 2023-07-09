@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
-import { ImageHome } from '@/components/images/home';
+import { ImageHome } from '@/components/Images/home';
 import { SuggestFoodsNutrition } from '@/components/pages/home';
 import { MainContext } from '@/context/main-context';
 

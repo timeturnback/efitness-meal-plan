@@ -9,6 +9,12 @@ import { ImageNutritiousFoods } from '../Images/foods/nutritious-foods';
 import { ImageFoodsSuggestions } from '../Images/foods/suggestions/index';
 import { ImageFormulaEquation } from '../Images/formula-equation';
 
+export interface SelectOptionNutritionFoods {
+  name: string;
+  description: string;
+  img: StaticImageData;
+}
+
 export interface SelectOptionObject {
   label: string;
   value: string;
@@ -540,7 +546,7 @@ export const LOGIN_NOTICES = {
   },
 };
 
-export const NUTRITIOUS_FOODS = [
+export const NUTRITIOUS_FOODS: SelectOptionNutritionFoods[] = [
   {
     name: 'Kiwi',
     description:
