@@ -1,9 +1,12 @@
 import 'firebase/compat/auth';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { ImageHome } from '@/components/images/home';
+import { SuggestFoodsNutrition } from '@/components/pages/home';
 import { MainContext } from '@/context/main-context';
 
 const HomeWrapper = () => {
@@ -11,7 +14,7 @@ const HomeWrapper = () => {
   // const contenthome = useScrollReveal();
   const { setCalculateNow } = useContext(MainContext);
   return (
-    <div className="h-screen pt-16">
+    <div className="h-full pt-16">
       <div className="flex items-center h-full max-w-5xl mx-auto">
         <div className="flex items-center justify-between">
           <div>
@@ -38,7 +41,14 @@ const HomeWrapper = () => {
 };
 
 const Index = () => {
-  return <HomeWrapper />;
+  return (
+    <div className="h-screen">
+      <HomeWrapper />
+      <div className="h-screen">
+        <SuggestFoodsNutrition />
+      </div>
+    </div>
+  );
 };
 
 export default Index;
