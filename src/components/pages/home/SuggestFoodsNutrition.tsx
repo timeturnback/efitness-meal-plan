@@ -1,7 +1,10 @@
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import Slider from 'react-slick';
 
-import { ImageFoods } from '@/components/images/foods';
+import {
+  type SelectOptionNutritionFoods,
+  NUTRITIOUS_FOODS,
+} from '@/components/constants/select-options';
 
 export const SuggestFoodsNutrition = () => {
   const settings = {
@@ -22,33 +25,33 @@ export const SuggestFoodsNutrition = () => {
         Suggestions for nutritious dishes
       </h2>
       <div className="h-96 w-4/5 p-3 rounded-xl border-2 border-gray-800/90 drop-shadow-md shadow-lg flex flex-col justify-center">
-        <Slider {...settings}>{/* ItemSuggestFoodsNutrition  */}</Slider>
+        <Slider {...settings}>
+          {ItemSuggestFoodsNutrition(NUTRITIOUS_FOODS)}
+        </Slider>
       </div>
     </div>
   );
 };
 
-interface ItemValue {
-  title: string;
-  image: string;
-  description: string;
-}
-
-export const ItemSuggestFoodsNutrition = (listItem: ItemValue[]) => {
+const ItemSuggestFoodsNutrition = (listItem: SelectOptionNutritionFoods[]) => {
   return listItem.map((item) => (
     <div
-      key={item.title}
-      className="h-full w-full rounded-xl border-2 border-gray-300 shadow-sm transition-all flex items-center justify-center"
+      key={item.name}
+      className="h-full w-full rounded-2xl border-2 shadow-sm transition-all flex items-center justify-center"
     >
       <div className="flex items-center justify-between h-full bg-slate-50 rounded-xl">
-        <div className="w-3/5 pl-2 h-full text-center py-4">
-          <h2 className="text-2xl font-medium">{item.title}</h2>
-          <p className="break-words text-left">{item.description}</p>
+        <div className="w-3/5 pl-2 h-full text-center py-4 relative">
+          <h2 className="text-3xl font-medium drop-shadow-md">{item.name}</h2>
+          <p className="break-words text-left leading-8 z-10 absolute">
+            {item.description}
+          </p>
+          <div className="border_radius_suggest_foods_nutrition_bottom absolute h-2/3 w-2/4 bg-red-100 z-0 drop-shadow-md left-0 -bottom-16"></div>
         </div>
-        <div className="h-full w-2/5">
+        <div className="h-full w-2/5 relative">
+          <div className="border_radius_suggest_foods_nutrition_top absolute h-2/3 w-5/6 bg-red-100 z-0 drop-shadow-md right-0 -top-24"></div>
           <img
-            className="w-full h-full object-contain"
-            src={ImageFoods.search_cantfindfood.src}
+            className="w-full h-full object-contain absolute z-10"
+            src={item.img.src}
             alt=""
           />
         </div>
