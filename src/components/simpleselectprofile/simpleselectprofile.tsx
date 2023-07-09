@@ -11,7 +11,7 @@ import { selector } from '@/redux';
 import { SimpleButton } from '../button';
 import type { SelectOptionObject } from '../constants/select-options';
 import { DROP_DOWN_OPTIONS_GENDER } from '../constants/select-options';
-import { ImagesUserProfile } from '../images/user-profile';
+import { ImagesUserProfile } from '../Images/user-profile';
 import { DropDownSelect, SimpleInput } from '../input';
 
 const _onChange = ({

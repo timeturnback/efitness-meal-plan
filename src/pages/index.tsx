@@ -3,7 +3,7 @@ import 'firebase/compat/auth';
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
-import { ImageHome } from '@/components/images/home';
+import { ImageHome } from '@/components/Images/home';
 import { MainContext } from '@/context/main-context';
 
 const HomeWrapper = () => {

@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import styles from 'src/styles/signup.module.scss';
 
 import { SimpleButton } from '@/components/button';
-import { ImagesComposite } from '@/components/images/composite-images';
+import { ImagesComposite } from '@/components/Images/composite-images';
 import { SelectInput } from '@/components/pages/signup';
 import { Wrapper } from '@/components/pages/wrapper';
 import { SignUpContext, SignUpProvider } from '@/context/signup-context';

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-import { ImageMacro } from '@/components/images/macro';
+import { ImageMacro } from '@/components/Images/Macro';
 
 Chart.register(ArcElement);
 
