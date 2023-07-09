@@ -1,7 +1,6 @@
 // import 'firebase/compat/auth';
 import clsx from 'clsx';
 import { useContext } from 'react';
-import styles from 'src/styles/signup.module.scss';
 
 import { SimpleButton } from '@/components/button';
 import { ImagesComposite } from '@/components/Images/composite-images';
@@ -54,18 +53,8 @@ const SignUpWrapper = () => {
           )}
         >
           <div className="relative px-6 py-4 overflow-hidden bg-gray-200 border shadow-md rounded-2xl">
-            <div
-              className={clsx(
-                'absolute top-0 -left-28 h-2/4 w-4/6 bg-cyan-700',
-                styles.border_top
-              )}
-            ></div>
-            <div
-              className={clsx(
-                'absolute -bottom-16 -right-32 h-2/4 w-4/6 bg-cyan-700',
-                styles.border_bottom
-              )}
-            ></div>
+            <div className="absolute top-0 -left-28 h-2/4 w-4/6 bg-cyan-700 border_top_signup"></div>
+            <div className="absolute -bottom-16 -right-32 h-2/4 w-4/6 bg-cyan-700 border_bottom_signup"></div>
             <h2 className="pb-3 text-3xl font-bold text-center text-gray-900 drop-shadow-md">
               Sign Up
             </h2>

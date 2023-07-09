@@ -1,8 +1,6 @@
-import clsx from 'clsx';
 import { useContext } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
 import { IoCloseSharp } from 'react-icons/io5';
-import styles from 'src/styles/global.module.scss';
 
 import SimpleSelectProfile from '@/components/simpleselectprofile/simpleselectprofile';
 import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
@@ -12,12 +10,7 @@ export const ProfileOptions = () => {
   const { setOpenProfile } = useContext(HeaderContext);
   const { useraccountinfo, gender } = useContext(AuthStateChangedContext);
   return (
-    <div
-      className={clsx(
-        'fixed z-30 grid items-center justify-center w-full h-full pt-40 pb-20 overflow-scroll bg-gray-900/60',
-        styles.myprofile
-      )}
-    >
+    <div className="fixed z-30 grid items-center justify-center w-full h-full pt-40 pb-20 overflow-scroll bg-gray-900/60 myprofile">
       <div className="p-6 bg-gray-200 rounded-md shadow w-[500px] drop-shadow-md">
         <div className="relative flex items-center">
           <h2 className="w-full text-3xl font-medium text-center text-gray-900 drop-shadow-md">
