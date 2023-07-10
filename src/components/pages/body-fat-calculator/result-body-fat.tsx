@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
 
 import type {
   SelectOptionFatClassification,
@@ -48,6 +49,9 @@ export const ResultBodyFat = ({
       <div className="pt-4 pl-7">
         <h2 className="pt-5 pb-2">Table of fat percentage classifications</h2>
         <ClassificationTable option={FAT_CLASSIFICATION_OPTIONS} />
+      </div>
+      <div className="pl-7 py-4">
+        <AutoScrollDownButton />
       </div>
     </div>
   );
@@ -235,6 +239,23 @@ const ContentOfClassificationTable = ({
           </span>
         </div>
       ))}
+    </div>
+  );
+};
+
+const AutoScrollDownButton = () => {
+  const _onScrollDown = () => {
+    window.scroll({ top: 900, left: 0, behavior: 'smooth' });
+  };
+  return (
+    <div
+      className="flex items-center justify-between cursor-pointer"
+      onClick={_onScrollDown}
+    >
+      <span className="text-xs ">
+        View description and foods suitable for your current level
+      </span>
+      <FaChevronDown className="w-3" />
     </div>
   );
 };
