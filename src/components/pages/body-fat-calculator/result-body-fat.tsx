@@ -50,7 +50,7 @@ export const ResultBodyFat = ({
         <h2 className="pt-5 pb-2">Table of fat percentage classifications</h2>
         <ClassificationTable option={FAT_CLASSIFICATION_OPTIONS} />
       </div>
-      <div className="pl-7 py-4">
+      <div className="pl-7 py-4 pt-5">
         <AutoScrollDownButton />
       </div>
     </div>
@@ -249,13 +249,13 @@ const AutoScrollDownButton = () => {
   };
   return (
     <div
-      className="flex items-center justify-between cursor-pointer"
+      className="flex justify-center items-center cursor-pointer drop-shadow-md"
       onClick={_onScrollDown}
     >
-      <span className="text-xs ">
+      <span className="text-xs hover:underline transition-all">
         View description and foods suitable for your current level
       </span>
-      <FaChevronDown className="w-3" />
+      <FaChevronDown className="w-3 ml-2" />
     </div>
   );
 };
