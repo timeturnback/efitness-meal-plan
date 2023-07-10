@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { SimpleButton } from '@/components/button';
 import { SimpleEquations } from '@/components/equations';
 import {
+  DescribeLevelAndSuggestFoods,
   InfoInput,
   ResultBodyFat,
 } from '@/components/pages/body-fat-calculator';
@@ -45,6 +46,7 @@ const BodyFatCalculator = () => {
           )}
         </div>
       </WrapperCalculator>
+      <DescribeLevelAndSuggestFoods />
       <div className="h-screen">
         <div className="px-6 border-2 rounded-xl border-gray-800/90 bg-zinc-100/40">
           <SimpleEquations
