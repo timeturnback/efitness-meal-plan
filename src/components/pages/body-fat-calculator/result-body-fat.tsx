@@ -131,6 +131,11 @@ const PercentArrows = ({
       const percentElement = document.getElementById('percent');
       if (value <= 0) {
         percentElement!.style.left = `-30px`;
+      } else if (
+        (gender === 'female' && value >= 34) ||
+        (gender === 'male' && value >= 33.5)
+      ) {
+        percentElement!.style.left = `307px`;
       } else {
         let valueLeft = value * 10 - 30;
         if (valueLeft <= 0) valueLeft = -30;
