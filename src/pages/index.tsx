@@ -25,7 +25,7 @@ const HomeWrapper = () => {
               Do you need to calculate your body&apos;s calories, or do you need
               to calculate your body fat? Calculate now with SimpleHealthPlan.
             </span>
-            <div className="w-4/5 mt-6">
+            <div className="w-80 mt-6">
               <SimpleButton
                 label="Calculate Now!"
                 to="calculate-now"
