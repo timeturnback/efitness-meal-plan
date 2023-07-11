@@ -10,8 +10,6 @@ import { ContentFat, SuggestFoodsNutrition } from '@/components/pages/home';
 import { MainContext } from '@/context/main-context';
 
 const HomeWrapper = () => {
-  // const imghome = useScrollReveal({ origin: 'bottom' });
-  // const contenthome = useScrollReveal();
   const { setCalculateNow } = useContext(MainContext);
   return (
     <div className="h-full pt-16">
