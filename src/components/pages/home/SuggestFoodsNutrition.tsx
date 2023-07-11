@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import Slider from 'react-slick';
 
@@ -7,18 +8,21 @@ import {
 } from '@/constants/select-options';
 
 export const SuggestFoodsNutrition = () => {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 8000,
-    pauseOnHover: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
+  const settings = useMemo(
+    () => ({
+      dots: false,
+      infinite: true,
+      speed: 600,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 8000,
+      pauseOnHover: true,
+      nextArrow: <SampleNextArrow />,
+      prevArrow: <SamplePrevArrow />,
+    }),
+    []
+  );
   return (
     <div className="h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
       <h2 className="text-4xl font-medium drop-shadow-md py-5 mb-10">
