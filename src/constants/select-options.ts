@@ -623,3 +623,63 @@ export const DESCRIBE_LEVEL_AND_SUGGEST_FOOD: SelectOptionDescribeAndSuggestFood
       fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes',
     },
   ];
+
+export const DISEASES = [
+  {
+    name: 'Cardiovascular diseases',
+    description:
+      'The risk of developing heart-related conditions such as coronary artery disease and high blood pressure significantly increases in obese individuals. Fat deposition within the blood vessels can cause blockages and impair blood circulation.',
+  },
+  {
+    name: 'Diabetes',
+    description:
+      'Obesity is a major risk factor for type 2 diabetes. Elevated blood sugar levels due to insulin resistance can lead to metabolic dysfunction.',
+  },
+  {
+    name: 'Liver diseases',
+    description:
+      'Obesity can result in conditions like fatty liver disease, liver inflammation, and liver failure. Fat accumulation within the liver can cause inflammation and impair its functioning.',
+  },
+  {
+    name: 'Kidney diseases',
+    description:
+      "Overweight individuals have an increased risk of kidney diseases. The body's pressure on the kidneys can lead to inflammation and decreased kidney function.",
+  },
+  {
+    name: 'Bone and joint disorders',
+    description:
+      'Excessive weight can put strain on the skeletal system and cause damage to joints. This can lead to conditions like arthritis, joint degeneration, and osteoporosis.',
+  },
+];
+
+export const SUGGESTIONS = [
+  {
+    name: 'Food choices',
+    description:
+      'Increase consumption of fiber-rich foods such as vegetables, fruits, whole grains, and protein-rich foods like lean meats, fish, beans, and nuts.',
+  },
+  {
+    name: 'Fruits',
+    description:
+      'Prioritize fruits with low sugar content and high fiber content such as kiwi, pineapple, watermelon, papaya, and berries like blueberries and strawberries.',
+  },
+  {
+    name: 'Leafy greens',
+    description:
+      'Include a variety of leafy greens such as cabbage, spinach, kale, broccoli, and cilantro to provide essential fiber and nutrients.',
+  },
+  {
+    name: 'Beverages',
+    description:
+      'Replace sugary drinks and carbonated beverages with filtered water, unsweetened green tea, or natural fruit juices.',
+  },
+  {
+    name: 'Fat reduction',
+    description:
+      'Limit consumption of high-fat foods, fried and processed foods, and sweets. Opt for healthier cooking methods such as grilling, steaming, or boiling.',
+  },
+  {
+    name: 'Portion control',
+    description: 'Adjust portion sizes and monitor daily calorie intake.',
+  },
+];
