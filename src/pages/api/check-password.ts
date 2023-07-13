@@ -1,10 +1,10 @@
-import myFirebase from '@/hooks/useAuth';
+import firebase from 'firebase/compat/app';
 
 export default async function handler(req: any, res: any) {
   const { email, password } = req.body;
 
   try {
-    await myFirebase.auth().signInWithEmailAndPassword(email, password);
+    await firebase.auth().signInWithEmailAndPassword(email, password);
 
     res.status(200).json({
       message: 'ok',

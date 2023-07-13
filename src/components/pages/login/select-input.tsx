@@ -3,13 +3,12 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { SimpleInput } from '@/components/input';
-import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
+import { OrSignIn } from '@/components/orsignin';
 import { LoginContext } from '@/context/login-context';
 
 export const SelectInput = () => {
   const { email, setEmail, password, setPassword, onSubmit } =
     useContext(LoginContext);
-  const { OrSignIn } = useContext(AuthStateChangedContext);
   return (
     <div className="relative">
       <SimpleInput
