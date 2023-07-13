@@ -1,6 +1,6 @@
 import 'firebase/compat/auth';
 
-import type { CustomParameters, User, UserCredential } from 'firebase/auth';
+import type { User, UserCredential } from 'firebase/auth';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -9,11 +9,9 @@ import {
   useAuthState,
   useCreateUserWithEmailAndPassword,
   useSendEmailVerification,
-  useSignInWithGoogle,
   useUpdatePassword,
   useUpdateProfile,
 } from 'react-firebase-hooks/auth';
-import { FcGoogle } from 'react-icons/fc';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { auth } from '@/components/firebase';
@@ -59,10 +57,6 @@ interface AuthStateChangedProps {
   dateofbirth: string;
   setDateOfBirth: Dispatch<SetStateAction<string>>;
 
-  signInWithGoogle: (
-    scopes?: string[] | undefined,
-    customOAuthParameters?: CustomParameters | undefined
-  ) => Promise<UserCredential | undefined>;
   createUserWithEmailAndPassword: (
     email: string,
     password: string
@@ -89,7 +83,6 @@ interface AuthStateChangedProps {
     checkPassword: (email: string, password: string) => Promise<any>;
     updatePassword: (newpassword: string) => Promise<void>;
   };
-  OrSignIn: () => JSX.Element;
   userInfo: User | null | undefined;
 }
 
@@ -102,7 +95,6 @@ export const AuthStateChangedProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile] = useUpdateProfile(auth);
@@ -247,23 +239,6 @@ export const AuthStateChangedProvider = ({
     },
   };
 
-  const OrSignIn = () => {
-    return (
-      <>
-        <div className="my-2 text-center">OR</div>
-        <div className="w-full flex items-center justify-center">
-          <button
-            onClick={() => signInWithGoogle()}
-            className="z-10 bg-white flex items-center font-medium text-gray-900 justify-center px-4 p-2 rounded-md border border-gray-400 drop-shadow-md hover:bg-slate-200 transition-all"
-          >
-            <FcGoogle className="mr-2 text-xl" />
-            Sign In With Google
-          </button>
-        </div>
-      </>
-    );
-  };
-
   const value = {
     useraccountinfo,
     setUserAccountInfo,
@@ -273,12 +248,10 @@ export const AuthStateChangedProvider = ({
     setGender,
     dateofbirth,
     setDateOfBirth,
-    signInWithGoogle,
     createUserWithEmailAndPassword,
     updateProfile,
     sendEmailVerification,
     AuthService,
-    OrSignIn,
     userInfo,
   };
 

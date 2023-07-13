@@ -4,7 +4,7 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { SimpleInput } from '@/components/input';
-import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
+import { OrSignIn } from '@/components/orsignin';
 import { SignUpContext } from '@/context/signup-context';
 
 export const SelectInput = () => {
@@ -19,7 +19,6 @@ export const SelectInput = () => {
     setPassWord,
     onSubmit,
   } = useContext(SignUpContext);
-  const { OrSignIn } = useContext(AuthStateChangedContext);
   return (
     <>
       <div className="flex gap-5">
