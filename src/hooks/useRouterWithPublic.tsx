@@ -10,7 +10,7 @@ export const WithPublic = (Component: () => JSX.Element) => {
     const [count, setCount] = useState(false);
     const router = useRouter();
     useEffect(() => {
-      if (useraccountinfo.email) {
+      if (useraccountinfo?.email) {
         router.replace('/');
         setCount(false);
       } else setCount(true);

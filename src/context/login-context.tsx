@@ -1,10 +1,10 @@
-import type firebase from 'firebase/compat/app';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 import type { SelectOptionLoginNotice } from '@/constants/select-options';
 import { LOGIN_NOTICES } from '@/constants/select-options';
-import { AuthService } from '@/hooks/useAuth';
+
+import { AuthStateChangedContext } from './auth-state-changed-context';
 
 interface LoginProps {
   email: {
@@ -44,6 +44,7 @@ interface LoginProps {
 
 export const LoginContext = createContext({} as LoginProps);
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
+  const { AuthService } = useContext(AuthStateChangedContext);
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [userlogin, setUserLogin] = useState({
@@ -69,32 +70,32 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
     return !isError;
   };
 
-  const _checkAccountLogin = (
-    user:
-      | {
-          user: firebase.User | null;
-          error?: undefined;
-        }
-      | {
-          error: any;
-          user?: undefined;
-        }
-  ) => {
-    if (user.error) {
-      if (user.error === 'auth/wrong-password') {
-        setPassword({
-          value: password.value,
-          error: 'wrong password',
-        });
-      } else if (user.error === 'auth/too-many-requests') {
-        setUserLogin({ status: true, user: LOGIN_NOTICES.wrong_password });
-      }
-    } else if (user.user?.emailVerified) {
-      setUserLogin({ status: true, user: LOGIN_NOTICES.success });
-    } else {
-      setUserLogin({ status: true, user: LOGIN_NOTICES.risk });
-    }
-  };
+  // const _checkAccountLogin = (
+  //   user:
+  //     | {
+  //         user: firebase.User | null;
+  //         error?: undefined;
+  //       }
+  //     | {
+  //         error: any;
+  //         user?: undefined;
+  //       }
+  // ) => {
+  //   if (user.error) {
+  //     if (user.error === 'auth/wrong-password') {
+  //       setPassword({
+  //         value: password.value,
+  //         error: 'wrong password',
+  //       });
+  //     } else if (user.error === 'auth/too-many-requests') {
+  //       setUserLogin({ status: true, user: LOGIN_NOTICES.wrong_password });
+  //     }
+  //   } else if (user.user?.emailVerified) {
+  //     setUserLogin({ status: true, user: LOGIN_NOTICES.success });
+  //   } else {
+  //     setUserLogin({ status: true, user: LOGIN_NOTICES.risk });
+  //   }
+  // };
 
   const onSendAConfirmationEmail = () => {
     AuthService.sendAConfirmationEmail();
@@ -108,9 +109,9 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const onSubmit = async () => {
     if (_CheckForm()) {
       const result = await AuthService.checkEmailUser(email.value);
-      if (result.length >= 1) {
-        const user = await AuthService.loginUser(email.value, password.value);
-        _checkAccountLogin(user);
+      if (result) {
+        // const user = await AuthService.loginUser(email.value, password.value);
+        // _checkAccountLogin(user);
       } else {
         setEmail({
           value: email.value,

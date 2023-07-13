@@ -1,18 +1,21 @@
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+// import 'firebase/compat/auth';
+// import 'firebase/compat/firestore';
 
 import firebase from 'firebase/compat/app';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import React, { useContext } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
-const config = {
-  apiKey: process.env.NEXT_PUBLIC_API_KEY_FIREBASE,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  projectId: 'simplehealthplan-b5d05',
-  messagingSenderId: '39095286951',
-  // ...
-};
+import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
+
+// const config = {
+//   apiKey: process.env.NEXT_PUBLIC_API_KEY_FIREBASE,
+//   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+//   projectId: 'simplehealthplan-b5d05',
+//   messagingSenderId: '39095286951',
+//   // ...
+// };
 if (!firebase.apps.length) {
-  firebase.initializeApp(config);
+  // firebase.initializeApp(config);
 } else {
   firebase.app();
 }
@@ -28,36 +31,25 @@ export const uiConfig = {
   signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
 };
 
-export function orSignIn() {
+export const OrSignIn = () => {
+  const { signInWithGoogle } = useContext(AuthStateChangedContext);
   return (
     <>
-      <div className="mt-2 text-center">OR</div>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      <div className="my-2 text-center">OR</div>
+      <div className="w-full flex items-center justify-center">
+        <button
+          onClick={() => signInWithGoogle()}
+          className="z-10 bg-white flex items-center font-medium text-gray-900 justify-center px-4 p-2 rounded-md border border-gray-400 drop-shadow-md hover:bg-slate-200 transition-all"
+        >
+          <FcGoogle className="mr-2 text-xl" />
+          Sign In With Google
+        </button>
+      </div>
     </>
   );
-}
+};
 
 export const AuthService = {
-  createUser: async ({
-    email,
-    password,
-    firstname,
-    lastname,
-  }: {
-    email: string;
-    password: string;
-    firstname: string;
-    lastname: string;
-  }) => {
-    const user = await firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password);
-    user.user?.updateProfile({
-      displayName: `${firstname} - ${lastname}`,
-    });
-    await user.user?.sendEmailVerification();
-    return user;
-  },
   checkEmailUser: async (email: string) => {
     const result = await firebase.auth().fetchSignInMethodsForEmail(email);
     return result;

@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
-import { AuthService } from '@/hooks/useAuth';
 import { useClickOutSide } from '@/hooks/useClickOutSide';
+
+import { AuthStateChangedContext } from './auth-state-changed-context';
 
 interface HeaderContextProps {
   dropdownmenu: boolean;
@@ -18,6 +19,7 @@ interface HeaderContextProps {
 
 export const HeaderContext = createContext({} as HeaderContextProps);
 export const HeaderProvider = ({ children }: { children: ReactNode }) => {
+  const { AuthService } = useContext(AuthStateChangedContext);
   const [dropdownmenu, setShowDropDownMenu] = useState(false);
   const menuRef = useClickOutSide(() => {
     setShowDropDownMenu(false);
@@ -28,7 +30,7 @@ export const HeaderProvider = ({ children }: { children: ReactNode }) => {
 
   const onSignOut = () => {
     router.push('/');
-    AuthService.signOut();
+    AuthService.logOut();
   };
   const value = {
     menuRef,

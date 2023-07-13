@@ -3,12 +3,13 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { SimpleInput } from '@/components/input';
+import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { LoginContext } from '@/context/login-context';
-import { orSignIn } from '@/hooks/useAuth';
 
 export const SelectInput = () => {
   const { email, setEmail, password, setPassword, onSubmit } =
     useContext(LoginContext);
+  const { OrSignIn } = useContext(AuthStateChangedContext);
   return (
     <div className="relative">
       <SimpleInput
@@ -37,7 +38,7 @@ export const SelectInput = () => {
       <div className="pt-8 pb-2">
         <SimpleButton label="Login" color onClick={() => onSubmit()} />
       </div>
-      {orSignIn()}
+      <OrSignIn />
       <span className="flex items-center justify-center text-gray-900">
         Don&apos;t have an account.&nbsp;
         <Link href={'signup'}>

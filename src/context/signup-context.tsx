@@ -1,7 +1,7 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
-import { AuthService } from '@/hooks/useAuth';
+import { AuthStateChangedContext } from './auth-state-changed-context';
 
 interface SignUpProps {
   firstname: { value: string; error: string };
@@ -21,6 +21,7 @@ interface SignUpProps {
 export const SignUpContext = createContext({} as SignUpProps);
 
 export const SignUpProvider = ({ children }: { children: ReactNode }) => {
+  const { AuthService } = useContext(AuthStateChangedContext);
   const [firstname, setFirstName] = useState({ value: '', error: '' });
   const [lastname, setLastName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -81,7 +82,7 @@ export const SignUpProvider = ({ children }: { children: ReactNode }) => {
     passwordUser: string
   ) => {
     const result = await AuthService.checkEmailUser(emailUser);
-    if (result.length >= 1) {
+    if (result) {
       setEmail({
         value: email.value,
         error:
