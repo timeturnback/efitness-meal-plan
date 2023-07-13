@@ -4,8 +4,8 @@ import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
 import { SimpleInput } from '@/components/input';
+import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { SignUpContext } from '@/context/signup-context';
-import { orSignIn } from '@/hooks/useAuth';
 
 export const SelectInput = () => {
   const {
@@ -19,6 +19,7 @@ export const SelectInput = () => {
     setPassWord,
     onSubmit,
   } = useContext(SignUpContext);
+  const { OrSignIn } = useContext(AuthStateChangedContext);
   return (
     <>
       <div className="flex gap-5">
@@ -62,7 +63,7 @@ export const SelectInput = () => {
             <SimpleButton label="Sign Up" color onClick={onSubmit} />
           </div>
         </div>
-        {orSignIn()}
+        <OrSignIn />
         <span className="z-10 flex items-center justify-center text-gray-900">
           Already have an account.&nbsp;
           <Link href={'login'}>

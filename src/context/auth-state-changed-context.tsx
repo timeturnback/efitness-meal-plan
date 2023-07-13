@@ -1,13 +1,30 @@
 import 'firebase/compat/auth';
 
+import type { CustomParameters, User, UserCredential } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+  useSendEmailVerification,
+  useSignInWithGoogle,
+  useUpdatePassword,
+  useUpdateProfile,
+} from 'react-firebase-hooks/auth';
+import { FcGoogle } from 'react-icons/fc';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { auth } from '@/components/firebase';
 import { ImageHeader } from '@/components/Images/header';
 import { ImagesUserProfile } from '@/components/Images/user-profile';
 import { selector } from '@/redux';
+
+interface Profile {
+  displayName?: string;
+  photoURL?: string;
+}
 
 interface AuthStateChangedProps {
   useraccountinfo: {
@@ -41,6 +58,39 @@ interface AuthStateChangedProps {
 
   dateofbirth: string;
   setDateOfBirth: Dispatch<SetStateAction<string>>;
+
+  signInWithGoogle: (
+    scopes?: string[] | undefined,
+    customOAuthParameters?: CustomParameters | undefined
+  ) => Promise<UserCredential | undefined>;
+  createUserWithEmailAndPassword: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential | undefined>;
+  updateProfile: (profile: Profile) => Promise<boolean>;
+  sendEmailVerification: () => Promise<boolean>;
+  AuthService: {
+    createUser: ({
+      email,
+      password,
+      firstname,
+      lastname,
+    }: {
+      email: string;
+      password: string;
+      firstname: string;
+      lastname: string;
+    }) => Promise<User | undefined>;
+    checkEmailUser: (email: string) => Promise<boolean>;
+    logOut: () => void;
+    resetPassword: (email: string) => Promise<void>;
+    loginUser: (email: string, password: string) => Promise<UserCredential>;
+    sendAConfirmationEmail: () => Promise<void>;
+    checkPassword: (email: string, password: string) => Promise<any>;
+    updatePassword: (newpassword: string) => Promise<void>;
+  };
+  OrSignIn: () => JSX.Element;
+  userInfo: User | null | undefined;
 }
 
 export const AuthStateChangedContext = createContext(
@@ -52,6 +102,14 @@ export const AuthStateChangedProvider = ({
 }: {
   children: ReactNode;
 }) => {
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile] = useUpdateProfile(auth);
+  const [sendEmailVerification] = useSendEmailVerification(auth);
+  const [updatePassword] = useUpdatePassword(auth);
+  const [userInfo] = useAuthState(auth);
+
   const [useraccountinfo, setUserAccountInfo] = useState({
     fullname: '',
     email: '',
@@ -131,6 +189,81 @@ export const AuthStateChangedProvider = ({
     });
   }, [useraccountinfo]);
 
+  const AuthService = {
+    createUser: async ({
+      email,
+      password,
+      firstname,
+      lastname,
+    }: {
+      email: string;
+      password: string;
+      firstname: string;
+      lastname: string;
+    }) => {
+      const user = await createUserWithEmailAndPassword(email, password);
+      await updateProfile({
+        displayName: `${firstname} ${lastname}`,
+        photoURL: ImageHeader.User.src,
+      });
+      await sendEmailVerification();
+      return user?.user;
+    },
+    checkEmailUser: async (email: string) => {
+      const value = await firebase.auth().fetchSignInMethodsForEmail(email);
+      return value.length >= 1;
+    },
+    logOut: () => {
+      signOut(auth);
+    },
+    resetPassword: async (email: string) => {
+      await firebase.auth().sendPasswordResetEmail(email);
+    },
+    loginUser: async (email: string, password: string) => {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result;
+    },
+    sendAConfirmationEmail: async () => {
+      await firebase.auth().currentUser?.reload();
+      await sendEmailVerification();
+    },
+    checkPassword: async (email: string, password: string) => {
+      const response = await fetch('/api/check-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+      return data;
+    },
+    updatePassword: async (newpassword: string) => {
+      await updatePassword(newpassword);
+    },
+  };
+
+  const OrSignIn = () => {
+    return (
+      <>
+        <div className="my-2 text-center">OR</div>
+        <div className="w-full flex items-center justify-center">
+          <button
+            onClick={() => signInWithGoogle()}
+            className="z-10 bg-white flex items-center font-medium text-gray-900 justify-center px-4 p-2 rounded-md border border-gray-400 drop-shadow-md hover:bg-slate-200 transition-all"
+          >
+            <FcGoogle className="mr-2 text-xl" />
+            Sign In With Google
+          </button>
+        </div>
+      </>
+    );
+  };
+
   const value = {
     useraccountinfo,
     setUserAccountInfo,
@@ -140,6 +273,13 @@ export const AuthStateChangedProvider = ({
     setGender,
     dateofbirth,
     setDateOfBirth,
+    signInWithGoogle,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    sendEmailVerification,
+    AuthService,
+    OrSignIn,
+    userInfo,
   };
 
   return (

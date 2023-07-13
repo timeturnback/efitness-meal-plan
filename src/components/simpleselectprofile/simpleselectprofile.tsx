@@ -5,7 +5,6 @@ import { FaBirthdayCake, FaPen } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
-import { AuthService } from '@/hooks/useAuth';
 import { selector } from '@/redux';
 
 import type { SelectOptionObject } from '../../constants/select-options';
@@ -386,8 +385,6 @@ const ChangePassword = () => {
     error: '',
   });
 
-  const { useraccountinfo } = useContext(AuthStateChangedContext);
-
   useEffect(() => {
     if (!currentvalue) {
       setOldPassword({
@@ -419,18 +416,18 @@ const ChangePassword = () => {
   ]);
 
   const onSubmit = async () => {
-    const user = await AuthService.loginUser(
-      useraccountinfo.email,
-      oldpassword.value
-    );
-    if (user.user) {
-      AuthService.updatePassword(user.user, newpassword.value);
-    } else if (user.error === 'auth/wrong-password') {
-      setOldPassword({
-        value: oldpassword.value,
-        error: 'old password is incorrect',
-      });
-    }
+    // const user = await AuthService.loginUser(
+    //   useraccountinfo.email,
+    //   oldpassword.value
+    // );
+    // if (user.user) {
+    //   AuthService.updatePassword(newpassword.value);
+    // } else if (user.error === 'auth/wrong-password') {
+    //   setOldPassword({
+    //     value: oldpassword.value,
+    //     error: 'old password is incorrect',
+    //   });
+    // }
   };
 
   return (
