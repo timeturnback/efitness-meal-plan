@@ -557,7 +557,7 @@ export const NUTRITIOUS_FOODS: SelectOptionNutritionFoods[] = [
   {
     name: 'Kiwi',
     description:
-      'Kiwi has a reputation as a health food because of its high vitamin C content, but the fruit is also rich in other nutrients. These may help reduce blood pressure, boost wound healing, help maintain bowel health, and more.',
+      "Kiwi is a nutrient-packed fruit bursting with health benefits. It is loaded with vitamin C, fiber, potassium, and vitamin K. The fruit's unique enzyme, actinidin, aids digestion. With its refreshing taste and versatility, kiwi is a delicious addition to a balanced diet that promotes overall well-being.",
     img: ImageNutritiousFoods.Kiwi,
   },
   {
@@ -575,8 +575,32 @@ export const NUTRITIOUS_FOODS: SelectOptionNutritionFoods[] = [
   {
     name: 'Yogurt',
     description:
-      'Yogurt is a great source of high-quality protein, offers various amounts of fat, and contains small amounts of lactose. Many brands are also high in added sugar and flavorings.',
+      'Yogurt is a nutrient-rich dairy product that offers a wide array of health benefits. Packed with essential nutrients, it is a great source of protein, calcium, and probiotics. Protein supports muscle health and helps in repairing tissues, while calcium is vital for strong bones and teeth. Probiotics promote a healthy gut and support digestion. With its creamy texture and tangy flavor, yogurt provides a delicious and wholesome option to incorporate into your daily diet for optimal nutrition.',
     img: ImageNutritiousFoods.Yogurt,
+  },
+  {
+    name: 'Fresh Salad',
+    description:
+      "A vibrant medley of crisp vegetables, protein, and flavorful toppings. Bursting with essential vitamins, minerals, antioxidants, and dietary fiber, this customizable delight nourishes your body while tantalizing your taste buds. Whether you prefer a classic combination or your own creative twist, Fresh Salad is a refreshing and nutritious choice that promotes overall well-being and supports a balanced diet. Elevate your plate with this colorful masterpiece and savor the goodness of nature's bounty.",
+    img: ImageNutritiousFoods.FreshSalad,
+  },
+  {
+    name: 'Grilled Salmon',
+    description:
+      'Grilled Salmon is a delicious and nutritious choice. Packed with omega-3 fatty acids for heart health and high-quality protein for muscle growth, it offers a range of essential vitamins and minerals. Serve it with green vegetables and whole grains for a well-rounded meal. With its versatility and health benefits, grilled salmon is a must-try for both taste and nutrition.',
+    img: ImageNutritiousFoods.GrilledSalmon,
+  },
+  {
+    name: 'Pineapple',
+    description:
+      'Pineapple is a tropical fruit that is both delicious and packed with nutritional benefits. This sweet and tangy fruit is a rich source of vitamin C, manganese, and dietary fiber. Its natural enzymes, like bromelain, have anti-inflammatory properties and aid in digestion. Whether enjoyed fresh or incorporated into various dishes, pineapple is a tropical nutritional wonder that adds a burst of flavor and health to your diet.',
+    img: ImageNutritiousFoods.Pineapple,
+  },
+  {
+    name: 'Steamed Quinoa',
+    description:
+      'Steamed quinoa is a versatile and nutritious grain packed with protein, fiber, and essential vitamins and minerals. It provides all nine essential amino acids, promotes digestion, supports muscle function, and contributes to bone health. With its impressive nutritional profile, steamed quinoa is a wholesome addition to any meal, offering a satisfying and nourishing experience.',
+    img: ImageNutritiousFoods.SteamedQuinoa,
   },
 ];
 
