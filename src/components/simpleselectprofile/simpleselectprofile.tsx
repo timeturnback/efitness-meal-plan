@@ -1,13 +1,10 @@
 import clsx from 'clsx';
-import type { SetStateAction } from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { FaBirthdayCake, FaPen } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
+import { FaPen } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 
 import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
-import { selector } from '@/redux';
 
-import type { SelectOptionObject } from '../../constants/select-options';
 import { DROP_DOWN_OPTIONS_GENDER } from '../../constants/select-options';
 import { SimpleButton } from '../button';
 import { ImagesUserProfile } from '../Images/user-profile';
@@ -152,25 +149,27 @@ const FullName = ({ title, bold }: { title: string; bold?: boolean }) => {
   const { useraccountinfo } = useContext(AuthStateChangedContext);
   const [currentvalue, setCurrentValue] = useState(false);
   const [buttondisabled, setButtonDisabled] = useState(true);
+  const fn = useraccountinfo.fullname.split(' ')[0];
+  const ln = useraccountinfo.fullname.split(' ')[1];
   const [firstname, setFirstName] = useState({
     inputfirstname: '',
-    first: useraccountinfo.fullname.split(' - ')[0],
+    first: fn,
   });
   const [lastname, setLastName] = useState({
     inputlastname: '',
-    last: useraccountinfo.fullname.split(' - ')[1],
+    last: ln,
   });
 
-  useEffect(() => {
-    setFirstName({
-      ...firstname,
-      first: useraccountinfo.fullname.split(' - ')[0],
-    });
-    setLastName({
-      ...lastname,
-      last: useraccountinfo.fullname.split(' - ')[1],
-    });
-  }, [currentvalue]);
+  // useEffect(() => {
+  //   setFirstName({
+  //     ...firstname,
+  //     first: fn,
+  //   });
+  //   setLastName({
+  //     ...lastname,
+  //     last: ln,
+  //   });
+  // }, [currentvalue]);
 
   useEffect(() => {
     if (
@@ -236,145 +235,6 @@ const FullName = ({ title, bold }: { title: string; bold?: boolean }) => {
   );
 };
 
-const Birthday = () => {
-  const [currentvalue, setCurrentValue] = useState(false);
-  const [buttondisabled, setButtonDisabled] = useState(true);
-  const [listyear, setListYear] = useState<SelectOptionObject[]>([]);
-  const [listmonth, setListMonth] = useState<SelectOptionObject[]>([]);
-  const [listday, setListDay] = useState<SelectOptionObject[]>([]);
-  const { dateofbirth } = useContext(AuthStateChangedContext);
-  const [day, setDay] = useState(1);
-  const [month, setMonth] = useState(1);
-  const [year, setYear] = useState(2000);
-
-  const dispatch = useDispatch();
-
-  const { users } = useSelector(selector.food);
-
-  const _onCreateArrayDateOfBirth = async (
-    startingValue: number,
-    endValue: number,
-    setCurrentsValue: (value: SetStateAction<SelectOptionObject[]>) => void
-  ) => {
-    setCurrentsValue([]);
-    const newArray: SelectOptionObject[] = [];
-    // eslint-disable-next-line consistent-return
-    const createArray = async (i: number): Promise<void> => {
-      if (i <= endValue) {
-        const item: SelectOptionObject = {
-          label: i.toString(),
-          value: i.toString(),
-        };
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        newArray.push(item);
-        await createArray(i + 1);
-      }
-    };
-    await createArray(startingValue);
-    setCurrentsValue(newArray);
-  };
-
-  useEffect(() => {
-    const newyear = new Date().getFullYear();
-    (async () => {
-      await _onCreateArrayDateOfBirth(1950, newyear, setListYear);
-      await _onCreateArrayDateOfBirth(1, 12, setListMonth);
-      await _onCreateArrayDateOfBirth(1, 31, setListDay);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (year && year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
-      _onCreateArrayDateOfBirth(1, 29, setListDay);
-    } else if (month === 2) {
-      if (day >= 28) {
-        setDay(28);
-        _onCreateArrayDateOfBirth(1, 28, setListDay);
-      }
-    } else if (month === 4 || month === 6 || month === 9 || month === 11) {
-      _onCreateArrayDateOfBirth(1, 30, setListDay);
-    } else {
-      _onCreateArrayDateOfBirth(1, 31, setListDay);
-    }
-  }, [day, month, year]);
-
-  useEffect(() => {
-    // setButtonDisabled(false);
-    if (users.date_of_birth) {
-      const [dateday, datemonth, dateyear] = users.date_of_birth.split('/');
-      if (
-        day !== parseInt(dateday!, 10) ||
-        month !== parseInt(datemonth!, 10) ||
-        year !== parseInt(dateyear!, 10)
-      ) {
-        setButtonDisabled(false);
-      } else {
-        setButtonDisabled(true);
-      }
-    }
-  }, [day, month, year, users.date_of_birth]);
-
-  const onSubmit = () => {
-    dispatch({
-      type: 'infousers',
-      payload: {
-        date_of_birth: `${day}/${month}/${year}`,
-      },
-    });
-    setCurrentValue(false);
-  };
-  return (
-    <div className="inline-block">
-      <div className="flex items-center justify-center">
-        {!currentvalue && <FaBirthdayCake className="text-3xl" />}
-        <div
-          className={clsx('flex', currentvalue ? 'flex-col' : 'items-center')}
-        >
-          {currentvalue ? (
-            <div className="flex gap-4">
-              <DropDownSelect
-                label="Day"
-                setCurrentValue={(e) => setDay(+e)}
-                options={listday}
-                defaultValue={day.toString()}
-              />
-              <DropDownSelect
-                label="Month"
-                setCurrentValue={(e) => setMonth(+e)}
-                options={listmonth}
-                defaultValue={month.toString()}
-              />
-              <DropDownSelect
-                label="Year"
-                setCurrentValue={(e) => setYear(+e)}
-                options={listyear}
-                defaultValue={year.toString()}
-              />
-            </div>
-          ) : (
-            <div className="pl-2">
-              <span className="text-sm font-medium text-gray-800">
-                Date Of Birth
-              </span>
-              <h2 className="block text-lg font-medium capitalize">
-                {dateofbirth}
-              </h2>
-            </div>
-          )}
-          <div>
-            <EditAndSaveInfomation
-              onClick={setCurrentValue}
-              currentvalue={currentvalue}
-              disabled={buttondisabled}
-              onSubmit={onSubmit}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const ChangePassword = () => {
   const [currentvalue, setCurrentValue] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -384,6 +244,7 @@ const ChangePassword = () => {
     value: '',
     error: '',
   });
+  const { AuthService, userInfo } = useContext(AuthStateChangedContext);
 
   useEffect(() => {
     if (!currentvalue) {
@@ -416,13 +277,19 @@ const ChangePassword = () => {
   ]);
 
   const onSubmit = async () => {
-    // const user = await AuthService.loginUser(
-    //   useraccountinfo.email,
-    //   oldpassword.value
-    // );
-    // if (user.user) {
-    //   AuthService.updatePassword(newpassword.value);
-    // } else if (user.error === 'auth/wrong-password') {
+    const user = await AuthService.loginUser(
+      userInfo?.email ? userInfo?.email : '',
+      oldpassword.value
+    );
+    if (user.user) {
+      AuthService.updatePassword(newpassword.value);
+    } else if (user.error === 'wrong-password') {
+      setOldPassword({
+        value: oldpassword.value,
+        error: 'old password is incorrect',
+      });
+    }
+    // else if (user.error === 'too-many-requests') {
     //   setOldPassword({
     //     value: oldpassword.value,
     //     error: 'old password is incorrect',
@@ -473,7 +340,6 @@ const ChangePassword = () => {
 const SimpleSelectProfile = {
   FullName,
   DropDown,
-  Birthday,
   ChangePassword,
 };
 

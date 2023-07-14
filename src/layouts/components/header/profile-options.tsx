@@ -49,9 +49,6 @@ export const ProfileOptions = () => {
               title={gender.value ? gender.value : 'Unknown'}
             />
           </div>
-          <div className="pt-4">
-            <SimpleSelectProfile.Birthday />
-          </div>
         </div>
         <div className="pt-4">
           <h2 className="text-lg font-medium text-gray-900">

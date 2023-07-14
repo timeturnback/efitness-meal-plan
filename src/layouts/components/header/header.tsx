@@ -13,7 +13,7 @@ import {
 } from './options-select';
 
 export const Header = () => {
-  const { onpublic } = useContext(AuthStateChangedContext);
+  const { userInfo } = useContext(AuthStateChangedContext);
   return (
     <div className="fixed top-0 z-40 w-full h-16 bg-white shadow-lg">
       <div className="flex justify-between h-full max-w-5xl mx-auto">
@@ -34,12 +34,12 @@ export const Header = () => {
         </div>
         <div
           className={clsx(
-            onpublic === true || onpublic === false
+            userInfo || !userInfo
               ? 'opacity-100 visible'
               : 'opacity-0 invisible'
           )}
         >
-          {onpublic ? <PrivateHeader /> : <PublicHeader />}
+          {userInfo ? <PrivateHeader /> : <PublicHeader />}
         </div>
       </div>
     </div>

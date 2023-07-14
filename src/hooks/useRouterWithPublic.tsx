@@ -6,15 +6,15 @@ import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 
 export const WithPublic = (Component: () => JSX.Element) => {
   return function Public() {
-    const { useraccountinfo } = useContext(AuthStateChangedContext);
+    const { userInfo } = useContext(AuthStateChangedContext);
     const [count, setCount] = useState(false);
     const router = useRouter();
     useEffect(() => {
-      if (useraccountinfo?.email) {
+      if (userInfo) {
         router.replace('/');
         setCount(false);
       } else setCount(true);
-    }, [useraccountinfo, count]);
+    }, [userInfo, count]);
     return count ? <Component /> : <SimpleLoading />;
   };
 };
