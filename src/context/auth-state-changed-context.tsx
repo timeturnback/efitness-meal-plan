@@ -12,12 +12,9 @@ import {
   useUpdatePassword,
   useUpdateProfile,
 } from 'react-firebase-hooks/auth';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { auth } from '@/components/firebase';
 import { ImageHeader } from '@/components/Images/header';
-import { ImagesUserProfile } from '@/components/Images/user-profile';
-import { selector } from '@/redux';
 
 interface Profile {
   displayName?: string;
@@ -54,9 +51,6 @@ interface AuthStateChangedProps {
     }>
   >;
 
-  dateofbirth: string;
-  setDateOfBirth: Dispatch<SetStateAction<string>>;
-
   createUserWithEmailAndPassword: (
     email: string,
     password: string
@@ -76,9 +70,21 @@ interface AuthStateChangedProps {
       lastname: string;
     }) => Promise<User | undefined>;
     checkEmailUser: (email: string) => Promise<boolean>;
-    logOut: () => void;
+    logOut: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
-    loginUser: (email: string, password: string) => Promise<UserCredential>;
+    loginUser: (
+      email: string,
+      password: string
+    ) => Promise<
+      | {
+          user: User;
+          error?: undefined;
+        }
+      | {
+          error: any;
+          user?: undefined;
+        }
+    >;
     sendAConfirmationEmail: () => Promise<void>;
     checkPassword: (email: string, password: string) => Promise<any>;
     updatePassword: (newpassword: string) => Promise<void>;
@@ -116,70 +122,83 @@ export const AuthStateChangedProvider = ({
     image_header: '',
   });
 
-  const [dateofbirth, setDateOfBirth] = useState('1/1/2000');
+  // const { users } = useSelector(selector.food);
 
-  const { users } = useSelector(selector.food);
+  // const dispatch = useDispatch();
 
-  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (users.gender) {
+  //     if (users.gender === 'male') {
+  //       setGender({
+  //         value: users.gender,
+  //         image: ImagesUserProfile.IconMale.src,
+  //         image_header: ImageHeader.MaleProfile.src,
+  //       });
+  //     } else if (users.gender === 'female') {
+  //       setGender({
+  //         value: users.gender,
+  //         image: ImagesUserProfile.IconFemale.src,
+  //         image_header: ImageHeader.FemaleProfile.src,
+  //       });
+  //     } else {
+  //       setGender({
+  //         value: users.gender,
+  //         image: ImagesUserProfile.IconEquality.src,
+  //         image_header: ImageHeader.User,
+  //       });
+  //     }
+  //   } else {
+  //     setGender({ value: 'Unknown', image: '', image_header: '' });
+  //   }
+  // }, [users.gender]);
+
+  // useEffect(() => {
+  //   if (users.date_of_birth) {
+  //     setDateOfBirth(users.date_of_birth);
+  //   } else {
+  //     dispatch({
+  //       type: 'infousers',
+  //       payload: {
+  //         date_of_birth: '1/1/2000',
+  //       },
+  //     });
+  //   }
+  // }, [users.date_of_birth]);
+
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user && user.emailVerified) {
+  //       setUserAccountInfo({
+  //         fullname: user.displayName || 'Unknown',
+  //         email: user.email || '',
+  //         avatar: user.photoURL || ImageHeader.User.src,
+  //       });
+  //       setOnPublic(true);
+  //     } else {
+  //       setUserAccountInfo({
+  //         fullname: '',
+  //         email: '',
+  //         avatar: '',
+  //       });
+  //       setOnPublic(false);
+  //     }
+  //   });
+  // }, [useraccountinfo]);
 
   useEffect(() => {
-    if (users.gender) {
-      if (users.gender === 'male') {
-        setGender({
-          value: users.gender,
-          image: ImagesUserProfile.IconMale.src,
-          image_header: ImageHeader.MaleProfile.src,
-        });
-      } else if (users.gender === 'female') {
-        setGender({
-          value: users.gender,
-          image: ImagesUserProfile.IconFemale.src,
-          image_header: ImageHeader.FemaleProfile.src,
-        });
-      } else {
-        setGender({
-          value: users.gender,
-          image: ImagesUserProfile.IconEquality.src,
-          image_header: ImageHeader.User,
-        });
-      }
-    } else {
-      setGender({ value: 'Unknown', image: '', image_header: '' });
-    }
-  }, [users.gender]);
-
-  useEffect(() => {
-    if (users.date_of_birth) {
-      setDateOfBirth(users.date_of_birth);
-    } else {
-      dispatch({
-        type: 'infousers',
-        payload: {
-          date_of_birth: '1/1/2000',
-        },
+    if (
+      userInfo &&
+      userInfo.photoURL &&
+      userInfo.email &&
+      userInfo.displayName
+    ) {
+      setUserAccountInfo({
+        avatar: userInfo.photoURL,
+        email: userInfo.email,
+        fullname: userInfo.displayName,
       });
     }
-  }, [users.date_of_birth]);
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user && user.emailVerified) {
-        setUserAccountInfo({
-          fullname: user.displayName || 'Unknown',
-          email: user.email || '',
-          avatar: user.photoURL || ImageHeader.User.src,
-        });
-        setOnPublic(true);
-      } else {
-        setUserAccountInfo({
-          fullname: '',
-          email: '',
-          avatar: '',
-        });
-        setOnPublic(false);
-      }
-    });
-  }, [useraccountinfo]);
+  }, [userInfo]);
 
   const AuthService = {
     createUser: async ({
@@ -206,14 +225,23 @@ export const AuthStateChangedProvider = ({
       return value.length >= 1;
     },
     logOut: () => {
-      signOut(auth);
+      return signOut(auth);
     },
     resetPassword: async (email: string) => {
       await firebase.auth().sendPasswordResetEmail(email);
     },
     loginUser: async (email: string, password: string) => {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      return result;
+      try {
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        return {
+          user: result.user,
+        };
+      } catch (e: any) {
+        const result = `${e}`.match(/\(auth\/([^)]+)\)/);
+        return {
+          error: result ? result[1] : '',
+        };
+      }
     },
     sendAConfirmationEmail: async () => {
       await firebase.auth().currentUser?.reload();
@@ -246,8 +274,6 @@ export const AuthStateChangedProvider = ({
     setOnPublic,
     gender,
     setGender,
-    dateofbirth,
-    setDateOfBirth,
     createUserWithEmailAndPassword,
     updateProfile,
     sendEmailVerification,

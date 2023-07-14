@@ -1,3 +1,4 @@
+import type { User } from 'firebase/auth';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useContext, useState } from 'react';
 
@@ -70,32 +71,24 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
     return !isError;
   };
 
-  // const _checkAccountLogin = (
-  //   user:
-  //     | {
-  //         user: firebase.User | null;
-  //         error?: undefined;
-  //       }
-  //     | {
-  //         error: any;
-  //         user?: undefined;
-  //       }
-  // ) => {
-  //   if (user.error) {
-  //     if (user.error === 'auth/wrong-password') {
-  //       setPassword({
-  //         value: password.value,
-  //         error: 'wrong password',
-  //       });
-  //     } else if (user.error === 'auth/too-many-requests') {
-  //       setUserLogin({ status: true, user: LOGIN_NOTICES.wrong_password });
-  //     }
-  //   } else if (user.user?.emailVerified) {
-  //     setUserLogin({ status: true, user: LOGIN_NOTICES.success });
-  //   } else {
-  //     setUserLogin({ status: true, user: LOGIN_NOTICES.risk });
-  //   }
-  // };
+  const _checkAccountLogin = (
+    user: { user: User; error?: undefined } | { error: any; user?: undefined }
+  ) => {
+    if (user.error) {
+      if (user.error === 'wrong-password') {
+        setPassword({
+          value: password.value,
+          error: 'wrong password',
+        });
+      } else if (user.error === 'too-many-requests') {
+        setUserLogin({ status: true, user: LOGIN_NOTICES.wrong_password });
+      }
+    } else if (user.user?.emailVerified) {
+      setUserLogin({ status: true, user: LOGIN_NOTICES.success });
+    } else {
+      setUserLogin({ status: true, user: LOGIN_NOTICES.risk });
+    }
+  };
 
   const onSendAConfirmationEmail = () => {
     AuthService.sendAConfirmationEmail();
@@ -110,8 +103,8 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
     if (_CheckForm()) {
       const result = await AuthService.checkEmailUser(email.value);
       if (result) {
-        // const user = await AuthService.loginUser(email.value, password.value);
-        // _checkAccountLogin(user);
+        const user = AuthService.loginUser(email.value, password.value);
+        _checkAccountLogin(await user);
       } else {
         setEmail({
           value: email.value,

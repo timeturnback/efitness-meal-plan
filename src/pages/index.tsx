@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { SimpleButton } from '@/components/button';
 import { ImageHome } from '@/components/Images/home';
 import { ContentFat, SuggestFoodsNutrition } from '@/components/pages/home';
+import { Wrapper } from '@/components/pages/wrapper';
 import { MainContext } from '@/context/main-context';
 
 const HomeWrapper = () => {
@@ -40,13 +41,15 @@ const HomeWrapper = () => {
 
 const Index = () => {
   return (
-    <div className="h-screen">
-      <HomeWrapper />
-      <ContentFat />
+    <Wrapper title="Home | SimpleHealthPlan">
       <div className="h-screen">
-        <SuggestFoodsNutrition />
+        <HomeWrapper />
+        <ContentFat />
+        <div className="h-screen">
+          <SuggestFoodsNutrition />
+        </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

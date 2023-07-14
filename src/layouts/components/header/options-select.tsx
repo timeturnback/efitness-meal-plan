@@ -27,9 +27,13 @@ export const PublicHeader = () => {
 };
 
 export const PrivateHeader = () => {
-  const { gender } = useContext(AuthStateChangedContext);
+  const { userInfo } = useContext(AuthStateChangedContext);
   const _handler = () => {
-    return <ProfilePrivateHeader image={gender.image_header} />;
+    return (
+      <ProfilePrivateHeader
+        image={userInfo?.photoURL ? userInfo?.photoURL : ''}
+      />
+    );
   };
   return _handler();
 };
@@ -42,7 +46,7 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
     <div className="relative h-full" ref={menuRef}>
       <div
         className={clsx(
-          "relative flex h-full cursor-pointer items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-['']",
+          "relative flex h-full items-center justify-center before:absolute before:bottom-2 before:right-2 before:z-10 before:h-3 before:w-3 before:rounded-full before:border-2 before:border-gray-300 before:bg-green-400 before:drop-shadow-md before:content-[''] before:cursor-pointer",
           gender.value !== 'male' && gender.value !== 'female'
             ? 'before:right-0.5'
             : 'before:right-2'
@@ -53,7 +57,7 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
           src={image}
           alt=""
           className={clsx(
-            'rounded-full drop-shadow-md',
+            'rounded-full drop-shadow-md border-2 border-slate-200 cursor-pointer',
             gender.value !== 'male' && gender.value !== 'female'
               ? 'h-12'
               : 'h-14'
@@ -68,9 +72,7 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
 export const DropDownMenu = ({ image }: { image: string }) => {
   const { dropdownmenu, onSignOut, setOpenProfile, setShowDropDownMenu } =
     useContext(HeaderContext);
-  const { setOnPublic, useraccountinfo, gender } = useContext(
-    AuthStateChangedContext
-  );
+  const { setOnPublic, gender, userInfo } = useContext(AuthStateChangedContext);
   const _onClick = (value: string) => {
     if (value === 'sign out') {
       onSignOut();
@@ -99,11 +101,9 @@ export const DropDownMenu = ({ image }: { image: string }) => {
           )}
         />
         <div className="flex flex-col justify-center w-48 px-2">
-          <h2 className="font-medium">
-            {useraccountinfo.fullname.replace(' - ', ' ')}
-          </h2>
+          <h2 className="font-medium">{userInfo?.displayName}</h2>
           <span className="overflow-hidden text-xs text-ellipsis">
-            {useraccountinfo.email}
+            {userInfo?.email}
           </span>
         </div>
       </div>
