@@ -15,7 +15,7 @@ const FoodsWrapper = () => {
 
   return (
     <Wrapper title="Foods">
-      <div className="mt-10">
+      <div className="mt-5">
         {fooddetails && (
           <FoodDetails
             datadoughnut={itemfooddetails.datadoughnut}
@@ -27,6 +27,7 @@ const FoodsWrapper = () => {
           onChangeText={(e) => setSearch(e)}
           maxwidth
           search
+          removetext={search.length > 0}
           onSubmitSeach={() => setInputSubmit(true)}
         />
       </div>

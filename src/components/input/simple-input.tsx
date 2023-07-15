@@ -1,9 +1,10 @@
 import classNames from 'classnames';
 import clsx from 'clsx';
 import type { FC, InputHTMLAttributes } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { ImSearch } from 'react-icons/im';
+import { IoClose } from 'react-icons/io5';
 
 interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -15,6 +16,7 @@ interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   seepassword?: boolean;
   placeholder?: string;
   error?: string;
+  removetext?: boolean;
   onChangeText?: (value: string) => void;
   onSubmitSeach?: () => void;
 }
@@ -27,6 +29,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   search,
   maxwidth,
   seepassword,
+  removetext,
   onChange,
   onChangeText,
   onSubmitSeach,
@@ -35,6 +38,8 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   const [winput, setWInput] = useState('100%');
   const [seepassw, setSeePassW] = useState(false);
   const [inputtype, setInputType] = useState('text');
+  const Ref = useRef<HTMLInputElement>(null);
+
   const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);
@@ -43,6 +48,16 @@ export const SimpleInput: FC<SimpleInputProps> = ({
       onChangeText(e.target.value);
     }
   };
+
+  const _closeText = () => {
+    if (onChangeText) {
+      onChangeText('');
+      if (Ref.current) {
+        Ref.current.focus();
+      }
+    }
+  };
+
   useEffect(() => {
     if (unit && maxwidth) {
       if (unit.length === 1) {
@@ -100,6 +115,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
         )}
         <div className="relative flex items-center w-full h-full justify-start">
           <input
+            ref={Ref}
             style={{ width: winput }}
             value={value}
             className={classNames(
@@ -111,6 +127,14 @@ export const SimpleInput: FC<SimpleInputProps> = ({
             type={inputtype}
             {...rest}
           />
+          {removetext ? (
+            <div className="h-full flex items-center px-3">
+              <IoClose
+                className="text-2xl text-gray-900/90 drop-shadow-md cursor-pointer"
+                onClick={() => _closeText()}
+              />
+            </div>
+          ) : null}
           {seepassword ? (
             <>
               <AiFillEyeInvisible

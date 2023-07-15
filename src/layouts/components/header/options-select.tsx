@@ -39,9 +39,14 @@ export const PrivateHeader = () => {
 };
 
 export const ProfilePrivateHeader = ({ image }: { image: string }) => {
-  const { dropdownmenu, setShowDropDownMenu, menuRef } =
+  const { dropdownmenu, setShowDropDownMenu, menuRef, openprofile } =
     useContext(HeaderContext);
   const { gender } = useContext(AuthStateChangedContext);
+  const _Check = () => {
+    if (!openprofile) {
+      setShowDropDownMenu(!dropdownmenu);
+    }
+  };
   return (
     <div className="relative h-full" ref={menuRef}>
       <div
@@ -51,7 +56,7 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
             ? 'before:right-0.5'
             : 'before:right-2'
         )}
-        onClick={() => setShowDropDownMenu(!dropdownmenu)}
+        onClick={() => _Check()}
       >
         <img
           src={image}
@@ -86,7 +91,7 @@ export const DropDownMenu = ({ image }: { image: string }) => {
     <div
       className={clsx(
         "absolute right-0 z-40 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 transition-all duration-200 before:border-x-transparent before:border-b-white before:content-['']",
-        dropdownmenu ? 'opacity-100' : 'opacity-0'
+        dropdownmenu ? 'block' : 'hidden'
       )}
     >
       <div className="flex items-center px-2">
