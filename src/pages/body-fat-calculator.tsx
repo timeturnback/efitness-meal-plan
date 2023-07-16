@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useContext } from 'react';
 
 import { SimpleButton } from '@/components/button';
@@ -14,7 +15,7 @@ import { FAT_PERCENTAGE_OPTIONS } from '@/constants/select-options';
 import { BodyFatContext, BodyFatProvider } from '@/context/body-fat-context';
 
 const BodyFatCalculator = () => {
-  const { onSubmit, fatpercent } = useContext(BodyFatContext);
+  const { onSubmit, fatpercent, level } = useContext(BodyFatContext);
   return (
     <Wrapper title="Body Fat Calculator">
       <WrapperCalculator title="Body Fat Calculator">
@@ -46,8 +47,18 @@ const BodyFatCalculator = () => {
           )}
         </div>
       </WrapperCalculator>
-      <div className="h-screen p-6 border-2 rounded-xl border-gray-800/90 bg-zinc-100/40 flex flex-col justify-between">
-        <DescribeLevelAndSuggestFoods />
+      <div
+        className={clsx(
+          'flex flex-col justify-between pb-12',
+          fatpercent.value ? 'h-screen' : null
+        )}
+      >
+        {fatpercent.value ? (
+          <DescribeLevelAndSuggestFoods
+            value={+fatpercent.value}
+            level={level}
+          />
+        ) : null}
         <SimpleEquations
           title="Body Fat Percentage (BFP) Formula"
           option={FAT_PERCENTAGE_OPTIONS}

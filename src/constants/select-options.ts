@@ -198,7 +198,7 @@ export const WOMENS_PERCENT_BAR_OPTIONS: SelectOptionPercentBar[] = [
     good: 70,
     value_good: '14 - 20',
     fair: 40,
-    value_fair: '12 - 24',
+    value_fair: '21 - 24',
     poor: 70,
     value_poor: '25 - 31',
     high: 30,
@@ -612,7 +612,7 @@ export const DESCRIBE_LEVEL_AND_SUGGEST_FOOD: SelectOptionDescribeAndSuggestFood
         'With low body fat, you need to maintain a balanced diet and ensure an adequate supply of nutrients. Focus on consuming healthy unsaturated fats, whole grains, proteins, and natural foods.',
       foods:
         'Chicken, fish, eggs, chia seeds, oats, leafy greens like spinach and bok choy, non-fat milk, almond milk, avocado, fatty fish, and lemon.',
-      fruits: 'Apple, pineapple, strawberries, blueberries, pomegranate',
+      fruits: 'Apple, pineapple, strawberries, blueberries, pomegranate.',
     },
     {
       value: 'athletes',
@@ -620,7 +620,7 @@ export const DESCRIBE_LEVEL_AND_SUGGEST_FOOD: SelectOptionDescribeAndSuggestFood
         'At this level, you can increase your calorie and healthy fat intake in your diet. Focus on consuming unsaturated fats, high-quality proteins, and fiber-rich foods.',
       foods:
         'Chicken, beef, fish, almonds, oats, leafy greens like spinach and kale, cruciferous vegetables such as broccoli and cauliflower, non-sugar milk, almond milk, avocado, coconut oil, and lemon.',
-      fruits: 'Pineapple, strawberries, blueberries, and grapes',
+      fruits: 'Pineapple, strawberries, blueberries, and grapes.',
     },
     {
       value: 'fitness',
@@ -628,7 +628,7 @@ export const DESCRIBE_LEVEL_AND_SUGGEST_FOOD: SelectOptionDescribeAndSuggestFood
         'At this level, continue maintaining a balanced diet but may slightly reduce fat intake. Increase consumption of protein, fiber, and nutrient-rich foods.',
       foods:
         'Chicken, beef, fish, almonds, oats, leafy greens like spinach and kale, cruciferous vegetables such as broccoli and cauliflower, pumpkin, non-sugar milk, almond milk, coconut oil, olive oil, and lemon.',
-      fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes',
+      fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes.',
     },
     {
       value: 'average',
@@ -636,7 +636,7 @@ export const DESCRIBE_LEVEL_AND_SUGGEST_FOOD: SelectOptionDescribeAndSuggestFood
         'At this level, focus on reducing unhealthy fats in your diet. Prioritize consumption of fiber, protein, and nutrient-rich foods while limiting excess calories.',
       foods:
         'Chicken, beef, fish, almonds, oats, leafy greens like spinach and kale, cruciferous vegetables such as broccoli and cauliflower, pumpkin, peanuts, non-sugar milk, almond milk, coconut oil, olive oil, and lemon.',
-      fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes',
+      fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes.',
     },
     {
       value: 'obese',
@@ -644,7 +644,7 @@ export const DESCRIBE_LEVEL_AND_SUGGEST_FOOD: SelectOptionDescribeAndSuggestFood
         'At this level, focus on reducing unhealthy fats in your diet. Limit consumption of sugary foods, saturated fats, and starches. Increase your intake of fiber, protein, and nutrient-rich foods. Combine a proper diet with an appropriate exercise routine.',
       foods:
         'Chicken, beef, fish, almonds, oats, leafy greens like spinach and kale, cruciferous vegetables such as broccoli and cauliflower, pumpkin, peanuts, high-fiber foods, non-sugar milk, almond milk, coconut oil, olive oil, and lemon.',
-      fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes',
+      fruits: 'Apple, pineapple, strawberries, blueberries, and black grapes.',
     },
   ];
 
