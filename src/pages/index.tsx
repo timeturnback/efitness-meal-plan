@@ -13,7 +13,7 @@ import { MainContext } from '@/context/main-context';
 const HomeWrapper = () => {
   const { setCalculateNow } = useContext(MainContext);
   return (
-    <div className="h-full pt-16">
+    <div className="h-full">
       <div className="flex items-center h-full max-w-5xl mx-auto">
         <div className="flex items-center justify-between">
           <div>
@@ -42,7 +42,7 @@ const HomeWrapper = () => {
 const Index = () => {
   return (
     <Wrapper title="Home | SimpleHealthPlan">
-      <div className="h-screen">
+      <div className="h-[calc(100vh-64px)]">
         <HomeWrapper />
         <ContentFat />
         <div className="h-screen">

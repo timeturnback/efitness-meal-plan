@@ -9,16 +9,27 @@ import { AuthStateChangedContext } from '@/context/auth-state-changed-context';
 import { HeaderContext } from '@/context/header-context';
 
 export const PublicHeader = () => {
+  const { pathname } = useRouter();
   return (
     <div className="flex items-center h-full uppercase drop-shadow-md">
       <Link href={'/login'}>
-        <h2 className="px-2 py-4 transition-colors cursor-pointer hover:text-cyan-700">
+        <h2
+          className={clsx(
+            'px-2 py-4 transition-colors cursor-pointer hover:text-blue-800 font-medium',
+            pathname === '/login' ? 'text-blue-900' : null
+          )}
+        >
           Login
         </h2>
       </Link>
       <span className="mx-1"></span>
       <Link href={'/signup'}>
-        <h2 className="px-2 py-4 transition-colors cursor-pointer hover:text-cyan-700">
+        <h2
+          className={clsx(
+            'px-2 py-4 transition-colors cursor-pointer font-medium hover:text-blue-800',
+            pathname === '/signup' ? 'text-blue-900' : null
+          )}
+        >
           Sign Up
         </h2>
       </Link>
@@ -39,9 +50,14 @@ export const PrivateHeader = () => {
 };
 
 export const ProfilePrivateHeader = ({ image }: { image: string }) => {
-  const { dropdownmenu, setShowDropDownMenu, menuRef } =
+  const { dropdownmenu, setShowDropDownMenu, menuRef, openprofile } =
     useContext(HeaderContext);
   const { gender } = useContext(AuthStateChangedContext);
+  const _Check = () => {
+    if (!openprofile) {
+      setShowDropDownMenu(!dropdownmenu);
+    }
+  };
   return (
     <div className="relative h-full" ref={menuRef}>
       <div
@@ -51,7 +67,7 @@ export const ProfilePrivateHeader = ({ image }: { image: string }) => {
             ? 'before:right-0.5'
             : 'before:right-2'
         )}
-        onClick={() => setShowDropDownMenu(!dropdownmenu)}
+        onClick={() => _Check()}
       >
         <img
           src={image}
@@ -86,7 +102,7 @@ export const DropDownMenu = ({ image }: { image: string }) => {
     <div
       className={clsx(
         "absolute right-0 z-40 mt-3 w-64 rounded-md bg-white py-2 shadow-lg drop-shadow-md before:absolute before:-top-2 before:right-4 before:border-x-8 before:border-b-8 transition-all duration-200 before:border-x-transparent before:border-b-white before:content-['']",
-        dropdownmenu ? 'opacity-100' : 'opacity-0'
+        dropdownmenu ? 'block' : 'hidden'
       )}
     >
       <div className="flex items-center px-2">
@@ -142,8 +158,8 @@ export const HeaderItems = ({ title, to }: { title: string; to: string }) => {
       <div className="flex items-center h-full transition-all cursor-pointer group drop-shadow-md">
         <span
           className={clsx(
-            'px-7 pt-1 text-lg font-medium uppercase text-gray-900 group-hover:text-cyan-700',
-            pathname === to && 'text-cyan-700'
+            'px-7 pt-1 text-lg font-medium uppercase text-gray-900 group-hover:text-blue-800',
+            pathname === to && 'text-blue-900'
           )}
         >
           {title}
@@ -164,7 +180,7 @@ export const HeaderItemsList = ({
   return (
     <div>
       <div className="group flex h-full cursor-pointer items-center drop-shadow-md transition-colors container_header">
-        <span className="pt-1 text-lg font-medium text-gray-900 uppercase px-7 group-hover:text-cyan-700">
+        <span className="pt-1 text-lg font-medium text-gray-900 uppercase px-7 group-hover:text-blue-800">
           {title}{' '}
           {listitem && (
             <div className="inline-block pl-1">
@@ -180,8 +196,8 @@ export const HeaderItemsList = ({
               <Link href={item.to} key={item.value}>
                 <span
                   className={clsx(
-                    'block py-2 text-center font-medium text-gray-900 transition-colors hover:text-cyan-700',
-                    pathname === item.to && 'text-cyan-700'
+                    'block py-2 text-center font-medium text-gray-900 transition-colors hover:text-blue-800',
+                    pathname === item.to && 'text-blue-900'
                   )}
                 >
                   {item.label}
