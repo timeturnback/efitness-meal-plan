@@ -49,7 +49,7 @@ const BodyFatCalculator = () => {
       </WrapperCalculator>
       <div
         className={clsx(
-          'flex flex-col justify-between pb-12',
+          'flex flex-col justify-between border-2 mb-6 rounded-xl border-gray-800/90 bg-zinc-100/40 p-6',
           fatpercent.value ? 'h-screen' : null
         )}
       >

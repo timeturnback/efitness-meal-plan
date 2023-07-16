@@ -10,7 +10,7 @@ export const SimpleEquations = ({
   option: SelectOptionRecipes[];
 }) => {
   return (
-    <div className="border-2 rounded-xl border-gray-800/90 bg-zinc-100/40 p-6">
+    <div>
       <h2 className="pt-5 pb-3 font-medium">{title}:</h2>
       {option.map((item, index) => (
         <div key={index}>
