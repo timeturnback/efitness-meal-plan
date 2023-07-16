@@ -18,6 +18,8 @@ interface BodyFatContextProps {
   setFatPercent: Dispatch<SetStateAction<{ value: string; gender: string }>>;
   onSubmit: () => void;
   validateForm: () => boolean;
+  level: string;
+  setLevel: Dispatch<SetStateAction<string>>;
 }
 
 const BodyFatContext = createContext({} as BodyFatContextProps);
@@ -28,7 +30,7 @@ const BodyFatProvider = ({ children }: { children: ReactNode }) => {
   const [waist, setWaist] = useState({ value: '', error: '' });
   const [hip, setHip] = useState({ value: '', error: '' });
   const [fatpercent, setFatPercent] = useState({ value: '', gender: '' });
-
+  const [level, setLevel] = useState('');
   useEffect(() => {
     if (
       (height.value && +height.value >= 300) ||
@@ -64,6 +66,49 @@ const BodyFatProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   }, [height.value, neck.value, waist.value, hip.value]);
+
+  useEffect(() => {
+    const handle = () => {
+      const { gender: genderfat, value } = fatpercent;
+      const numericValue = parseFloat(value);
+      if (genderfat === 'male') {
+        if (numericValue <= 5) {
+          return 'Essential';
+        }
+        if (numericValue >= 6 && numericValue <= 13) {
+          return 'Athletes';
+        }
+        if (numericValue >= 14 && numericValue <= 17) {
+          return 'Fitness';
+        }
+        if (numericValue >= 18 && numericValue <= 24) {
+          return 'Average';
+        }
+        if (numericValue > 24) {
+          return 'Obese';
+        }
+      } else {
+        if (numericValue <= 13) {
+          return 'Essential';
+        }
+        if (numericValue >= 14 && numericValue <= 20) {
+          return 'Athletes';
+        }
+        if (numericValue >= 21 && numericValue <= 24) {
+          return 'Fitness';
+        }
+        if (numericValue >= 25 && numericValue <= 31) {
+          return 'Average';
+        }
+        if (numericValue > 31) {
+          return 'Obese';
+        }
+      }
+      return 'Unknown';
+    };
+    const value = handle();
+    setLevel(value);
+  }, [fatpercent]);
 
   const onSubmit = () => {
     if (validateForm()) {
@@ -132,6 +177,8 @@ const BodyFatProvider = ({ children }: { children: ReactNode }) => {
     setFatPercent,
     onSubmit,
     validateForm,
+    setLevel,
+    level,
   };
   return (
     <BodyFatContext.Provider value={value}>{children}</BodyFatContext.Provider>

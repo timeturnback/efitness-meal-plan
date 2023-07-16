@@ -245,7 +245,7 @@ const ContentOfClassificationTable = ({
 
 const AutoScrollDownButton = () => {
   const _onScrollDown = () => {
-    window.scroll({ top: 900, left: 0, behavior: 'smooth' });
+    window.scroll({ top: 700, left: 0, behavior: 'smooth' });
   };
   return (
     <div

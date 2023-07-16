@@ -8,7 +8,7 @@ a:hover {
   @apply border-b-2 border-blue-700;
 }
 
-h2, span {
+h2, span, p {
   --tw-text-opacity: 1;
   color: rgb(26 32 44 / var(--tw-text-opacity));
 }
