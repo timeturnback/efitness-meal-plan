@@ -9,9 +9,9 @@ import {
 import { Wrapper } from '@/components/pages/wrapper';
 import {
   MUSCLE_EXERCISE_OPTIONS,
-  MUSCLE_EXERCISES_DIFFICULTY,
-  MUSCLE_EXERCISES_MUSCLE_GROUP,
-  MUSCLE_EXERCISES_TYPE,
+  MUSCLE_EXERCISES_BODYPARTS,
+  MUSCLE_EXERCISES_EQUIPMENT,
+  MUSCLE_EXERCISES_TARGET,
 } from '@/constants/select-options';
 import {
   MuscleExercisesContext,
@@ -107,32 +107,32 @@ const _SearchTypeInOptions = () => {
 
 const _OptionstTypeInOptions = () => {
   const {
-    setDropDownType,
-    setDropDownDifficulty,
-    setDropDownMuscleGroup,
-    dropdowndifficulty,
-    dropdownmusclegroup,
-    dropdowntype,
+    setDropDownBodyParts,
+    setDropDownEquipment,
+    setDropDownTarget,
+    dropdownquipment,
+    dropdowntarget,
+    dropdownbodyparts,
   } = useContext(MuscleExercisesContext);
   return (
     <div className="grid grid-cols-2 gap-3">
       <DropDownSelect
-        error={dropdowntype.error}
-        label="Exercise type"
-        options={MUSCLE_EXERCISES_TYPE}
-        setCurrentValue={(e) => setDropDownType({ value: e, error: '' })}
+        error={dropdownbodyparts.error}
+        label="BodyParts"
+        options={MUSCLE_EXERCISES_BODYPARTS}
+        setCurrentValue={(e) => setDropDownBodyParts({ value: e, error: '' })}
       />
       <DropDownSelect
-        error={dropdownmusclegroup.error}
-        label="Muscle group"
-        options={MUSCLE_EXERCISES_MUSCLE_GROUP}
-        setCurrentValue={(e) => setDropDownMuscleGroup({ value: e, error: '' })}
+        error={dropdowntarget.error}
+        label="Target Muscle"
+        options={MUSCLE_EXERCISES_TARGET}
+        setCurrentValue={(e) => setDropDownTarget({ value: e, error: '' })}
       />
       <DropDownSelect
-        error={dropdowndifficulty.error}
-        label="Level of difficult"
-        options={MUSCLE_EXERCISES_DIFFICULTY}
-        setCurrentValue={(e) => setDropDownDifficulty({ value: e, error: '' })}
+        error={dropdownquipment.error}
+        label="Equipment"
+        options={MUSCLE_EXERCISES_EQUIPMENT}
+        setCurrentValue={(e) => setDropDownEquipment({ value: e, error: '' })}
       />
     </div>
   );

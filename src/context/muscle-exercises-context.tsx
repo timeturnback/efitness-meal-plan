@@ -14,31 +14,31 @@ interface MuscleExercisesProps {
       error: string;
     }>
   >;
-  dropdowntype: {
+  dropdownbodyparts: {
     value: string;
     error: string;
   };
-  setDropDownType: Dispatch<
+  setDropDownBodyParts: Dispatch<
     SetStateAction<{
       value: string;
       error: string;
     }>
   >;
-  dropdownmusclegroup: {
+  dropdowntarget: {
     value: string;
     error: string;
   };
-  setDropDownMuscleGroup: Dispatch<
+  setDropDownTarget: Dispatch<
     SetStateAction<{
       value: string;
       error: string;
     }>
   >;
-  dropdowndifficulty: {
+  dropdownquipment: {
     value: string;
     error: string;
   };
-  setDropDownDifficulty: Dispatch<
+  setDropDownEquipment: Dispatch<
     SetStateAction<{
       value: string;
       error: string;
@@ -56,12 +56,15 @@ export const MuscleExercisesProvider = ({
 }) => {
   const [inputsearch, setInputSearch] = useState({ value: '', error: '' });
   const [searchtype, setSearchType] = useState('search');
-  const [dropdowntype, setDropDownType] = useState({ value: '', error: '' });
-  const [dropdownmusclegroup, setDropDownMuscleGroup] = useState({
+  const [dropdownbodyparts, setDropDownBodyParts] = useState({
     value: '',
     error: '',
   });
-  const [dropdowndifficulty, setDropDownDifficulty] = useState({
+  const [dropdowntarget, setDropDownTarget] = useState({
+    value: '',
+    error: '',
+  });
+  const [dropdownquipment, setDropDownEquipment] = useState({
     value: '',
     error: '',
   });
@@ -71,9 +74,9 @@ export const MuscleExercisesProvider = ({
     if (searchtype !== 'search') {
       setInputSearch({ ...inputsearch, error: '' });
     } else {
-      setDropDownType({ ...dropdowntype, error: '' });
-      setDropDownMuscleGroup({ ...dropdownmusclegroup, error: '' });
-      setDropDownDifficulty({ ...dropdowndifficulty, error: '' });
+      setDropDownBodyParts({ ...dropdownbodyparts, error: '' });
+      setDropDownTarget({ ...dropdowntarget, error: '' });
+      setDropDownEquipment({ ...dropdownquipment, error: '' });
     }
   }, [searchtype]);
 
@@ -85,17 +88,17 @@ export const MuscleExercisesProvider = ({
         setInputSearch({ value: '', error: 'Not be empty' });
       }
     } else {
-      if (!dropdowntype.value) {
+      if (!dropdownbodyparts.value) {
         isCheck = true;
-        setDropDownType({ value: '', error: 'Not be empty' });
+        setDropDownBodyParts({ value: '', error: 'Not be empty' });
       }
-      if (!dropdowntype.value) {
+      if (!dropdownbodyparts.value) {
         isCheck = true;
-        setDropDownMuscleGroup({ value: '', error: 'Not be empty' });
+        setDropDownTarget({ value: '', error: 'Not be empty' });
       }
-      if (!dropdowntype.value) {
+      if (!dropdownbodyparts.value) {
         isCheck = true;
-        setDropDownDifficulty({ value: '', error: 'Not be empty' });
+        setDropDownEquipment({ value: '', error: 'Not be empty' });
       }
     }
     return isCheck;
@@ -113,12 +116,12 @@ export const MuscleExercisesProvider = ({
     setSearchType,
     inputsearch,
     setInputSearch,
-    dropdowntype,
-    setDropDownType,
-    dropdownmusclegroup,
-    setDropDownMuscleGroup,
-    dropdowndifficulty,
-    setDropDownDifficulty,
+    dropdownbodyparts,
+    setDropDownBodyParts,
+    dropdowntarget,
+    setDropDownTarget,
+    dropdownquipment,
+    setDropDownEquipment,
     Submit,
   };
   return (
