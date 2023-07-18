@@ -1,12 +1,12 @@
 import { SimpleButton } from '@/components/button';
-import { ImagesMuscleSpecificExercises } from '@/components/Images/muscle-specific-exercises';
+import { ImagesMuscleExercises } from '@/components/Images/muscle-exercises';
 
-export const MuscleSpecificExercisesHome = () => {
+export const MuscleExercisesHome = () => {
   return (
     <div className="h-screen flex items-center justify-center">
       <img
         className="w-3/5 pr-20"
-        src={ImagesMuscleSpecificExercises.Background.src}
+        src={ImagesMuscleExercises.Background.src}
         alt=""
       />
       <div>
@@ -18,10 +18,7 @@ export const MuscleSpecificExercisesHome = () => {
           body with muscle exercises.
         </span>
         <div className="w-80 mt-6">
-          <SimpleButton
-            label="Get started right away!"
-            to="muscle-specific-exercises"
-          />
+          <SimpleButton label="Get started right away!" to="muscle-exercises" />
         </div>
       </div>
     </div>

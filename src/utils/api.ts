@@ -20,8 +20,12 @@ const create = () => {
 
   const getFoods = (value: string) => api.get(`v1/nutrition?query=${value}`);
 
+  const getExerciseByName = (name: string) =>
+    api.get(`v1/exercises?name=${name}`);
+
   return {
     getFoods,
+    getExerciseByName,
   };
 };
 

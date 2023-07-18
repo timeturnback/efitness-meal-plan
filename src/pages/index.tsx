@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { SimpleButton } from '@/components/button';
 import { ImageHome } from '@/components/Images/home';
 import { ContentFat, SuggestFoodsNutrition } from '@/components/pages/home';
-import { MuscleSpecificExercisesHome } from '@/components/pages/muscle-specific-exercises';
+import { MuscleExercisesHome } from '@/components/pages/muscle-exercises';
 import { Wrapper } from '@/components/pages/wrapper';
 import { MainContext } from '@/context/main-context';
 
@@ -45,7 +45,7 @@ const Index = () => {
     <Wrapper title="Home | SimpleHealthPlan">
       <div className="h-[calc(100vh-64px)]">
         <HomeWrapper />
-        <MuscleSpecificExercisesHome />
+        <MuscleExercisesHome />
         <ContentFat />
         <div className="h-screen">
           <SuggestFoodsNutrition />

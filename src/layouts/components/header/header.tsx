@@ -16,7 +16,7 @@ export const Header = () => {
   const { userInfo } = useContext(AuthStateChangedContext);
   return (
     <div className="fixed top-0 z-40 w-full h-16 bg-white shadow-lg">
-      <div className="flex justify-between h-full max-w-5xl mx-auto">
+      <div className="flex justify-between h-full max-w-6xl mx-auto">
         <div className="flex">
           <Link href={'/'}>
             <div className="flex items-center h-full cursor-pointer">
@@ -31,6 +31,7 @@ export const Header = () => {
             listitem={HEADER_CALCULATORS_OPTIONS}
           />
           <HeaderItems title="Foods" to="/foods" />
+          <HeaderItems title="Muscle Exercises" to="/muscle-exercises" />
         </div>
         <div
           className={clsx(
