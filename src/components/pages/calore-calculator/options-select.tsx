@@ -83,7 +83,7 @@ export const OptionsSelect = () => {
         </div>
         <div
           className={classNames(
-            'mr-[35px] mt-7 flex flex-col items-end justify-end transition-all',
+            'mt-7 flex flex-col items-end justify-end transition-all',
             formula.value === 'katch mcardle' && fatpercent.error
               ? 'mt-10'
               : null

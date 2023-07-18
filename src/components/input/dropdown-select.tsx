@@ -34,7 +34,7 @@ export function DropDownSelect({
   });
   return (
     <div
-      className={clsx('relative max-w-[220px]', error ? 'pb-8' : null)}
+      className={clsx('relative w-auto', error ? 'pb-8' : null)}
       ref={menuref}
     >
       <span className="font-medium text-gray-800">{label}</span>
@@ -65,7 +65,7 @@ export function DropDownSelect({
         </div>
       ) : null}
       {rotate && (
-        <div className="absolute w-full z-10 mt-2 max-w-[220px] max-h-[155px] overflow-auto select-none rounded-md border bg-white py-1 drop-shadow-md transition-all scrollbar">
+        <div className="absolute w-full z-10 mt-2 max-h-[155px] overflow-auto select-none rounded-md border bg-white py-1 drop-shadow-md transition-all scrollbar">
           {options.map((item) => (
             <SelectOption
               key={item.value}

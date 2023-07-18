@@ -19,7 +19,7 @@ export function SimpleSelectInput({
   error?: string;
 }) {
   return (
-    <div className="block max-w-[220px] pb-8">
+    <div className="block w-auto pb-8">
       <span className="font-medium text-gray-800">{label}</span>
       <div
         className={classNames(
