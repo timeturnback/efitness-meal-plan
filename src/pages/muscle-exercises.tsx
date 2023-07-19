@@ -60,9 +60,14 @@ const MuscleExercisesContainer = () => {
 };
 
 const _Options = () => {
-  const { searchtype, setSearchType, Submit } = useContext(
-    MuscleExercisesContext
-  );
+  const {
+    searchtype,
+    setSearchType,
+    Submit,
+    dropdownbodyparts,
+    dropdownquipment,
+    dropdowntarget,
+  } = useContext(MuscleExercisesContext);
   return (
     <div className="h-full w-3/5">
       <h2 className="text-4xl font-medium drop-shadow-md py-2 text-gray-900/90">
@@ -79,13 +84,55 @@ const _Options = () => {
           {searchtype === 'search' ? (
             <_SearchTypeInOptions />
           ) : (
-            <_OptionstTypeInOptions />
+            <>
+              <_OptionstTypeInOptions />
+              {dropdownbodyparts.value ||
+              dropdownquipment.value ||
+              dropdowntarget.value ? (
+                <_PreviewResults />
+              ) : null}
+            </>
           )}
         </div>
         <div className="mb-6">
           <SimpleButton label="Search" onClick={Submit} />
         </div>
       </div>
+    </div>
+  );
+};
+
+const _PreviewResults = () => {
+  const { dropdownbodyparts, dropdownquipment, dropdowntarget } = useContext(
+    MuscleExercisesContext
+  );
+  return (
+    <div className="mt-3 flex flex-col">
+      <h2 className="mb-1">The results include the following options:</h2>
+      {dropdownbodyparts.value ? (
+        <div>
+          <h2 className="bg-blue-500 inline-block w-32 text-center p-1 px-2 rounded-full drop-shadow-md border-2 text-slate-100 border-slate-200">
+            BodyParts
+          </h2>
+          :<span className="ml-2 font-medium">{dropdownbodyparts.value}</span>
+        </div>
+      ) : null}
+      {dropdowntarget.value ? (
+        <div>
+          <h2 className="bg-green-500 inline-block w-32 text-center p-1 px-2 rounded-full drop-shadow-md border-2 text-slate-100 border-slate-200">
+            Target Muscle
+          </h2>
+          :<span className="ml-2 font-medium">{dropdowntarget.value}</span>
+        </div>
+      ) : null}
+      {dropdownquipment.value ? (
+        <div>
+          <h2 className="bg-neutral-500 inline-block w-32 text-center p-1 px-2 rounded-full drop-shadow-md border-2 text-slate-100 border-slate-200">
+            Equipment
+          </h2>
+          :<span className="ml-2 font-medium">{dropdownquipment.value}</span>
+        </div>
+      ) : null}
     </div>
   );
 };
