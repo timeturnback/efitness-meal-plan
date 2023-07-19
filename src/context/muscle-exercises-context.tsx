@@ -117,11 +117,11 @@ export const MuscleExercisesProvider = ({
 
   useEffect(() => {
     if (searchtype !== 'search') {
-      setInputSearch({ ...inputsearch, error: '' });
+      setInputSearch({ value: '', error: '' });
     } else {
-      setDropDownBodyParts({ ...dropdownbodyparts, error: '' });
-      setDropDownTarget({ ...dropdowntarget, error: '' });
-      setDropDownEquipment({ ...dropdownquipment, error: '' });
+      setDropDownBodyParts({ value: '', error: '' });
+      setDropDownTarget({ value: '', error: '' });
+      setDropDownEquipment({ value: '', error: '' });
     }
   }, [searchtype]);
 
