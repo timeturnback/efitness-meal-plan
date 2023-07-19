@@ -19,6 +19,7 @@ interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   removetext?: boolean;
   onChangeText?: (value: string) => void;
   onSubmitSeach?: () => void;
+  onConditionRemoveText?: () => void;
 }
 
 export const SimpleInput: FC<SimpleInputProps> = ({
@@ -33,6 +34,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   onChange,
   onChangeText,
   onSubmitSeach,
+  onConditionRemoveText,
   ...rest
 }) => {
   const [winput, setWInput] = useState('100%');
@@ -50,6 +52,7 @@ export const SimpleInput: FC<SimpleInputProps> = ({
   };
 
   const _closeText = () => {
+    if (onConditionRemoveText) onConditionRemoveText();
     if (onChangeText) {
       onChangeText('');
       if (Ref.current) {

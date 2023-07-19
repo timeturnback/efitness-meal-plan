@@ -1,6 +1,9 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
+import type { SelectOptionsDataExercise } from '@/constants/select-options';
+import { UseGetListExercises } from '@/hooks';
+
 interface MuscleExercisesProps {
   searchtype: string;
   setSearchType: Dispatch<SetStateAction<string>>;
@@ -45,6 +48,13 @@ interface MuscleExercisesProps {
     }>
   >;
   Submit: () => void;
+  dropdownsearch: SelectOptionsDataExercise[];
+  setDropDownSearch: Dispatch<SetStateAction<SelectOptionsDataExercise[]>>;
+  loadingdropdownsearch: boolean;
+  setLoadingDropDownSearch: Dispatch<SetStateAction<boolean>>;
+  disabled: boolean;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
+  SubmitDropDownSearch: (value: string) => void;
 }
 
 export const MuscleExercisesContext = createContext({} as MuscleExercisesProps);
@@ -68,7 +78,42 @@ export const MuscleExercisesProvider = ({
     value: '',
     error: '',
   });
-  // const [searchcurrent, setSearchCurrent] = useState();
+  const [dropdownsearch, setDropDownSearch] = useState<
+    SelectOptionsDataExercise[]
+  >([]);
+
+  const [loadingdropdownsearch, setLoadingDropDownSearch] = useState(false);
+
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    const handle = async (value: string) => {
+      if (inputsearch.value.length > 0 && !disabled) {
+        const arrayValue: SelectOptionsDataExercise[] =
+          await UseGetListExercises();
+        const newarray = arrayValue.filter(
+          (item) =>
+            item.name.toLowerCase().startsWith(value) ||
+            item.name.startsWith(value)
+        );
+        setDropDownSearch(newarray);
+        setLoadingDropDownSearch(false);
+      } else {
+        setDropDownSearch([]);
+        setLoadingDropDownSearch(false);
+      }
+    };
+    const timeout = setTimeout(() => {
+      handle(inputsearch.value);
+    }, 500);
+    setLoadingDropDownSearch(true);
+
+    return () => clearTimeout(timeout);
+  }, [inputsearch.value]);
+
+  // useEffect(() => {
+  //   if (!inputsearch.value) setDisabled(false);
+  // }, [inputsearch.value]);
 
   useEffect(() => {
     if (searchtype !== 'search') {
@@ -80,6 +125,12 @@ export const MuscleExercisesProvider = ({
     }
   }, [searchtype]);
 
+  const SubmitDropDownSearch = (value: string) => {
+    setDisabled(true);
+    setInputSearch({ value, error: '' });
+    setDropDownSearch([]);
+  };
+
   const _CheckSUbmit = () => {
     let isCheck = false;
     if (searchtype === 'search') {
@@ -87,26 +138,26 @@ export const MuscleExercisesProvider = ({
         isCheck = true;
         setInputSearch({ value: '', error: 'Not be empty' });
       }
-    } else {
-      if (!dropdownbodyparts.value) {
-        isCheck = true;
-        setDropDownBodyParts({ value: '', error: 'Not be empty' });
-      }
-      if (!dropdownbodyparts.value) {
-        isCheck = true;
-        setDropDownTarget({ value: '', error: 'Not be empty' });
-      }
-      if (!dropdownbodyparts.value) {
-        isCheck = true;
-        setDropDownEquipment({ value: '', error: 'Not be empty' });
-      }
+    } else if (
+      !dropdownbodyparts.value &&
+      !dropdownbodyparts.value &&
+      !dropdownbodyparts.value
+    ) {
+      isCheck = true;
+      setDropDownBodyParts({ value: '', error: 'Not be empty' });
+      setDropDownTarget({ value: '', error: 'Not be empty' });
+      setDropDownEquipment({ value: '', error: 'Not be empty' });
     }
-    return isCheck;
+    return !isCheck;
   };
 
-  const Submit = () => {
+  const Submit = async () => {
     if (_CheckSUbmit()) {
-      console.log('a');
+      if (searchtype === 'search') {
+        //
+      } else {
+        //
+      }
     }
 
     //
@@ -123,6 +174,13 @@ export const MuscleExercisesProvider = ({
     dropdownquipment,
     setDropDownEquipment,
     Submit,
+    dropdownsearch,
+    setDropDownSearch,
+    loadingdropdownsearch,
+    setLoadingDropDownSearch,
+    disabled,
+    setDisabled,
+    SubmitDropDownSearch,
   };
   return (
     <MuscleExercisesContext.Provider value={value}>

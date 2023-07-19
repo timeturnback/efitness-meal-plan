@@ -21,6 +21,15 @@ const axiosApiExercise = Axios.create({
   timeout: 50000,
 });
 
+const optionsExercise = {
+  method: 'GET',
+  url: process.env.NEXT_PUBLIC_URL_EXERCISE,
+  headers: {
+    'X-RapidAPI-Key': process.env.NEXT_PUBLIC_KEY_EXERCISE,
+    'X-RapidAPI-Host': process.env.NEXT_PUBLIC_HEADER_HOST,
+  },
+};
+
 const create = () => {
   const apifood = apisauce.create({
     // @ts-ignore
@@ -43,6 +52,10 @@ const create = () => {
     apiexercise.get(`target/${value}`);
   const getExerciseByEquipment = (value: string) =>
     apiexercise.get(`equipment/${value}`);
+  const getExerciseGetAllExercises = async () => {
+    const data = await Axios.request(optionsExercise);
+    return data.data;
+  };
 
   return {
     getFoods,
@@ -50,6 +63,7 @@ const create = () => {
     getExerciseByBodyParts,
     getExerciseByTarget,
     getExerciseByEquipment,
+    getExerciseGetAllExercises,
   };
 };
 
