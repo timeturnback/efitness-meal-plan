@@ -1,4 +1,6 @@
+import clsx from 'clsx';
 import { useContext } from 'react';
+import { FiLoader } from 'react-icons/fi';
 
 import { SimpleButton } from '@/components/button';
 import {
@@ -7,6 +9,7 @@ import {
   SimpleSelectInput,
 } from '@/components/input';
 import { Wrapper } from '@/components/pages/wrapper';
+import type { SelectOptionsDataExercise } from '@/constants/select-options';
 import {
   MUSCLE_EXERCISE_OPTIONS,
   MUSCLE_EXERCISES_BODYPARTS,
@@ -88,10 +91,13 @@ const _Options = () => {
 };
 
 const _SearchTypeInOptions = () => {
-  const { inputsearch, setInputSearch } = useContext(MuscleExercisesContext);
+  const { inputsearch, setInputSearch, dropdownsearch, disabled, setDisabled } =
+    useContext(MuscleExercisesContext);
   return (
-    <div>
+    <div className="relative">
       <SimpleInput
+        onConditionRemoveText={() => setDisabled(false)}
+        disabled={disabled}
         removetext={inputsearch.value.length > 0}
         maxwidth
         search
@@ -99,8 +105,43 @@ const _SearchTypeInOptions = () => {
         error={inputsearch.error}
         onChangeText={(e) => setInputSearch({ value: e, error: '' })}
       />
-      <span>Example: </span>
-      <span>Zottman Curl</span>
+      {dropdownsearch.length > 0 ? (
+        <DropDownExerciseSearch listitem={dropdownsearch} />
+      ) : null}
+    </div>
+  );
+};
+
+const DropDownExerciseSearch = ({
+  listitem,
+}: {
+  listitem: SelectOptionsDataExercise[];
+}) => {
+  const { loadingdropdownsearch, SubmitDropDownSearch } = useContext(
+    MuscleExercisesContext
+  );
+  return (
+    <div
+      className={clsx(
+        'absolute w-full z-10 mt-2 max-h-[155px] select-none rounded-md border bg-white py-1 drop-shadow-md transition-all scrollbar',
+        !loadingdropdownsearch ? 'overflow-auto' : null
+      )}
+    >
+      {loadingdropdownsearch ? (
+        <div className="w-full flex items-center justify-center">
+          <FiLoader className="animate-spin text-3xl text-gray-900/90" />
+        </div>
+      ) : (
+        listitem.map((item) => (
+          <span
+            onClick={() => SubmitDropDownSearch(item.name)}
+            key={item.id}
+            className="block w-full cursor-pointer p-2 text-sm text-center leading-4 hover:bg-zinc-600/20 transition-all duration-100 hover:font-medium"
+          >
+            {item.name}
+          </span>
+        ))
+      )}
     </div>
   );
 };

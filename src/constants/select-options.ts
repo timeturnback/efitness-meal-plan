@@ -9,6 +9,15 @@ import { ImageNutritiousFoods } from '../components/Images/foods/nutritious-food
 import { ImageFoodsSuggestions } from '../components/Images/foods/suggestions/index';
 import { ImageFormulaEquation } from '../components/Images/formula-equation';
 
+export interface SelectOptionsDataExercise {
+  bodyPart: string;
+  equipment: string;
+  gifUrl: string;
+  id: string;
+  name: string;
+  target: string;
+}
+
 export interface SelectOptionDescribeAndSuggestFoods {
   value: string;
   description: string;

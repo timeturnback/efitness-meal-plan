@@ -1,8 +1,12 @@
 import 'firebase/compat/auth';
 
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
+
+import { dbg } from '@/components/firebase';
+import { ApiInstance } from '@/utils/api';
 
 interface MainProps {
   loading: boolean;
@@ -27,6 +31,18 @@ export const MainProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   // const leaves1 = useScrollReveal({ origin: 'left' });
   // const leaves2 = useScrollReveal({ origin: 'bottom' });
+
+  useEffect(() => {
+    const handle = async () => {
+      const docRef = doc(dbg, 'CloudSimpleHealthPlan', 'All Exercises');
+      const isCheck = await getDoc(docRef);
+      if (!isCheck.exists()) {
+        const exercises = await ApiInstance.getExerciseGetAllExercises();
+        await setDoc(docRef, { exercises }, { merge: true });
+      }
+    };
+    handle();
+  }, []);
 
   useEffect(() => {
     if (sessionStorage.getItem('reloaded') !== null) {
