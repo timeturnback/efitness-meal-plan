@@ -52,9 +52,21 @@ interface MuscleExercisesProps {
   setDropDownSearch: Dispatch<SetStateAction<SelectOptionsDataExercise[]>>;
   loadingdropdownsearch: boolean;
   setLoadingDropDownSearch: Dispatch<SetStateAction<boolean>>;
-  disabled: boolean;
-  setDisabled: Dispatch<SetStateAction<boolean>>;
   SubmitDropDownSearch: (value: string) => void;
+  listnamesearch: string[];
+  setListNameSearch: Dispatch<SetStateAction<string[]>>;
+  numberofdisplays: {
+    number: string;
+    value: string;
+    error: boolean;
+  };
+  setNumberOfDisplays: Dispatch<
+    SetStateAction<{
+      number: string;
+      value: string;
+      error: boolean;
+    }>
+  >;
 }
 
 export const MuscleExercisesContext = createContext({} as MuscleExercisesProps);
@@ -84,11 +96,27 @@ export const MuscleExercisesProvider = ({
 
   const [loadingdropdownsearch, setLoadingDropDownSearch] = useState(false);
 
-  const [disabled, setDisabled] = useState(false);
+  const [listnamesearch, setListNameSearch] = useState<string[]>([]);
+
+  const [numberofdisplays, setNumberOfDisplays] = useState({
+    number: '10',
+    value: 'options',
+    error: false,
+  });
+
+  useEffect(() => {
+    if (+numberofdisplays.number > 20) {
+      setNumberOfDisplays({
+        number: Math.floor(+numberofdisplays.number / 10).toString(),
+        value: 'options',
+        error: false,
+      });
+    }
+  }, [numberofdisplays.number]);
 
   useEffect(() => {
     const handle = async (value: string) => {
-      if (inputsearch.value.length > 0 && !disabled) {
+      if (inputsearch.value.length > 0) {
         const arrayValue: SelectOptionsDataExercise[] =
           await UseGetListExercises();
         const newarray = arrayValue.filter(
@@ -111,14 +139,11 @@ export const MuscleExercisesProvider = ({
     return () => clearTimeout(timeout);
   }, [inputsearch.value]);
 
-  // useEffect(() => {
-  //   if (!inputsearch.value) setDisabled(false);
-  // }, [inputsearch.value]);
-
   useEffect(() => {
     if (searchtype !== 'search') {
       setInputSearch({ value: '', error: '' });
     } else {
+      setListNameSearch([]);
       setDropDownBodyParts({ value: '', error: '' });
       setDropDownTarget({ value: '', error: '' });
       setDropDownEquipment({ value: '', error: '' });
@@ -126,9 +151,11 @@ export const MuscleExercisesProvider = ({
   }, [searchtype]);
 
   const SubmitDropDownSearch = (value: string) => {
-    setDisabled(true);
-    setInputSearch({ value, error: '' });
-    setDropDownSearch([]);
+    if (!listnamesearch.includes(value)) {
+      setListNameSearch((e) => [...e, value]);
+      setInputSearch({ value: '', error: '' });
+      setDropDownSearch([]);
+    }
   };
 
   const _CheckSUbmit = () => {
@@ -147,6 +174,12 @@ export const MuscleExercisesProvider = ({
       setDropDownBodyParts({ value: '', error: 'Not be empty' });
       setDropDownTarget({ value: '', error: 'Not be empty' });
       setDropDownEquipment({ value: '', error: 'Not be empty' });
+    } else if (
+      numberofdisplays.value === 'options' &&
+      numberofdisplays.number === ''
+    ) {
+      isCheck = true;
+      setNumberOfDisplays({ value: 'options', error: true, number: '' });
     }
     return !isCheck;
   };
@@ -178,9 +211,11 @@ export const MuscleExercisesProvider = ({
     setDropDownSearch,
     loadingdropdownsearch,
     setLoadingDropDownSearch,
-    disabled,
-    setDisabled,
     SubmitDropDownSearch,
+    setListNameSearch,
+    listnamesearch,
+    numberofdisplays,
+    setNumberOfDisplays,
   };
   return (
     <MuscleExercisesContext.Provider value={value}>
