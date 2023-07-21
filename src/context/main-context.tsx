@@ -1,11 +1,13 @@
 import 'firebase/compat/auth';
 
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { listAll, ref, uploadBytes } from 'firebase/storage';
 import { useRouter } from 'next/router';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
-import { dbg } from '@/components/firebase';
+import { dbg, storage } from '@/components/firebase';
+import type { SelectOptionsDataExercise } from '@/constants/select-options';
 import { ApiInstance } from '@/utils/api';
 
 interface MainProps {
@@ -37,8 +39,34 @@ export const MainProvider = ({ children }: { children: ReactNode }) => {
       const docRef = doc(dbg, 'CloudSimpleHealthPlan', 'All Exercises');
       const isCheck = await getDoc(docRef);
       if (!isCheck.exists()) {
-        const exercises = await ApiInstance.getExerciseGetAllExercises();
+        const exercises: SelectOptionsDataExercise[] =
+          await ApiInstance.getExerciseGetAllExercises();
         await setDoc(docRef, { exercises }, { merge: true });
+      }
+    };
+
+    handle();
+  }, []);
+
+  useEffect(() => {
+    const handle = async () => {
+      const imgRef = ref(storage, 'ImagesExercises/');
+      const value = await listAll(imgRef);
+      if (value.items.length === 0) {
+        const exercises: SelectOptionsDataExercise[] =
+          await ApiInstance.getExerciseGetAllExercises();
+        const uploadPromises = exercises.map(async (item) => {
+          try {
+            const response = await fetch(item.gifUrl);
+            const gifData = await response.arrayBuffer();
+            const gifUint8Array = new Uint8Array(gifData);
+            const imageRef = ref(storage, `ImagesExercises/${item.id}`);
+            await uploadBytes(imageRef, gifUint8Array);
+          } catch (error) {
+            //
+          }
+        });
+        await Promise.all(uploadPromises);
       }
     };
     handle();
