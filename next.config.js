@@ -7,6 +7,7 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['.'],
   },
+  swcMinify: false,
   reactStrictMode: false,
   poweredByHeader: false,
   trailingSlash: false,

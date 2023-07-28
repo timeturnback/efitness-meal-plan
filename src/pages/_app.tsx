@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { ImageApp } from '@/components/Images/app';
 import { SimpleLoading } from '@/components/loading';
+import { ZoomImageExercise } from '@/components/pages/muscle-exercises/render-result-search-exercise';
 import { AuthStateChangedProvider } from '@/context/auth-state-changed-context';
 import { HeaderContext, HeaderProvider } from '@/context/header-context';
 import { MainContext, MainProvider } from '@/context/main-context';
@@ -35,15 +36,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
 );
 
 const MyAppWrapper = ({ Component, pageProps }: any) => {
-  const { loading, pathname } = useContext(MainContext);
+  const { loading, pathname, exerciseimagezoom } = useContext(MainContext);
   const { openprofile } = useContext(HeaderContext);
   const leafleft = useScrollReveal({ origin: 'left' });
   const leafright = useScrollReveal({ origin: 'bottom' });
   return (
     <div>
       <NextNProgress options={{ showSpinner: false }} />
-      {loading && <SimpleLoading />}
-      {openprofile && <ProfileOptions />}
+      {loading ? <SimpleLoading /> : null}
+      {exerciseimagezoom ? <ZoomImageExercise /> : null}
+      {openprofile ? <ProfileOptions /> : null}
       {pathname !== '/calculate-now' && <Header />}
       <img
         ref={leafleft}

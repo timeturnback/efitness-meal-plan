@@ -1,6 +1,8 @@
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useEffect, useState } from 'react';
 
+import { storage } from '@/components/firebase';
 import type { SelectOptionsDataExercise } from '@/constants/select-options';
 import { UseGetListExercises } from '@/hooks';
 
@@ -52,9 +54,19 @@ interface MuscleExercisesProps {
   setDropDownSearch: Dispatch<SetStateAction<SelectOptionsDataExercise[]>>;
   loadingdropdownsearch: boolean;
   setLoadingDropDownSearch: Dispatch<SetStateAction<boolean>>;
-  SubmitDropDownSearch: (value: string) => void;
-  listnamesearch: string[];
-  setListNameSearch: Dispatch<SetStateAction<string[]>>;
+  SubmitDropdownSearch: (name: string, id: string) => void;
+  listnamesearch: {
+    name: string;
+    id: string;
+  }[];
+  setListNameSearch: Dispatch<
+    SetStateAction<
+      {
+        name: string;
+        id: string;
+      }[]
+    >
+  >;
   numberofdisplays: {
     number: string;
     value: string;
@@ -66,6 +78,10 @@ interface MuscleExercisesProps {
       value: string;
       error: boolean;
     }>
+  >;
+  listexercisessearchedbynameandoptions: SelectOptionsDataExercise[];
+  setlistexercisessearchedbynameandoptionsAndOptions: Dispatch<
+    SetStateAction<SelectOptionsDataExercise[]>
   >;
 }
 
@@ -96,13 +112,20 @@ export const MuscleExercisesProvider = ({
 
   const [loadingdropdownsearch, setLoadingDropDownSearch] = useState(false);
 
-  const [listnamesearch, setListNameSearch] = useState<string[]>([]);
+  const [listnamesearch, setListNameSearch] = useState<
+    { name: string; id: string }[]
+  >([]);
 
   const [numberofdisplays, setNumberOfDisplays] = useState({
     number: '10',
     value: 'options',
     error: false,
   });
+
+  const [
+    listexercisessearchedbynameandoptions,
+    setlistexercisessearchedbynameandoptionsAndOptions,
+  ] = useState<SelectOptionsDataExercise[]>([]);
 
   useEffect(() => {
     if (+numberofdisplays.number > 20) {
@@ -150,9 +173,9 @@ export const MuscleExercisesProvider = ({
     }
   }, [searchtype]);
 
-  const SubmitDropDownSearch = (value: string) => {
-    if (!listnamesearch.includes(value)) {
-      setListNameSearch((e) => [...e, value]);
+  const SubmitDropdownSearch = (name: string, id: string) => {
+    if (!listnamesearch.some((item) => item.name === name)) {
+      setListNameSearch((e) => [...e, { name, id }]);
       setInputSearch({ value: '', error: '' });
       setDropDownSearch([]);
     }
@@ -161,7 +184,7 @@ export const MuscleExercisesProvider = ({
   const _CheckSUbmit = () => {
     let isCheck = false;
     if (searchtype === 'search') {
-      if (!inputsearch.value) {
+      if (listnamesearch.length === 0) {
         isCheck = true;
         setInputSearch({ value: '', error: 'Not be empty' });
       }
@@ -187,7 +210,37 @@ export const MuscleExercisesProvider = ({
   const Submit = async () => {
     if (_CheckSUbmit()) {
       if (searchtype === 'search') {
-        //
+        setlistexercisessearchedbynameandoptionsAndOptions([]);
+        const imgRef = ref(storage, 'ImagesExercises/');
+        const listRef = await listAll(imgRef);
+        const allExercises: SelectOptionsDataExercise[] =
+          await UseGetListExercises();
+        listRef.items.map(async (items) => {
+          if (listnamesearch.some((item) => item.id === items.name)) {
+            const result = allExercises.find((item) => item.id === items.name);
+            if (
+              result?.bodyPart &&
+              result.equipment &&
+              result.id &&
+              result.name &&
+              result.target
+            ) {
+              await getDownloadURL(items).then((url) => {
+                setlistexercisessearchedbynameandoptionsAndOptions((e) => [
+                  ...e,
+                  {
+                    bodyPart: result?.bodyPart,
+                    equipment: result?.equipment,
+                    gifUrl: url,
+                    id: result?.id,
+                    name: result?.name,
+                    target: result?.target,
+                  },
+                ]);
+              });
+            }
+          }
+        });
       } else {
         //
       }
@@ -211,11 +264,13 @@ export const MuscleExercisesProvider = ({
     setDropDownSearch,
     loadingdropdownsearch,
     setLoadingDropDownSearch,
-    SubmitDropDownSearch,
+    SubmitDropdownSearch,
     setListNameSearch,
     listnamesearch,
     numberofdisplays,
     setNumberOfDisplays,
+    setlistexercisessearchedbynameandoptionsAndOptions,
+    listexercisessearchedbynameandoptions,
   };
   return (
     <MuscleExercisesContext.Provider value={value}>
