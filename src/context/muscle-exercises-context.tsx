@@ -83,6 +83,7 @@ interface MuscleExercisesProps {
   setlistexercisessearchedbynameandoptionsAndOptions: Dispatch<
     SetStateAction<SelectOptionsDataExercise[]>
   >;
+  RemoveNameSearchInList: (name: string) => void;
 }
 
 export const MuscleExercisesContext = createContext({} as MuscleExercisesProps);
@@ -181,6 +182,11 @@ export const MuscleExercisesProvider = ({
     }
   };
 
+  const RemoveNameSearchInList = (name: string) => {
+    const result = listnamesearch.filter((item) => item.name !== name);
+    setListNameSearch(result);
+  };
+
   const _CheckSUbmit = () => {
     let isCheck = false;
     if (searchtype === 'search') {
@@ -271,6 +277,7 @@ export const MuscleExercisesProvider = ({
     setNumberOfDisplays,
     setlistexercisessearchedbynameandoptionsAndOptions,
     listexercisessearchedbynameandoptions,
+    RemoveNameSearchInList,
   };
   return (
     <MuscleExercisesContext.Provider value={value}>
