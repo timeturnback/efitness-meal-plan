@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { useContext } from 'react';
 import { FiLoader } from 'react-icons/fi';
+import { IoClose } from 'react-icons/io5';
 
 import { SimpleInput } from '@/components/input';
 import type { SelectOptionsDataExercise } from '@/constants/select-options';
@@ -29,14 +30,20 @@ export const SearchTypeInOptions = () => {
 };
 
 const RenderNameTheExercisesInclude = () => {
-  const { listnamesearch } = useContext(MuscleExercisesContext);
+  const { listnamesearch, RemoveNameSearchInList } = useContext(
+    MuscleExercisesContext
+  );
   return (
     <div className="mt-4 absolute">
       <h2>
         The exercises include:{' '}
         {listnamesearch.map((item, index) => (
-          <span key={item.id} className="font-medium">
+          <span key={item.id} className="font-medium inline-block">
             {item.name}
+            <IoClose
+              onClick={() => RemoveNameSearchInList(item.name)}
+              className="inline-block cursor-pointer text-gray-900 border-2 rounded-full ml-1 border-gray-700 hover:text-red-500 hover:border-red-500"
+            />
             {index + 1 === listnamesearch.length ? (
               <span className="font-normal">.</span>
             ) : (
