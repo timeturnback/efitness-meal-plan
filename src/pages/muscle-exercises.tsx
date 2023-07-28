@@ -1,8 +1,17 @@
+import { useContext } from 'react';
+
 import { Options } from '@/components/pages/muscle-exercises';
+import { RenderResultSearchExercise } from '@/components/pages/muscle-exercises/render-result-search-exercise';
 import { Wrapper } from '@/components/pages/wrapper';
-import { MuscleExercisesProvider } from '@/context/muscle-exercises-context';
+import {
+  MuscleExercisesContext,
+  MuscleExercisesProvider,
+} from '@/context/muscle-exercises-context';
 
 const MuscleExercisesContainer = () => {
+  const { listexercisessearchedbynameandoptions } = useContext(
+    MuscleExercisesContext
+  );
   return (
     <Wrapper title="Muscle Exercises">
       <div className="h-[calc(100vh-64px)] py-5">
@@ -36,6 +45,11 @@ const MuscleExercisesContainer = () => {
           </div>
         </div>
       </div>
+      {listexercisessearchedbynameandoptions ? (
+        <RenderResultSearchExercise
+          listExercise={listexercisessearchedbynameandoptions}
+        />
+      ) : null}
     </Wrapper>
   );
 };

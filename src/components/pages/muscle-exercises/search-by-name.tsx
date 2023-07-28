@@ -35,8 +35,8 @@ const RenderNameTheExercisesInclude = () => {
       <h2>
         The exercises include:{' '}
         {listnamesearch.map((item, index) => (
-          <span key={item} className="font-medium">
-            {item}
+          <span key={item.id} className="font-medium">
+            {item.name}
             {index + 1 === listnamesearch.length ? (
               <span className="font-normal">.</span>
             ) : (
@@ -54,7 +54,7 @@ const DropDownExerciseSearch = ({
 }: {
   listitem: SelectOptionsDataExercise[];
 }) => {
-  const { loadingdropdownsearch, SubmitDropDownSearch } = useContext(
+  const { loadingdropdownsearch, SubmitDropdownSearch } = useContext(
     MuscleExercisesContext
   );
   return (
@@ -71,7 +71,7 @@ const DropDownExerciseSearch = ({
       ) : (
         listitem.map((item) => (
           <span
-            onClick={() => SubmitDropDownSearch(item.name)}
+            onClick={() => SubmitDropdownSearch(item.name, item.id)}
             key={item.id}
             className="block w-full cursor-pointer p-2 text-sm text-center leading-4 hover:bg-zinc-600/20 transition-all duration-100 hover:font-medium"
           >

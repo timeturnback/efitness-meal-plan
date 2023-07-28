@@ -21,6 +21,9 @@ interface MainProps {
 
   // leaves1: MutableRefObject<null>;
   // leaves2: MutableRefObject<null>;
+
+  exerciseimagezoom: string;
+  setExerciseImageZoom: Dispatch<SetStateAction<string>>;
 }
 
 export const MainContext = createContext({} as MainProps);
@@ -28,6 +31,7 @@ export const MainContext = createContext({} as MainProps);
 export const MainProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [calculatenow, setCalculateNow] = useState(true);
+  const [exerciseimagezoom, setExerciseImageZoom] = useState('');
 
   const { pathname } = useRouter();
   const router = useRouter();
@@ -108,6 +112,8 @@ export const MainProvider = ({ children }: { children: ReactNode }) => {
     pathname,
     // leaves1,
     // leaves2,
+    exerciseimagezoom,
+    setExerciseImageZoom,
   };
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;
 };
