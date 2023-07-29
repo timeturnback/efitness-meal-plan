@@ -46,9 +46,7 @@ const MuscleExercisesContainer = () => {
         </div>
       </div>
       {listexercisessearchedbynameandoptions.length !== 0 ? (
-        <RenderResultSearchExercise
-          listExercise={listexercisessearchedbynameandoptions}
-        />
+        <RenderResultSearchExercise />
       ) : null}
     </Wrapper>
   );

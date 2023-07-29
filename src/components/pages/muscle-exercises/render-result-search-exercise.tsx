@@ -1,28 +1,34 @@
 import { useContext, useMemo } from 'react';
 import { MdZoomOutMap } from 'react-icons/md';
 
-import type { SelectOptionsDataExercise } from '@/constants/select-options';
+import { Pagination } from '@/components/pagination';
 import { MainContext } from '@/context/main-context';
+import { MuscleExercisesContext } from '@/context/muscle-exercises-context';
 
-export const RenderResultSearchExercise = ({
-  listExercise,
-}: {
-  listExercise: SelectOptionsDataExercise[];
-}) => {
+export const RenderResultSearchExercise = () => {
+  const { itemrender, listexercisessearchedbynameandoptions } = useContext(
+    MuscleExercisesContext
+  );
   return (
     <div className="h-screen w-full">
-      <div className="grid grid-cols-2 gap-5">
-        {listExercise.map((item) => (
-          <Exercises
-            key={item.id}
-            name={item.name}
-            image={item.gifUrl}
-            equipment={item.equipment}
-            bodyParts={item.bodyPart}
-            target={item.target}
-          />
-        ))}
+      <div className="h-[600px]">
+        <div className="grid grid-cols-2 gap-5">
+          {itemrender.listitem.map((item) => (
+            <Exercises
+              key={item.id}
+              name={item.name}
+              image={item.gifUrl}
+              equipment={item.equipment}
+              bodyParts={item.bodyPart}
+              target={item.target}
+            />
+          ))}
+        </div>
       </div>
+      <Pagination
+        maxItem={listexercisessearchedbynameandoptions.length}
+        itemNumberInPage={6}
+      />
     </div>
   );
 };

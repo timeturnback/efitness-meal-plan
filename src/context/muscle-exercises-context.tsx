@@ -84,6 +84,16 @@ interface MuscleExercisesProps {
     SetStateAction<SelectOptionsDataExercise[]>
   >;
   RemoveNameSearchInList: (name: string) => void;
+  itemrender: {
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  };
+  setItemRender: Dispatch<
+    SetStateAction<{
+      listitem: SelectOptionsDataExercise[];
+      index: number;
+    }>
+  >;
 }
 
 export const MuscleExercisesContext = createContext({} as MuscleExercisesProps);
@@ -121,6 +131,14 @@ export const MuscleExercisesProvider = ({
     number: '10',
     value: 'options',
     error: false,
+  });
+
+  const [itemrender, setItemRender] = useState<{
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  }>({
+    listitem: [],
+    index: 0,
   });
 
   const [
@@ -278,6 +296,8 @@ export const MuscleExercisesProvider = ({
     setlistexercisessearchedbynameandoptionsAndOptions,
     listexercisessearchedbynameandoptions,
     RemoveNameSearchInList,
+    setItemRender,
+    itemrender,
   };
   return (
     <MuscleExercisesContext.Provider value={value}>
