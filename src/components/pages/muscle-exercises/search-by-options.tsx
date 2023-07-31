@@ -14,7 +14,7 @@ export const OptionstTypeInOptions = () => {
     setDropDownBodyParts,
     setDropDownEquipment,
     setDropDownTarget,
-    dropdownquipment,
+    dropdownequipment,
     dropdowntarget,
     dropdownbodyparts,
   } = useContext(MuscleExercisesContext);
@@ -33,7 +33,7 @@ export const OptionstTypeInOptions = () => {
         setCurrentValue={(e) => setDropDownTarget({ value: e, error: '' })}
       />
       <DropDownSelect
-        error={dropdownquipment.error}
+        error={dropdownequipment.error}
         label="Equipment"
         options={MUSCLE_EXERCISES_EQUIPMENT}
         setCurrentValue={(e) => setDropDownEquipment({ value: e, error: '' })}
@@ -49,7 +49,9 @@ const RenderNumberOfDisplays = () => {
   );
   return (
     <div className="relative w-auto">
-      <span className="font-medium text-gray-800">Number of displays</span>
+      <span className="font-medium text-gray-800">
+        Number of displays for each option
+      </span>
       <div className="h-12 bg-white rounded-md shadow-md mt-3 flex items-center justify-center">
         <div
           onClick={() =>

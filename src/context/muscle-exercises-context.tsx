@@ -1,6 +1,6 @@
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 import { storage } from '@/components/firebase';
 import type { SelectOptionsDataExercise } from '@/constants/select-options';
@@ -39,7 +39,7 @@ interface MuscleExercisesProps {
       error: string;
     }>
   >;
-  dropdownquipment: {
+  dropdownequipment: {
     value: string;
     error: string;
   };
@@ -79,21 +79,67 @@ interface MuscleExercisesProps {
       error: boolean;
     }>
   >;
-  listexercisessearchedbynameandoptions: SelectOptionsDataExercise[];
-  setlistexercisessearchedbynameandoptionsAndOptions: Dispatch<
+  listexercisessearchedbyname: SelectOptionsDataExercise[];
+  setListExercisesSearchedByName: Dispatch<
     SetStateAction<SelectOptionsDataExercise[]>
   >;
   RemoveNameSearchInList: (name: string) => void;
-  itemrender: {
+  itemrenderbysearch: {
     listitem: SelectOptionsDataExercise[];
     index: number;
   };
-  setItemRender: Dispatch<
+  setItemRenderBySearch: Dispatch<
     SetStateAction<{
       listitem: SelectOptionsDataExercise[];
       index: number;
     }>
   >;
+  itemrenderbyoptionsequipment: {
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  };
+  setItemRenderByoptionsEquipment: Dispatch<
+    SetStateAction<{
+      listitem: SelectOptionsDataExercise[];
+      index: number;
+    }>
+  >;
+  itemrenderbyoptionstarget: {
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  };
+  setItemRenderByOptionsTarget: Dispatch<
+    SetStateAction<{
+      listitem: SelectOptionsDataExercise[];
+      index: number;
+    }>
+  >;
+  itemrenderbyoptionsbodypart: {
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  };
+  setItemRenderByOptionsBodyPart: Dispatch<
+    SetStateAction<{
+      listitem: SelectOptionsDataExercise[];
+      index: number;
+    }>
+  >;
+
+  listexerciseschoosebyoptions: {
+    bodyParts: SelectOptionsDataExercise[];
+    target: SelectOptionsDataExercise[];
+    equipment: SelectOptionsDataExercise[];
+  };
+  setListExercisesChooseByOptions: Dispatch<
+    SetStateAction<{
+      bodyParts: SelectOptionsDataExercise[];
+      target: SelectOptionsDataExercise[];
+      equipment: SelectOptionsDataExercise[];
+    }>
+  >;
+
+  optionsrender: string;
+  setOptionsRender: Dispatch<SetStateAction<string>>;
 }
 
 export const MuscleExercisesContext = createContext({} as MuscleExercisesProps);
@@ -113,7 +159,7 @@ export const MuscleExercisesProvider = ({
     value: '',
     error: '',
   });
-  const [dropdownquipment, setDropDownEquipment] = useState({
+  const [dropdownequipment, setDropDownEquipment] = useState({
     value: '',
     error: '',
   });
@@ -133,18 +179,52 @@ export const MuscleExercisesProvider = ({
     error: false,
   });
 
-  const [itemrender, setItemRender] = useState<{
+  const [itemrenderbysearch, setItemRenderBySearch] = useState<{
     listitem: SelectOptionsDataExercise[];
     index: number;
   }>({
     listitem: [],
     index: 0,
   });
+  const [itemrenderbyoptionsbodypart, setItemRenderByOptionsBodyPart] =
+    useState<{
+      listitem: SelectOptionsDataExercise[];
+      index: number;
+    }>({
+      listitem: [],
+      index: 0,
+    });
+  const [itemrenderbyoptionstarget, setItemRenderByOptionsTarget] = useState<{
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  }>({
+    listitem: [],
+    index: 0,
+  });
+  const [itemrenderbyoptionsequipment, setItemRenderByoptionsEquipment] =
+    useState<{
+      listitem: SelectOptionsDataExercise[];
+      index: number;
+    }>({
+      listitem: [],
+      index: 0,
+    });
 
-  const [
-    listexercisessearchedbynameandoptions,
-    setlistexercisessearchedbynameandoptionsAndOptions,
-  ] = useState<SelectOptionsDataExercise[]>([]);
+  const [listexercisessearchedbyname, setListExercisesSearchedByName] =
+    useState<SelectOptionsDataExercise[]>([]);
+
+  const [listexerciseschoosebyoptions, setListExercisesChooseByOptions] =
+    useState<{
+      bodyParts: SelectOptionsDataExercise[];
+      target: SelectOptionsDataExercise[];
+      equipment: SelectOptionsDataExercise[];
+    }>({
+      bodyParts: [],
+      target: [],
+      equipment: [],
+    });
+
+  const [optionsrender, setOptionsRender] = useState('bodyparts');
 
   useEffect(() => {
     if (+numberofdisplays.number > 20) {
@@ -214,8 +294,8 @@ export const MuscleExercisesProvider = ({
       }
     } else if (
       !dropdownbodyparts.value &&
-      !dropdownbodyparts.value &&
-      !dropdownbodyparts.value
+      !dropdownequipment.value &&
+      !dropdowntarget.value
     ) {
       isCheck = true;
       setDropDownBodyParts({ value: '', error: 'Not be empty' });
@@ -231,46 +311,165 @@ export const MuscleExercisesProvider = ({
     return !isCheck;
   };
 
-  const Submit = async () => {
-    if (_CheckSUbmit()) {
-      if (searchtype === 'search') {
-        setlistexercisessearchedbynameandoptionsAndOptions([]);
-        const imgRef = ref(storage, 'ImagesExercises/');
-        const listRef = await listAll(imgRef);
-        const allExercises: SelectOptionsDataExercise[] =
-          await UseGetListExercises();
-        listRef.items.map(async (items) => {
-          if (listnamesearch.some((item) => item.id === items.name)) {
-            const result = allExercises.find((item) => item.id === items.name);
-            if (
-              result?.bodyPart &&
-              result.equipment &&
-              result.id &&
-              result.name &&
-              result.target
-            ) {
-              await getDownloadURL(items).then((url) => {
-                setlistexercisessearchedbynameandoptionsAndOptions((e) => [
-                  ...e,
-                  {
-                    bodyPart: result?.bodyPart,
-                    equipment: result?.equipment,
-                    gifUrl: url,
-                    id: result?.id,
-                    name: result?.name,
-                    target: result?.target,
-                  },
-                ]);
-              });
-            }
-          }
-        });
-      } else {
-        //
+  const AllIdExercises = useMemo(async () => {
+    const imgRef = ref(storage, 'ImagesExercises/');
+    const listRef = await listAll(imgRef);
+    return listRef;
+  }, []);
+
+  const _handleSubmitSearch = async (data: SelectOptionsDataExercise[]) => {
+    // const imgRef = ref(storage, 'ImagesExercises/');
+    // const listRef = await listAll(imgRef);
+    (await AllIdExercises).items.map(async (items) => {
+      if (listnamesearch.some((item) => item.id === items.name)) {
+        const result = data.find((item) => item.id === items.name);
+        if (
+          result?.bodyPart &&
+          result.equipment &&
+          result.id &&
+          result.name &&
+          result.target
+        ) {
+          await getDownloadURL(items).then((url) => {
+            setListExercisesSearchedByName((e) => [
+              ...e,
+              {
+                bodyPart: result?.bodyPart,
+                equipment: result?.equipment,
+                gifUrl: url,
+                id: result?.id,
+                name: result?.name,
+                target: result?.target,
+              },
+            ]);
+          });
+        }
       }
+    });
+  };
+
+  function isSelectOptionsDataExercise(
+    item: SelectOptionsDataExercise | undefined
+  ): item is SelectOptionsDataExercise {
+    return item !== undefined;
+  }
+
+  const getDataListExercises = async (
+    name: string,
+    data: SelectOptionsDataExercise[],
+    isCheck: string
+  ) => {
+    if (!isCheck) {
+      return Promise.resolve([[], []]);
     }
 
-    //
+    let Result: SelectOptionsDataExercise[] = [];
+
+    let ResultAll: SelectOptionsDataExercise[] = [];
+
+    const filterFunction = (element: {
+      bodyPart: string;
+      equipment: string;
+      target: string;
+    }) => {
+      if (name === 'bodyPart') {
+        return element.bodyPart === dropdownbodyparts.value;
+      }
+      if (name === 'equipment') {
+        return element.equipment === dropdownequipment.value;
+      }
+      if (name === 'target') {
+        return element.target === dropdowntarget.value;
+      }
+      return false;
+    };
+
+    const filteredResults = await Promise.all(
+      data
+        .filter(filterFunction)
+        .map(
+          async (element: {
+            id: string;
+            bodyPart: any;
+            equipment: any;
+            name: any;
+            target: any;
+          }) => {
+            const result = (await AllIdExercises).items.find(
+              (items) => items.name === element.id
+            );
+            if (result) {
+              const url = await getDownloadURL(result);
+              return {
+                bodyPart: element.bodyPart,
+                equipment: element.equipment,
+                gifUrl: url,
+                id: element.id,
+                name: element.name,
+                target: element.target,
+              };
+            }
+            return undefined;
+          }
+        )
+    );
+
+    ResultAll = filteredResults.filter(isSelectOptionsDataExercise);
+    Result = ResultAll.sort(() => Math.random() - 0.5).slice(
+      0,
+      Math.min(+numberofdisplays.number, ResultAll.length)
+    );
+    return Promise.resolve([Result, ResultAll]);
+  };
+
+  const Submit = async () => {
+    if (_CheckSUbmit()) {
+      setListExercisesSearchedByName([]);
+      setListExercisesChooseByOptions({
+        bodyParts: [],
+        equipment: [],
+        target: [],
+      });
+      const allExercises: SelectOptionsDataExercise[] =
+        await UseGetListExercises();
+      if (searchtype === 'search') {
+        _handleSubmitSearch(allExercises);
+      } else {
+        const [bodyPartsResult, bodyPartsResultAll] =
+          await getDataListExercises(
+            'bodyPart',
+            allExercises,
+            dropdownbodyparts.value
+          );
+        const [equipmentResult, equipmentResultAll] =
+          await getDataListExercises(
+            'equipment',
+            allExercises,
+            dropdownequipment.value
+          );
+        const [targetResult, targetResultAll] = await getDataListExercises(
+          'target',
+          allExercises,
+          dropdowntarget.value
+        );
+
+        if (numberofdisplays.value === 'options') {
+          setListExercisesChooseByOptions({
+            ...listexerciseschoosebyoptions,
+            bodyParts: bodyPartsResult || [],
+            equipment: equipmentResult || [],
+            target: targetResult || [],
+          });
+        } else {
+          setListExercisesChooseByOptions({
+            ...listexerciseschoosebyoptions,
+            bodyParts: bodyPartsResultAll || [],
+            equipment: equipmentResultAll || [],
+            target: targetResultAll || [],
+          });
+        }
+      }
+    }
   };
   const value = {
     searchtype,
@@ -281,7 +480,7 @@ export const MuscleExercisesProvider = ({
     setDropDownBodyParts,
     dropdowntarget,
     setDropDownTarget,
-    dropdownquipment,
+    dropdownequipment,
     setDropDownEquipment,
     Submit,
     dropdownsearch,
@@ -293,11 +492,21 @@ export const MuscleExercisesProvider = ({
     listnamesearch,
     numberofdisplays,
     setNumberOfDisplays,
-    setlistexercisessearchedbynameandoptionsAndOptions,
-    listexercisessearchedbynameandoptions,
+    setListExercisesSearchedByName,
+    listexercisessearchedbyname,
     RemoveNameSearchInList,
-    setItemRender,
-    itemrender,
+    setItemRenderBySearch,
+    itemrenderbysearch,
+    listexerciseschoosebyoptions,
+    setListExercisesChooseByOptions,
+    optionsrender,
+    setOptionsRender,
+    itemrenderbyoptionsequipment,
+    itemrenderbyoptionstarget,
+    itemrenderbyoptionsbodypart,
+    setItemRenderByoptionsEquipment,
+    setItemRenderByOptionsTarget,
+    setItemRenderByOptionsBodyPart,
   };
   return (
     <MuscleExercisesContext.Provider value={value}>

@@ -828,3 +828,18 @@ export const MUSCLE_EXERCISES_BODYPARTS: SelectOptionObject[] = [
   { label: 'Upper Legs', value: 'upper legs' },
   { label: 'Waist', value: 'waist' },
 ];
+
+export const OPTIONS_RENDER: SelectOptionObject[] = [
+  {
+    label: 'BodyParts',
+    value: 'bodyparts',
+  },
+  {
+    label: 'Target Muscle',
+    value: 'target',
+  },
+  {
+    label: 'Equipment',
+    value: 'equipment',
+  },
+];
