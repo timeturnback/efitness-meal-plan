@@ -6,14 +6,16 @@ import { MainContext } from '@/context/main-context';
 import { MuscleExercisesContext } from '@/context/muscle-exercises-context';
 
 export const RenderResultSearchExercise = () => {
-  const { itemrender, listexercisessearchedbynameandoptions } = useContext(
-    MuscleExercisesContext
-  );
+  const {
+    itemrenderbysearch,
+    listexercisessearchedbyname,
+    setItemRenderBySearch,
+  } = useContext(MuscleExercisesContext);
   return (
     <div className="h-screen w-full">
       <div className="h-[600px]">
         <div className="grid grid-cols-2 gap-5">
-          {itemrender.listitem.map((item) => (
+          {itemrenderbysearch.listitem.map((item) => (
             <Exercises
               key={item.id}
               name={item.name}
@@ -26,14 +28,19 @@ export const RenderResultSearchExercise = () => {
         </div>
       </div>
       <Pagination
-        maxItem={listexercisessearchedbynameandoptions.length}
+        maxItem={listexercisessearchedbyname.length}
         itemNumberInPage={6}
+        data={listexercisessearchedbyname}
+        itemrender={itemrenderbysearch}
+        setItemRender={(index, listitem) =>
+          setItemRenderBySearch({ index, listitem })
+        }
       />
     </div>
   );
 };
 
-const Exercises = ({
+export const Exercises = ({
   name,
   image,
   equipment,

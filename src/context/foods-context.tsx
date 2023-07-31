@@ -157,16 +157,18 @@ export const FoodsProvider = ({ children }: { children: ReactNode }) => {
     const _iteminmainsuggest = async (itemlist: SelectOptionValue[]) => {
       let subarray: SelectOptionApiFoods[] = [];
       const count: TypeValue = {};
-      itemlist.forEach(async (item) => {
-        const res = await ApiInstance.getFoods(item.value);
+      if (itemlist) {
+        itemlist.forEach(async (item) => {
+          const res = await ApiInstance.getFoods(item.value);
 
-        const { result } = handleError(res);
+          const { result } = handleError(res);
 
-        setItemInMainSuggest((prev) => [...prev, result[0]]);
-        subarray = [...subarray, result[0]];
-        count[mainsuggest.value] = subarray;
-        dispatch({ type: 'foodSuggestList', payload: count });
-      });
+          setItemInMainSuggest((prev) => [...prev, result[0]]);
+          subarray = [...subarray, result[0]];
+          count[mainsuggest.value] = subarray;
+          dispatch({ type: 'foodSuggestList', payload: count });
+        });
+      }
     };
 
     if (!foodsuggestlist[mainsuggest.value] && mainsuggestclick) {

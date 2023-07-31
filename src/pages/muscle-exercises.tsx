@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 
-import { Options } from '@/components/pages/muscle-exercises';
+import {
+  Options,
+  RenderResultSearchByOptions,
+} from '@/components/pages/muscle-exercises';
 import { RenderResultSearchExercise } from '@/components/pages/muscle-exercises/render-result-search-exercise';
 import { Wrapper } from '@/components/pages/wrapper';
 import {
@@ -9,20 +12,15 @@ import {
 } from '@/context/muscle-exercises-context';
 
 const MuscleExercisesContainer = () => {
-  const { listexercisessearchedbynameandoptions } = useContext(
-    MuscleExercisesContext
-  );
+  const { listexercisessearchedbyname, listexerciseschoosebyoptions } =
+    useContext(MuscleExercisesContext);
+  const { bodyParts, equipment, target } = listexerciseschoosebyoptions;
   return (
     <Wrapper title="Muscle Exercises">
       <div className="h-[calc(100vh-64px)] py-5">
         <div className="flex items-center h-full w-full rounded-xl border-2 border-gray-800/90 bg-zinc-100/40 px-6">
           <Options />
           <div className="h-full w-2/5 pl-6 pr-0 py-6">
-            {/* <img
-              src={ImagesMuscleExercises.AnhTest.src}
-              alt=""
-              className="rounded-xl"
-            /> */}
             <h2 className="text-2xl font-medium">
               From <span className="font-bold drop-shadow-md">nutitrion</span>{' '}
               to <span className="font-bold drop-shadow-md">exercise</span>!
@@ -45,8 +43,13 @@ const MuscleExercisesContainer = () => {
           </div>
         </div>
       </div>
-      {listexercisessearchedbynameandoptions.length !== 0 ? (
+      {listexercisessearchedbyname.length !== 0 ? (
         <RenderResultSearchExercise />
+      ) : null}
+      {bodyParts.length !== 0 ||
+      target.length !== 0 ||
+      equipment.length !== 0 ? (
+        <RenderResultSearchByOptions />
       ) : null}
     </Wrapper>
   );

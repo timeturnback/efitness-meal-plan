@@ -1,62 +1,54 @@
 import clsx from 'clsx';
-import { useContext, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import type { SelectOptionsDataExercise } from '@/constants/select-options';
-import { MuscleExercisesContext } from '@/context/muscle-exercises-context';
 
 export const Pagination = ({
   maxItem,
   itemNumberInPage,
+  data,
+  setItemRender,
+  itemrender,
 }: {
   maxItem: number;
   itemNumberInPage: number;
+  data: SelectOptionsDataExercise[];
+  setItemRender: (index: number, listitem: SelectOptionsDataExercise[]) => void;
+  itemrender: {
+    listitem: SelectOptionsDataExercise[];
+    index: number;
+  };
 }) => {
-  const { itemrender, setItemRender, listexercisessearchedbynameandoptions } =
-    useContext(MuscleExercisesContext);
-
   const numberPages = useMemo(() => {
     return Math.ceil(maxItem / itemNumberInPage);
   }, [maxItem, itemNumberInPage]);
 
   const newarray: SelectOptionsDataExercise[][] = useMemo(() => {
     const newarr = [];
-    for (
-      let i = 0;
-      i < listexercisessearchedbynameandoptions.length;
-      i += itemNumberInPage
-    ) {
-      const result = listexercisessearchedbynameandoptions.slice(
-        i,
-        i + itemNumberInPage
-      );
+    for (let i = 0; i < maxItem; i += itemNumberInPage) {
+      const result = data.slice(i, i + itemNumberInPage);
       newarr.push(result);
     }
     return newarr;
-  }, [itemNumberInPage, listexercisessearchedbynameandoptions]);
+  }, [itemNumberInPage, data]);
 
   useEffect(() => {
-    setItemRender({ index: 0, listitem: newarray[0] || [] });
+    setItemRender(0, newarray[0] || []);
   }, [newarray]);
 
   const _handleOnSubmit = (index: number) => {
-    setItemRender({ index, listitem: newarray[index] || [] });
+    setItemRender(index, newarray[index] || []);
   };
 
   const _handleOnPrev = () => {
     if (itemrender.index !== 0) {
-      setItemRender({
-        index: itemrender.index - 1,
-        listitem: newarray[itemrender.index - 1] || [],
-      });
+      setItemRender(itemrender.index - 1, newarray[itemrender.index - 1] || []);
     }
   };
 
   const _handleOnNext = () => {
     if (itemrender.index < itemrender.listitem.length - 1) {
-      setItemRender({
-        index: itemrender.index + 1,
-        listitem: newarray[itemrender.index + 1] || [],
-      });
+      setItemRender(itemrender.index + 1, newarray[itemrender.index + 1] || []);
     }
   };
 

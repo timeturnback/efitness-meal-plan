@@ -14,7 +14,7 @@ export const Options = () => {
     setSearchType,
     Submit,
     dropdownbodyparts,
-    dropdownquipment,
+    dropdownequipment,
     dropdowntarget,
   } = useContext(MuscleExercisesContext);
   return (
@@ -36,7 +36,7 @@ export const Options = () => {
             <>
               <OptionstTypeInOptions />
               {dropdownbodyparts.value ||
-              dropdownquipment.value ||
+              dropdownequipment.value ||
               dropdowntarget.value ? (
                 <_PreviewResults />
               ) : null}
@@ -52,7 +52,7 @@ export const Options = () => {
 };
 
 const _PreviewResults = () => {
-  const { dropdownbodyparts, dropdownquipment, dropdowntarget } = useContext(
+  const { dropdownbodyparts, dropdownequipment, dropdowntarget } = useContext(
     MuscleExercisesContext
   );
   return (
@@ -74,12 +74,12 @@ const _PreviewResults = () => {
           :<span className="ml-2 font-medium">{dropdowntarget.value}</span>
         </div>
       ) : null}
-      {dropdownquipment.value ? (
+      {dropdownequipment.value ? (
         <div>
           <h2 className="bg-neutral-500 inline-block w-32 text-center p-1 px-2 rounded-full drop-shadow-md border-2 text-slate-100 border-slate-200">
             Equipment
           </h2>
-          :<span className="ml-2 font-medium">{dropdownquipment.value}</span>
+          :<span className="ml-2 font-medium">{dropdownequipment.value}</span>
         </div>
       ) : null}
     </div>
